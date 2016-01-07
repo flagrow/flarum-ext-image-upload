@@ -1,0 +1,40 @@
+{
+    "name": "flagrow/remote-image-upload",
+    "description": "Remote image uploader using public API's",
+    "keywords": ["upload", "flarum", "flagrow", "image", "imgur"],
+    "type": "flarum-extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matteo Pompili",
+            "email": "matpompili@gmail.com"
+        },
+        {
+            "name": "Daniël Klabbers",
+            "email": "daniel+flarum@klabbers.email",
+            "homepage": "http://hyn.io"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/flagrow/remote-image-upload/issues",
+        "source": "https://github.com/flagrow/remote-image-upload"
+    },
+    "require": {
+        "flarum/core": "^0.1.0-beta.4"
+    },
+    "extra": {
+        "flarum-extension": {
+            "title": "Remote Image Upload",
+            "icon": {
+                "name": "upload",
+                "backgroundColor": "#000",
+                "color": "#87d37c"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Flagrow\\RemoteImageUpload\\": "src/"
+        }
+    }
+}
