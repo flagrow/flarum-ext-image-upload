@@ -22,4 +22,4 @@ the image size and your connection will take some time to complete.
 
 - by [Flagrow](https://github.com/flagrow)
 - [changelog](changelog.md)
-- [license][license.md]
+- [license](license.md)
