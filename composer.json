@@ -30,6 +30,9 @@
                 "backgroundColor": "#000",
                 "color": "#87d37c"
             }
+        },
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
         }
     },
     "autoload": {
