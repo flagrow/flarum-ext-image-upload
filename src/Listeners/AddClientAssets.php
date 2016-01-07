@@ -5,14 +5,16 @@ namespace Flagrow\RemoteImageUpload\Listeners;
 use Flarum\Event\ConfigureClientView;
 use Illuminate\Contracts\Events\Dispatcher;
 
-class AddClientAssets {
+class AddClientAssets
+{
 
     /**
      * Subscribes to the Flarum events.
      *
      * @param Dispatcher $events
      */
-    public function subscribe(Dispatcher $events) {
+    public function subscribe(Dispatcher $events)
+    {
         $events->listen(ConfigureClientView::class, [$this, 'addForumAssets']);
         $events->listen(ConfigureClientView::class, [$this, 'addAdminAssets']);
     }
@@ -24,8 +26,7 @@ class AddClientAssets {
      */
     public function addForumAssets(ConfigureClientView $event)
     {
-        if($event->isForum())
-        {
+        if ($event->isForum()) {
 
         }
     }
@@ -37,8 +38,7 @@ class AddClientAssets {
      */
     public function addAdminAssets(ConfigureClientView $event)
     {
-        if($event->isAdmin())
-        {
+        if ($event->isAdmin()) {
 
         }
     }
