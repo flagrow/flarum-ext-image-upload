@@ -39,7 +39,7 @@ export default class UploadButton extends Component {
         this.markLoaderStarted();
 
         console.log(this);
-        this.(this.type)();
+        this.[this.type]();
 
     }
 
