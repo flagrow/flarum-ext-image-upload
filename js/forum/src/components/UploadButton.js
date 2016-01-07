@@ -87,9 +87,21 @@ export default class UploadButton extends Component {
         });
     }
 
+    /**
+     * Sets the icon classes of the icon in the upload input field.
+     *
+     * @param classes
+     */
     setIconClasses(classes) {
         this.$('i').removeClass('fa-paperclip fa-spin fa-circle-o-notch fa-check green fa-times red').addClass(classes);
     }
+
+    /**
+     * Sets the label of the uploader button and allows disabling submits.
+     *
+     * @param text
+     * @param disable
+     */
     setLabel(text, disable = false) {
         this.$('.Button-label').text(text);
 
