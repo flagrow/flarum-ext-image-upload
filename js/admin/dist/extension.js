@@ -37,6 +37,31 @@ System.register('flagrow/remote-image-upload/components/RemoteImageUploadSetting
                                 'Imgur Client-ID'
                             ),
                             m('input', { className: 'FormControl', bidi: this.setting('flagrow.remote-image-upload.client_id') })
+                        ), m(
+                            'div',
+                            { className: 'Form-group' },
+                            m(
+                                'label',
+                                null,
+                                'Image Resize ',
+                                m(
+                                    'small',
+                                    null,
+                                    'leave blank to disable'
+                                )
+                            ),
+                            m(
+                                'label',
+                                null,
+                                'Max Width'
+                            ),
+                            m('input', { className: 'FormControl', bidi: this.setting('flagrow.remote-image-upload.max_width') }),
+                            m(
+                                'label',
+                                null,
+                                'Max Height'
+                            ),
+                            m('input', { className: 'FormControl', bidi: this.setting('flagrow.remote-image-upload.max_height') })
                         ), m('input', { type: 'radio',
                             name: 'endpoint',
                             bidi: this.setting('flagrow.remote-image-upload.endpoint'),
