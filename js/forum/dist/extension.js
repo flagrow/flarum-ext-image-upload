@@ -51,9 +51,7 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                 }, {
                     key: 'process',
                     value: function process() {
-                        // DEBUG
-                        console.log(this);
-
+                        // keep track of the parent object
                         var button = this;
 
                         // wheter the image should be resized
@@ -207,12 +205,12 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                         // get the composer element, so we search only in it
                         var composer = $('#composer');
                         // enable on timeout
-                        if (disable === false && $('.item-submit > button', composer).attr('disabled') === true) {
+                        if (disable === false && $('.item-submit > button', composer).prop('disabled') === true) {
                             setTimeout(function () {
-                                $('.item-submit > button', composer).attr('disabled', false);
+                                $('.item-submit > button', composer).prop('disabled', false);
                             }, 1000);
                         } else if (disable === true) {
-                            $('.item-submit > button', composer).attr('disabled', true);
+                            $('.item-submit > button', composer).prop('disabled', true);
                         }
                     }
 

@@ -34,9 +34,7 @@ export default class UploadButton extends Component {
     * Process the upload event.
     */
     process() {
-        // DEBUG
-        console.log(this);
-
+        // keep track of the parent object
         var button = this;
 
         // wheter the image should be resized
