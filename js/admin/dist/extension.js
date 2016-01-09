@@ -36,13 +36,11 @@ System.register('flagrow/remote-image-upload/components/RemoteImageUploadSetting
                                 null,
                                 'Imgur Client-ID'
                             ),
-                            m('input', { className: 'FormControl', bidi: this.setting('flagrow.remote-image-upload.client_id') }),
-                            m('input', { type: 'radio',
-                                name: 'endpoint',
-                                bidi: this.setting('flagrow.remote-image-upload.endpoint'),
-                                value: 'https://api.imgur.com/3/image',
-                                checked: 'checked' })
-                        )];
+                            m('input', { className: 'FormControl', bidi: this.setting('flagrow.remote-image-upload.client_id') })
+                        ), m('input', { type: 'radio',
+                            name: 'endpoint',
+                            bidi: this.setting('flagrow.remote-image-upload.endpoint'),
+                            value: 'https://api.imgur.com/3/image', hidden: true })];
                     }
                 }]);
                 return RemoteImageUploadSettingsModal;
@@ -70,6 +68,9 @@ System.register('flagrow/remote-image-upload/main', ['flarum/extend', 'flarum/ap
                 app.extensionSettings['flagrow-remote-image-upload'] = function () {
                     return app.modal.show(new RemoteImageUploadSettingsModal());
                 };
+
+                // this selects imgur as endpoint.
+                $('input:radio[name=endpoint]', '.RemoteImageUploadSettingsModal').filter('[value="https://api.imgur.com/3/image"]').prop('checked', true);
             });
         }
     };

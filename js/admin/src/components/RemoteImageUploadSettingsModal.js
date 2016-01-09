@@ -14,12 +14,11 @@ export default class RemoteImageUploadSettingsModal extends SettingsModal {
             <div className="Form-group">
                 <label>Imgur Client-ID</label>
                 <input className="FormControl" bidi={this.setting('flagrow.remote-image-upload.client_id')} />
-                <input type="radio"
-                name="endpoint"
-                bidi={this.setting('flagrow.remote-image-upload.endpoint')} 
-                value="https://api.imgur.com/3/image"
-                checked="checked" />
-            </div>
+            </div>,
+            <input type="radio"
+            name="endpoint"
+            bidi={this.setting('flagrow.remote-image-upload.endpoint')}
+            value="https://api.imgur.com/3/image" hidden />
         ];
     }
 }
