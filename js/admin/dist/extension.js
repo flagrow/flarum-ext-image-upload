@@ -25,12 +25,12 @@ System.register('flagrow/image-upload/components/ImageUploadSettingsModal', ['fl
                 }, {
                     key: 'title',
                     value: function title() {
-                        return 'Remote Image Upload Settings';
+                        return 'Image Upload Settings';
                     }
                 }, {
                     key: 'form',
                     value: function form() {
-                        return [m('div', { className: 'Form-group' }, [m('label', 'Upload method'), m('select', { className: 'FormControl', bidi: this.setting('flagrow.image-upload.method'), onchange: this.setMethod.bind(this) }, [m('option', { value: 'local' }, 'Local'), m('option', { value: 'imgur' }, 'Imgur')])]), m('section', { id: 'imgur', style: { display: 'none' } }, [m('div', { className: 'Form-group' }, [m('label', 'Imgur Client-ID'), m('input', { className: 'FormControl', bidi: this.setting('flagrow.image-upload.client_id') })]), m('div', { className: 'Form-group' }, [Switch.component({
+                        return [m('div', { className: 'Form-group', id: 'image-upload-method' }, [m('label', 'Upload method'), m('select', { className: 'FormControl', bidi: this.setting('flagrow.image-upload.method') }, [m('option', { value: 'local' }, 'Local'), m('option', { value: 'imgur' }, 'Imgur')])]), m('section', { id: 'imgur', style: { display: 'none' } }, [m('div', { className: 'Form-group' }, [m('label', 'Imgur Client-ID'), m('input', { className: 'FormControl', bidi: this.setting('flagrow.image-upload.client_id') })]), m('div', { className: 'Form-group' }, [Switch.component({
                             state: this.setting('flagrow.image-upload.must_resize'),
                             children: app.translator.trans('flagrow-image-upload.admin.image_resize'),
                             onchange: this.setting('flagrow.image-upload.must_resize')
@@ -51,12 +51,6 @@ System.register('flagrow/image-upload/components/ImageUploadSettingsModal', ['fl
                                     bidi={this.setting('flagrow.image-upload.endpoint')}
                                     value="https://api.imgur.com/3/image" hidden />
                                 ];*/
-                    }
-                }, {
-                    key: 'setMethod',
-                    value: function setMethod() {
-                        console.log(this.setting('flagrow.image-upload.method'));
-                        $('section#' + this.setting('flagrow.image-upload.method')).show();
                     }
                 }]);
                 return ImageUploadSettingsModal;

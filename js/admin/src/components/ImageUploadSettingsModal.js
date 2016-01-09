@@ -7,14 +7,14 @@ export default class ImageUploadSettingsModal extends SettingsModal {
     }
 
     title() {
-        return 'Remote Image Upload Settings';
+        return 'Image Upload Settings';
     }
 
     form() {
         return [
-            m('div', {className: 'Form-group'}, [
+            m('div', {className: 'Form-group', id: 'image-upload-method'}, [
                 m('label', 'Upload method'),
-                m('select', {className: 'FormControl', bidi: this.setting('flagrow.image-upload.method'), onchange: this.setMethod.bind(this)}, [
+                m('select', {className: 'FormControl', bidi: this.setting('flagrow.image-upload.method')}, [
                     m('option', {value: 'local'}, 'Local'),
                     m('option', {value: 'imgur'}, 'Imgur')
                 ])
@@ -49,10 +49,5 @@ export default class ImageUploadSettingsModal extends SettingsModal {
             bidi={this.setting('flagrow.image-upload.endpoint')}
             value="https://api.imgur.com/3/image" hidden />
         ];*/
-    }
-
-    setMethod() {
-        console.log(this.setting('flagrow.image-upload.method'));
-        $('section#' + this.setting('flagrow.image-upload.method')).show();
     }
 }

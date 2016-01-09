@@ -8,6 +8,6 @@ app.initializers.add('flagrow-image-upload', app => {
 
     // this selects imgur as endpoint.
     $('input:radio[name=endpoint]', '.ImageUploadSettingsModal')
-    .filter('[value="https://api.imgur.com/3/image"]')
-    .prop('checked', true);
+        .filter('[value="https://api.imgur.com/3/image"]')
+        .prop('checked', true);
 });
