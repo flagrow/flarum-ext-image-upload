@@ -46,6 +46,8 @@ class LoadSettingsFromDatabase {
       $event->attributes['flagrow.remote-image-upload.client_id'] = $this->settings->get('flagrow.remote-image-upload.client_id');
       $event->attributes['flagrow.remote-image-upload.max_width'] = $this->settings->get('flagrow.remote-image-upload.max_width');
       $event->attributes['flagrow.remote-image-upload.max_height'] = $this->settings->get('flagrow.remote-image-upload.max_height');
+      $event->attributes['flagrow.remote-image-upload.must_resize'] = $this->settings->get('flagrow.remote-image-upload.must_resize');
+
     }
   }
 }

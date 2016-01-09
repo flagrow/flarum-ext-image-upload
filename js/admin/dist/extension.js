@@ -43,12 +43,10 @@ System.register('flagrow/remote-image-upload/components/RemoteImageUploadSetting
                             m(
                                 'label',
                                 null,
-                                'Image Resize ',
-                                m(
-                                    'small',
-                                    null,
-                                    'leave blank to disable'
-                                )
+                                'Image Resize',
+                                m('input', { type: 'checkbox',
+                                    name: 'resize',
+                                    bidi: this.setting('flagrow.remote-image-upload.must_resize') })
                             ),
                             m(
                                 'label',
