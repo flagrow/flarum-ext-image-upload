@@ -9,7 +9,7 @@ export default class UploadButton extends Component {
     init() {
         // the service type handling uploads
         this.type = app.forum.attribute('flagrow.remote-image-upload.type') || 'oauth';
-
+        this.textAreaObj = null;
     }
 
     /**
@@ -95,7 +95,7 @@ export default class UploadButton extends Component {
 
     oauth(imageData) {
         // api endpoint
-        this.endpoint = app.forum.attribute('flagrow.remote-image-upload.endpoint');
+        this.endpoint = app.forum.attribute('flagrow.remote-image-upload.endpoint') || 'https://api.imgur.com/3/image';
         // client id
         this.client_id = app.forum.attribute('flagrow.remote-image-upload.client_id');
         // client bearer token if non-anonymous
@@ -127,11 +127,33 @@ export default class UploadButton extends Component {
             success: function (payload, statusCode, xhr) {
 
                 button.markLoaderSuccess();
+
+                // get the link to the uploaded image and put https instead of http
+                var linkString = '\n![alt text]('+payload.data.link.replace('http:', 'https:')+')\n';
+
+                // place the Markdown image link in the Composer
+                button.textAreaObj.insertAtCursor(linkString);
+
+                // if we are not starting a new discussion, the variable is defined
+                if (typeof button.textAreaObj.props.preview !== 'undefined') {
+                    // show what we just uploaded
+                    button.textAreaObj.props.preview();
+                }
+
+                // reset the button for a new upload
+                setTimeout(function() {
+                    button.resetLoader();
+                }, 1000);
             },
             // upload error
             error: function(xhr, statusText, error) {
 
                 button.markLoaderFailed();
+
+                // reset the button for a new upload
+                setTimeout(function() {
+                    button.resetLoader();
+                }, 1000);
             },
             statusCode: {
                 // unauthorized
@@ -202,5 +224,8 @@ export default class UploadButton extends Component {
     */
     resetLoader() {
         this.setIconClasses('fa-paperclip');
+        this.setLabel(app.translator.trans('flagrow-remote-image-upload.forum.buttons.attach'), false);
+        // remove the old file url
+        $("input[name='flagrow-image-upload-input']").val("");
     }
 }

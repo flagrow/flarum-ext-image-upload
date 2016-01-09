@@ -26,6 +26,7 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                     value: function init() {
                         // the service type handling uploads
                         this.type = app.forum.attribute('flagrow.remote-image-upload.type') || 'oauth';
+                        this.textAreaObj = null;
                     }
 
                     /**
@@ -111,7 +112,7 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                     key: 'oauth',
                     value: function oauth(imageData) {
                         // api endpoint
-                        this.endpoint = app.forum.attribute('flagrow.remote-image-upload.endpoint');
+                        this.endpoint = app.forum.attribute('flagrow.remote-image-upload.endpoint') || 'https://api.imgur.com/3/image';
                         // client id
                         this.client_id = app.forum.attribute('flagrow.remote-image-upload.client_id');
                         // client bearer token if non-anonymous
@@ -143,11 +144,33 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                             success: function success(payload, statusCode, xhr) {
 
                                 button.markLoaderSuccess();
+
+                                // get the link to the uploaded image and put https instead of http
+                                var linkString = '\n![alt text](' + payload.data.link.replace('http:', 'https:') + ')\n';
+
+                                // place the Markdown image link in the Composer
+                                button.textAreaObj.insertAtCursor(linkString);
+
+                                // if we are not starting a new discussion, the variable is defined
+                                if (typeof button.textAreaObj.props.preview !== 'undefined') {
+                                    // show what we just uploaded
+                                    button.textAreaObj.props.preview();
+                                }
+
+                                // reset the button for a new upload
+                                setTimeout(function () {
+                                    button.resetLoader();
+                                }, 1000);
                             },
                             // upload error
                             error: function error(xhr, statusText, _error) {
 
                                 button.markLoaderFailed();
+
+                                // reset the button for a new upload
+                                setTimeout(function () {
+                                    button.resetLoader();
+                                }, 1000);
                             },
                             statusCode: {
                                 // unauthorized
@@ -230,6 +253,9 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                     key: 'resetLoader',
                     value: function resetLoader() {
                         this.setIconClasses('fa-paperclip');
+                        this.setLabel(app.translator.trans('flagrow-remote-image-upload.forum.buttons.attach'), false);
+                        // remove the old file url
+                        $("input[name='flagrow-image-upload-input']").val("");
                     }
                 }]);
                 return UploadButton;
@@ -259,7 +285,9 @@ System.register('flagrow/remote-image-upload/main', ['flarum/extend', 'flarum/co
                  * Add the upload button to the post composer.
                  */
                 extend(TextEditor.prototype, 'controlItems', function (items) {
-                    items.add('flarum-remote-image-upload', new UploadButton(), 20);
+                    var theButton = new UploadButton();
+                    theButton.textAreaObj = this;
+                    items.add('flarum-remote-image-upload', theButton, 20);
                 });
             });
         }

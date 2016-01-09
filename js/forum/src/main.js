@@ -9,6 +9,8 @@ app.initializers.add('flagrow-remote-image-upload', app => {
      */
     extend(TextEditor.prototype, 'controlItems', function(items)
     {
-        items.add('flarum-remote-image-upload', new UploadButton, 20);
+        var theButton = new UploadButton;
+        theButton.textAreaObj = this;
+        items.add('flarum-remote-image-upload', theButton, 20);
     });
 });
