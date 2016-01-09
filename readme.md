@@ -1,11 +1,11 @@
-# flagrow/remote-image-upload
+# flagrow/image-upload
 
-This package for Flarum allows uploading images off-site to remote image upload services.
+This package for Flarum allows uploading images.
 
 ## Install
 
 ```bash
-composer require flagrow/remote-image-upload
+composer require flagrow/image-upload
 ```
 
 ## Configuration
