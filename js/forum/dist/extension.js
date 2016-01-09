@@ -1,4 +1,4 @@
-System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/Component', 'flarum/helpers/icon'], function (_export) {
+System.register('flagrow/image-upload/components/UploadButton', ['flarum/Component', 'flarum/helpers/icon'], function (_export) {
     'use strict';
 
     var Component, icon, UploadButton;
@@ -25,7 +25,7 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                     */
                     value: function init() {
                         // the service type handling uploads
-                        this.type = app.forum.attribute('flagrow.remote-image-upload.type') || 'oauth';
+                        this.type = app.forum.attribute('flagrow.image-upload.type') || 'oauth';
                         this.textAreaObj = null;
                     }
 
@@ -37,7 +37,7 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                 }, {
                     key: 'view',
                     value: function view() {
-                        return m('div', { className: 'Button hasIcon flagrow-image-upload-button' }, [icon('paperclip', { className: 'Button-icon' }), m('span', { className: 'Button-label' }, app.translator.trans('flagrow-remote-image-upload.forum.buttons.attach')), m('input', {
+                        return m('div', { className: 'Button hasIcon flagrow-image-upload-button' }, [icon('paperclip', { className: 'Button-icon' }), m('span', { className: 'Button-label' }, app.translator.trans('flagrow-image-upload.forum.buttons.attach')), m('input', {
                             type: 'file',
                             accept: 'image/*',
                             name: 'flagrow-image-upload-input',
@@ -55,10 +55,10 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                         var button = this;
 
                         // wheter the image should be resized
-                        this.mustResize = app.forum.attribute('flagrow.remote-image-upload.must_resize') || false;
+                        this.mustResize = app.forum.attribute('flagrow.image-upload.must_resize') || false;
                         // max width and height of the uploaded image
-                        this.maxWidth = app.forum.attribute('flagrow.remote-image-upload.max_width') || null;
-                        this.maxHeight = app.forum.attribute('flagrow.remote-image-upload.max_height') || null;
+                        this.maxWidth = app.forum.attribute('flagrow.image-upload.max_width') || null;
+                        this.maxHeight = app.forum.attribute('flagrow.image-upload.max_height') || null;
                         // set the default value (changed later if necessary)
                         this.scalingFactor = 1;
 
@@ -107,16 +107,19 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                         reader.readAsDataURL($("input[name='flagrow-image-upload-input']")[0].files[0]);
                     }
                 }, {
+                    key: 'local',
+                    value: function local(imageData) {}
+                }, {
                     key: 'oauth',
                     value: function oauth(imageData) {
                         // api endpoint
-                        this.endpoint = app.forum.attribute('flagrow.remote-image-upload.endpoint') || 'https://api.imgur.com/3/image';
+                        this.endpoint = app.forum.attribute('flagrow.image-upload.endpoint') || 'https://api.imgur.com/3/image';
                         // client id
-                        this.client_id = app.forum.attribute('flagrow.remote-image-upload.client_id');
+                        this.client_id = app.forum.attribute('flagrow.image-upload.client_id');
                         // client bearer token if non-anonymous
-                        this.token = app.forum.attribute('flagrow.remote-image-upload.token') || null;
+                        this.token = app.forum.attribute('flagrow.image-upload.token') || null;
                         // whether uploading is anonymous, not account bound
-                        this.isAnonymous = app.forum.attribute('flagrow.remote-image-upload.anonymous') || true;
+                        this.isAnonymous = app.forum.attribute('flagrow.image-upload.anonymous') || true;
 
                         if (this.isAnonymous || !this.token) {
                             var headers = {
@@ -221,7 +224,7 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                     key: 'markLoaderStarted',
                     value: function markLoaderStarted() {
                         this.setIconClasses('fa-spin fa-circle-o-notch');
-                        this.setLabel(app.translator.trans('flagrow-remote-image-upload.forum.states.loading'), true);
+                        this.setLabel(app.translator.trans('flagrow-image-upload.forum.states.loading'), true);
                     }
 
                     /**
@@ -231,7 +234,7 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                     key: 'markLoaderSuccess',
                     value: function markLoaderSuccess() {
                         this.setIconClasses('fa-check green');
-                        this.setLabel(app.translator.trans('flagrow-remote-image-upload.forum.states.success'), false);
+                        this.setLabel(app.translator.trans('flagrow-image-upload.forum.states.success'), false);
                     }
 
                     /**
@@ -241,7 +244,7 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                     key: 'markLoaderFailed',
                     value: function markLoaderFailed() {
                         this.setIconClasses('fa-times red');
-                        this.setLabel(app.translator.trans('flagrow-remote-image-upload.forum.states.error'), false);
+                        this.setLabel(app.translator.trans('flagrow-image-upload.forum.states.error'), false);
                     }
 
                     /**
@@ -251,7 +254,7 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                     key: 'resetLoader',
                     value: function resetLoader() {
                         this.setIconClasses('fa-paperclip');
-                        this.setLabel(app.translator.trans('flagrow-remote-image-upload.forum.buttons.attach'), false);
+                        this.setLabel(app.translator.trans('flagrow-image-upload.forum.buttons.attach'), false);
                         // remove the old file url
                         $("input[name='flagrow-image-upload-input']").val("");
                     }
@@ -263,7 +266,7 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
         }
     };
 });;
-System.register('flagrow/remote-image-upload/main', ['flarum/extend', 'flarum/components/TextEditor', 'flagrow/remote-image-upload/components/UploadButton'], function (_export) {
+System.register('flagrow/image-upload/main', ['flarum/extend', 'flarum/components/TextEditor', 'flagrow/image-upload/components/UploadButton'], function (_export) {
     'use strict';
 
     var extend, TextEditor, UploadButton;
@@ -272,12 +275,12 @@ System.register('flagrow/remote-image-upload/main', ['flarum/extend', 'flarum/co
             extend = _flarumExtend.extend;
         }, function (_flarumComponentsTextEditor) {
             TextEditor = _flarumComponentsTextEditor['default'];
-        }, function (_flagrowRemoteImageUploadComponentsUploadButton) {
-            UploadButton = _flagrowRemoteImageUploadComponentsUploadButton['default'];
+        }, function (_flagrowImageUploadComponentsUploadButton) {
+            UploadButton = _flagrowImageUploadComponentsUploadButton['default'];
         }],
         execute: function () {
 
-            app.initializers.add('flagrow-remote-image-upload', function (app) {
+            app.initializers.add('flagrow-image-upload', function (app) {
 
                 /**
                  * Add the upload button to the post composer.
@@ -285,7 +288,7 @@ System.register('flagrow/remote-image-upload/main', ['flarum/extend', 'flarum/co
                 extend(TextEditor.prototype, 'controlItems', function (items) {
                     var theButton = new UploadButton();
                     theButton.textAreaObj = this;
-                    items.add('flarum-remote-image-upload', theButton, 20);
+                    items.add('flarum-image-upload', theButton, 20);
                 });
             });
         }

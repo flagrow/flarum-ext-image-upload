@@ -1,6 +1,6 @@
 <?php
 
-namespace Flagrow\RemoteImageUpload;
+namespace Flagrow\ImageUpload;
 
 use Illuminate\Contracts\Events\Dispatcher;
 

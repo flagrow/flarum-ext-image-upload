@@ -8,7 +8,7 @@ export default class UploadButton extends Component {
     */
     init() {
         // the service type handling uploads
-        this.type = app.forum.attribute('flagrow.remote-image-upload.type') || 'oauth';
+        this.type = app.forum.attribute('flagrow.image-upload.type') || 'oauth';
         this.textAreaObj = null;
     }
 
@@ -20,7 +20,7 @@ export default class UploadButton extends Component {
     view() {
         return m('div', {className: 'Button hasIcon flagrow-image-upload-button'}, [
             icon('paperclip', {className: 'Button-icon'}),
-            m('span', {className: 'Button-label'}, app.translator.trans('flagrow-remote-image-upload.forum.buttons.attach')),
+            m('span', {className: 'Button-label'}, app.translator.trans('flagrow-image-upload.forum.buttons.attach')),
             m('input', {
                 type: 'file',
                 accept: 'image/*',
@@ -38,10 +38,10 @@ export default class UploadButton extends Component {
         var button = this;
 
         // wheter the image should be resized
-        this.mustResize = app.forum.attribute('flagrow.remote-image-upload.must_resize') || false;
+        this.mustResize = app.forum.attribute('flagrow.image-upload.must_resize') || false;
         // max width and height of the uploaded image
-        this.maxWidth = app.forum.attribute('flagrow.remote-image-upload.max_width') || null;
-        this.maxHeight = app.forum.attribute('flagrow.remote-image-upload.max_height') || null;
+        this.maxWidth = app.forum.attribute('flagrow.image-upload.max_width') || null;
+        this.maxHeight = app.forum.attribute('flagrow.image-upload.max_height') || null;
         // set the default value (changed later if necessary)
         this.scalingFactor = 1;
 
@@ -96,13 +96,13 @@ export default class UploadButton extends Component {
 
     oauth(imageData) {
         // api endpoint
-        this.endpoint = app.forum.attribute('flagrow.remote-image-upload.endpoint') || 'https://api.imgur.com/3/image';
+        this.endpoint = app.forum.attribute('flagrow.image-upload.endpoint') || 'https://api.imgur.com/3/image';
         // client id
-        this.client_id = app.forum.attribute('flagrow.remote-image-upload.client_id');
+        this.client_id = app.forum.attribute('flagrow.image-upload.client_id');
         // client bearer token if non-anonymous
-        this.token = app.forum.attribute('flagrow.remote-image-upload.token') || null;
+        this.token = app.forum.attribute('flagrow.image-upload.token') || null;
         // whether uploading is anonymous, not account bound
-        this.isAnonymous = app.forum.attribute('flagrow.remote-image-upload.anonymous') || true;
+        this.isAnonymous = app.forum.attribute('flagrow.image-upload.anonymous') || true;
 
         if (this.isAnonymous || !this.token) {
             var headers = {
@@ -201,7 +201,7 @@ export default class UploadButton extends Component {
     */
     markLoaderStarted() {
         this.setIconClasses('fa-spin fa-circle-o-notch');
-        this.setLabel(app.translator.trans('flagrow-remote-image-upload.forum.states.loading'), true);
+        this.setLabel(app.translator.trans('flagrow-image-upload.forum.states.loading'), true);
     }
 
     /**
@@ -209,7 +209,7 @@ export default class UploadButton extends Component {
     */
     markLoaderSuccess() {
         this.setIconClasses('fa-check green');
-        this.setLabel(app.translator.trans('flagrow-remote-image-upload.forum.states.success'), false);
+        this.setLabel(app.translator.trans('flagrow-image-upload.forum.states.success'), false);
     }
 
     /**
@@ -217,7 +217,7 @@ export default class UploadButton extends Component {
     */
     markLoaderFailed() {
         this.setIconClasses('fa-times red');
-        this.setLabel(app.translator.trans('flagrow-remote-image-upload.forum.states.error'), false);
+        this.setLabel(app.translator.trans('flagrow-image-upload.forum.states.error'), false);
     }
 
     /**
@@ -225,7 +225,7 @@ export default class UploadButton extends Component {
     */
     resetLoader() {
         this.setIconClasses('fa-paperclip');
-        this.setLabel(app.translator.trans('flagrow-remote-image-upload.forum.buttons.attach'), false);
+        this.setLabel(app.translator.trans('flagrow-image-upload.forum.buttons.attach'), false);
         // remove the old file url
         $("input[name='flagrow-image-upload-input']").val("");
     }

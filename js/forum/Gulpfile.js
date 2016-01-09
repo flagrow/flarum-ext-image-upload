@@ -2,7 +2,7 @@ var gulp = require('flarum-gulp');
 
 gulp({
     modules: {
-        'flagrow/remote-image-upload': [
+        'flagrow/image-upload': [
             'src/**/*.js'
         ]
     }

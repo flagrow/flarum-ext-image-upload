@@ -1,4 +1,4 @@
-<?php namespace Flagrow\RemoteImageUpload\Listeners;
+<?php namespace Flagrow\ImageUpload\Listeners;
 
 /*
 * This file is part of remote-image-upload.
@@ -41,7 +41,7 @@ class AddClientAssets
                 __DIR__ . '/../../less/forum/upload.less',
                 __DIR__ . '/../../js/forum/dist/extension.js'
             ]);
-            $event->addBootstrapper('flagrow/remote-image-upload/main');
+            $event->addBootstrapper('flagrow/image-upload/main');
         }
     }
 
@@ -56,7 +56,7 @@ class AddClientAssets
             $event->addAssets([
                 __DIR__ . '/../../js/admin/dist/extension.js'
             ]);
-            $event->addBootstrapper('flagrow/remote-image-upload/main');
+            $event->addBootstrapper('flagrow/image-upload/main');
         }
     }
 

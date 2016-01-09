@@ -1,4 +1,4 @@
-System.register('flagrow/remote-image-upload/components/RemoteImageUploadSettingsModal', ['flarum/components/SettingsModal', 'flarum/components/Switch'], function (_export) {
+System.register('flagrow/image-upload/components/RemoteImageUploadSettingsModal', ['flarum/components/SettingsModal', 'flarum/components/Switch'], function (_export) {
     'use strict';
 
     var SettingsModal, Switch, RemoteImageUploadSettingsModal;
@@ -66,27 +66,27 @@ System.register('flagrow/remote-image-upload/components/RemoteImageUploadSetting
         }
     };
 });;
-System.register('flagrow/remote-image-upload/main', ['flarum/extend', 'flarum/app', 'flagrow/remote-image-upload/components/RemoteImageUploadSettingsModal'], function (_export) {
+System.register('flagrow/image-upload/main', ['flarum/extend', 'flarum/app', 'flagrow/image-upload/components/ImageUploadSettingsModal'], function (_export) {
     'use strict';
 
-    var extend, app, RemoteImageUploadSettingsModal;
+    var extend, app, ImageUploadSettingsModal;
     return {
         setters: [function (_flarumExtend) {
             extend = _flarumExtend.extend;
         }, function (_flarumApp) {
             app = _flarumApp['default'];
-        }, function (_flagrowRemoteImageUploadComponentsRemoteImageUploadSettingsModal) {
-            RemoteImageUploadSettingsModal = _flagrowRemoteImageUploadComponentsRemoteImageUploadSettingsModal['default'];
+        }, function (_flagrowImageUploadComponentsImageUploadSettingsModal) {
+            ImageUploadSettingsModal = _flagrowImageUploadComponentsImageUploadSettingsModal['default'];
         }],
         execute: function () {
 
-            app.initializers.add('flagrow-remote-image-upload', function (app) {
-                app.extensionSettings['flagrow-remote-image-upload'] = function () {
-                    return app.modal.show(new RemoteImageUploadSettingsModal());
+            app.initializers.add('flagrow-image-upload', function (app) {
+                app.extensionSettings['flagrow-image-upload'] = function () {
+                    return app.modal.show(new ImageUploadSettingsModal());
                 };
 
                 // this selects imgur as endpoint.
-                $('input:radio[name=endpoint]', '.RemoteImageUploadSettingsModal').filter('[value="https://api.imgur.com/3/image"]').prop('checked', true);
+                $('input:radio[name=endpoint]', '.ImageUploadSettingsModal').filter('[value="https://api.imgur.com/3/image"]').prop('checked', true);
             });
         }
     };
