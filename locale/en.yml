@@ -1,0 +1,9 @@
+flagrow-remote-image-upload:
+    forum:
+        buttons:
+            attach: Attach
+        states:
+            loading: Loading
+            success: Success
+            error: Error
+            
