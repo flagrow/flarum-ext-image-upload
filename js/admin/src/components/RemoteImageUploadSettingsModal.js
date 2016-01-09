@@ -15,6 +15,13 @@ export default class RemoteImageUploadSettingsModal extends SettingsModal {
                 <label>Imgur Client-ID</label>
                 <input className="FormControl" bidi={this.setting('flagrow.remote-image-upload.client_id')} />
             </div>,
+            <div className="Form-group">
+                <label>Image Resize <small>leave blank to disable</small></label>
+                <label>Max Width</label>
+                <input className="FormControl" bidi={this.setting('flagrow.remote-image-upload.max_width')} />
+                <label>Max Height</label>
+                <input className="FormControl" bidi={this.setting('flagrow.remote-image-upload.max_height')} />
+            </div>,
             <input type="radio"
             name="endpoint"
             bidi={this.setting('flagrow.remote-image-upload.endpoint')}
