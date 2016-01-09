@@ -90,6 +90,9 @@ export default class UploadButton extends Component {
         reader.readAsDataURL($("input[name='flagrow-image-upload-input']")[0].files[0]);
     }
 
+    local(imageData) {
+
+    }
 
     oauth(imageData) {
         // api endpoint

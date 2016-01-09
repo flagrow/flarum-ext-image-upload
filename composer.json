@@ -1,6 +1,6 @@
 {
-    "name": "flagrow/remote-image-upload",
-    "description": "Remote image uploader using public API's",
+    "name": "flagrow/image-upload",
+    "description": "Image uploader for Flarum forum messages.",
     "keywords": ["upload", "flarum", "flagrow", "image", "imgur"],
     "type": "flarum-extension",
     "license": "MIT",
@@ -16,15 +16,15 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/flagrow/remote-image-upload/issues",
-        "source": "https://github.com/flagrow/remote-image-upload"
+        "issues": "https://github.com/flagrow/image-upload/issues",
+        "source": "https://github.com/flagrow/image-upload"
     },
     "require": {
         "flarum/core": "^0.1.0-beta.4"
     },
     "extra": {
         "flarum-extension": {
-            "title": "Remote Image Upload",
+            "title": "Image Upload",
             "icon": {
                 "name": "upload",
                 "backgroundColor": "#000",

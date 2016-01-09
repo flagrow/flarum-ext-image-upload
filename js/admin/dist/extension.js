@@ -1,10 +1,12 @@
-System.register('flagrow/remote-image-upload/components/RemoteImageUploadSettingsModal', ['flarum/components/SettingsModal'], function (_export) {
+System.register('flagrow/remote-image-upload/components/RemoteImageUploadSettingsModal', ['flarum/components/SettingsModal', 'flarum/components/Switch'], function (_export) {
     'use strict';
 
-    var SettingsModal, RemoteImageUploadSettingsModal;
+    var SettingsModal, Switch, RemoteImageUploadSettingsModal;
     return {
         setters: [function (_flarumComponentsSettingsModal) {
             SettingsModal = _flarumComponentsSettingsModal['default'];
+        }, function (_flarumComponentsSwitch) {
+            Switch = _flarumComponentsSwitch['default'];
         }],
         execute: function () {
             RemoteImageUploadSettingsModal = (function (_SettingsModal) {
@@ -28,42 +30,33 @@ System.register('flagrow/remote-image-upload/components/RemoteImageUploadSetting
                 }, {
                     key: 'form',
                     value: function form() {
-                        return [m(
-                            'div',
-                            { className: 'Form-group' },
-                            m(
-                                'label',
-                                null,
-                                'Imgur Client-ID'
-                            ),
-                            m('input', { className: 'FormControl', bidi: this.setting('flagrow.remote-image-upload.client_id') })
-                        ), m(
-                            'div',
-                            { className: 'Form-group' },
-                            m(
-                                'label',
-                                null,
-                                app.translator.trans('flagrow-remote-image-upload.admin.image_resize'),
-                                m('input', { type: 'checkbox',
-                                    name: 'resize',
-                                    bidi: this.setting('flagrow.remote-image-upload.must_resize') })
-                            ),
-                            m(
-                                'label',
-                                null,
-                                app.translator.trans('flagrow-remote-image-upload.admin.max_width')
-                            ),
-                            m('input', { className: 'FormControl', bidi: this.setting('flagrow.remote-image-upload.max_width') }),
-                            m(
-                                'label',
-                                null,
-                                app.translator.trans('flagrow-remote-image-upload.admin.max_height')
-                            ),
-                            m('input', { className: 'FormControl', bidi: this.setting('flagrow.remote-image-upload.max_height') })
-                        ), m('input', { type: 'radio',
-                            name: 'endpoint',
-                            bidi: this.setting('flagrow.remote-image-upload.endpoint'),
-                            value: 'https://api.imgur.com/3/image', hidden: true })];
+                        return [m('div', { className: 'Form-group' }, [m('label', 'Upload method'), m('select', { className: 'FormControl', bidi: this.setting('flagrow.image-upload.method'), onchange: this.setMethod.bind(this) }, [m('option', { value: 'local' }, 'Local'), m('option', { value: 'imgur' }, 'Imgur')])]), m('section', { id: 'imgur', style: { display: 'none' } }, [m('div', { className: 'Form-group' }, [m('label', 'Imgur Client-ID'), m('input', { className: 'FormControl', bidi: this.setting('flagrow.image-upload.client_id') })]), m('div', { className: 'Form-group' }, [Switch.component({
+                            state: this.setting('flagrow.image-upload.must_resize'),
+                            children: app.translator.trans('flagrow-image-upload.admin.image_resize'),
+                            onchange: this.setting('flagrow.image-upload.must_resize')
+                        })])])];
+                        /*            <div className="Form-group">
+                                        <label>{app.translator.trans('flagrow-image-upload.admin.image_resize')}
+                                            <input type="checkbox"
+                                            name="resize"
+                                            bidi={this.setting('flagrow.image-upload.must_resize')} />
+                                        </label>
+                                        <label>{app.translator.trans('flagrow-image-upload.admin.max_width')}</label>
+                                        <input className="FormControl" bidi={this.setting('flagrow.image-upload.max_width')} />
+                                        <label>{app.translator.trans('flagrow-image-upload.admin.max_height')}</label>
+                                        <input className="FormControl" bidi={this.setting('flagrow.image-upload.max_height')} />
+                                    </div>,
+                                    <input type="radio"
+                                    name="endpoint"
+                                    bidi={this.setting('flagrow.image-upload.endpoint')}
+                                    value="https://api.imgur.com/3/image" hidden />
+                                ];*/
+                    }
+                }, {
+                    key: 'setMethod',
+                    value: function setMethod() {
+                        console.log(this.setting('flagrow.image-upload.method'));
+                        $('section#' + this.setting('flagrow.image-upload.method')).show();
                     }
                 }]);
                 return RemoteImageUploadSettingsModal;
