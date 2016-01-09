@@ -121,7 +121,7 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
 
                         if (this.isAnonymous || !this.token) {
                             var headers = {
-                                client_id: this.client_id
+                                Authorization: 'Client-ID ' + this.client_id
                             };
                         } else {
                             var headers = {
@@ -178,15 +178,18 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                     value: function setLabel(text) {
                         var disable = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
 
+                        // set the text of the button
                         $('.flagrow-image-upload-button > .Button-label').text(text);
 
+                        // get the composer element, so we search only in it
+                        var composer = $('#composer');
                         // enable on timeout
-                        if (disable === false && $('.item-submit > button').attr('disabled') === true) {
+                        if (disable === false && $('.item-submit > button', composer).attr('disabled') === true) {
                             setTimeout(function () {
-                                $('.item-submit > button').attr('disabled', false);
+                                $('.item-submit > button', composer).attr('disabled', false);
                             }, 1000);
                         } else if (disable === true) {
-                            $('.item-submit > button').attr('disabled', true);
+                            $('.item-submit > button', composer).attr('disabled', true);
                         }
                     }
 
