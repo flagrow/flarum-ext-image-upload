@@ -53,7 +53,10 @@ class AddClientAssets
     public function addAdminAssets(ConfigureClientView $event)
     {
         if ($event->isAdmin()) {
-
+            $event->addAssets([
+                __DIR__ . '/../../js/admin/dist/extension.js'
+            ]);
+            $event->addBootstrapper('flagrow/remote-image-upload/main');
         }
     }
 
