@@ -1,6 +1,13 @@
-<?php
+<?php namespace Flagrow\RemoteImageUpload\Listeners;
 
-namespace Flagrow\RemoteImageUpload\Listeners;
+/*
+* This file is part of remote-image-upload.
+*
+* (c) Flagrow
+*
+* For the full copyright and license information, please view the license.md
+* file that was distributed with this source code.
+*/
 
 use Flarum\Event\ConfigureClientView;
 use Illuminate\Contracts\Events\Dispatcher;
@@ -9,10 +16,10 @@ class AddClientAssets
 {
 
     /**
-     * Subscribes to the Flarum events.
-     *
-     * @param Dispatcher $events
-     */
+    * Subscribes to the Flarum events.
+    *
+    * @param Dispatcher $events
+    */
     public function subscribe(Dispatcher $events)
     {
         $events->listen(ConfigureClientView::class, [$this, 'addForumAssets']);
@@ -20,10 +27,10 @@ class AddClientAssets
     }
 
     /**
-     * Modifies the client view for the Forum.
-     *
-     * @param ConfigureClientView $event
-     */
+    * Modifies the client view for the Forum.
+    *
+    * @param ConfigureClientView $event
+    */
     public function addForumAssets(ConfigureClientView $event)
     {
         if ($event->isForum()) {
@@ -36,14 +43,28 @@ class AddClientAssets
     }
 
     /**
-     * Modifies the client view for the Admin.
-     *
-     * @param ConfigureClientView $event
-     */
+    * Modifies the client view for the Admin.
+    *
+    * @param ConfigureClientView $event
+    */
     public function addAdminAssets(ConfigureClientView $event)
     {
         if ($event->isAdmin()) {
 
+        }
+    }
+
+    /**
+    * Provides i18n files.
+    *
+    * @param ConfigureLocales $event
+    */
+    public function addLocales(ConfigureLocales $event)
+    {
+        foreach (new DirectoryIterator(__DIR__.'/../../locale') as $file) {
+            if ($file->isFile() && in_array($file->getExtension(), ['yml', 'yaml'])) {
+                $event->locales->addTranslations($file->getBasename('.'.$file->getExtension()), $file->getPathname());
+            }
         }
     }
 }
