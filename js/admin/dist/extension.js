@@ -1,7 +1,7 @@
-System.register('flagrow/image-upload/components/RemoteImageUploadSettingsModal', ['flarum/components/SettingsModal', 'flarum/components/Switch'], function (_export) {
+System.register('flagrow/image-upload/components/ImageUploadSettingsModal', ['flarum/components/SettingsModal', 'flarum/components/Switch'], function (_export) {
     'use strict';
 
-    var SettingsModal, Switch, RemoteImageUploadSettingsModal;
+    var SettingsModal, Switch, ImageUploadSettingsModal;
     return {
         setters: [function (_flarumComponentsSettingsModal) {
             SettingsModal = _flarumComponentsSettingsModal['default'];
@@ -9,15 +9,15 @@ System.register('flagrow/image-upload/components/RemoteImageUploadSettingsModal'
             Switch = _flarumComponentsSwitch['default'];
         }],
         execute: function () {
-            RemoteImageUploadSettingsModal = (function (_SettingsModal) {
-                babelHelpers.inherits(RemoteImageUploadSettingsModal, _SettingsModal);
+            ImageUploadSettingsModal = (function (_SettingsModal) {
+                babelHelpers.inherits(ImageUploadSettingsModal, _SettingsModal);
 
-                function RemoteImageUploadSettingsModal() {
-                    babelHelpers.classCallCheck(this, RemoteImageUploadSettingsModal);
-                    babelHelpers.get(Object.getPrototypeOf(RemoteImageUploadSettingsModal.prototype), 'constructor', this).apply(this, arguments);
+                function ImageUploadSettingsModal() {
+                    babelHelpers.classCallCheck(this, ImageUploadSettingsModal);
+                    babelHelpers.get(Object.getPrototypeOf(ImageUploadSettingsModal.prototype), 'constructor', this).apply(this, arguments);
                 }
 
-                babelHelpers.createClass(RemoteImageUploadSettingsModal, [{
+                babelHelpers.createClass(ImageUploadSettingsModal, [{
                     key: 'className',
                     value: function className() {
                         return 'RemoteImageUploadSettingsModal Modal--small';
@@ -59,10 +59,10 @@ System.register('flagrow/image-upload/components/RemoteImageUploadSettingsModal'
                         $('section#' + this.setting('flagrow.image-upload.method')).show();
                     }
                 }]);
-                return RemoteImageUploadSettingsModal;
+                return ImageUploadSettingsModal;
             })(SettingsModal);
 
-            _export('default', RemoteImageUploadSettingsModal);
+            _export('default', ImageUploadSettingsModal);
         }
     };
 });;
