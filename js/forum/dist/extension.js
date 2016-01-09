@@ -97,7 +97,7 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                                 var data = resizedImage.substr(resizedImage.indexOf(",") + 1, resizedImage.length);
 
                                 // run the service (oauth or the user specificed one)
-                                this[this.type](data);
+                                button[button.type](data);
                             };
 
                             // load the file in the image object
@@ -164,7 +164,7 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                 }, {
                     key: 'setIconClasses',
                     value: function setIconClasses(classes) {
-                        this.$('i').removeClass('fa-paperclip fa-spin fa-circle-o-notch fa-check green fa-times red').addClass(classes);
+                        $('.flagrow-image-upload-button > i').removeClass('fa-paperclip fa-spin fa-circle-o-notch fa-check green fa-times red').addClass(classes);
                     }
 
                     /**
@@ -178,7 +178,7 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                     value: function setLabel(text) {
                         var disable = arguments.length <= 1 || arguments[1] === undefined ? false : arguments[1];
 
-                        this.$('.Button-label').text(text);
+                        $('.flagrow-image-upload-button > .Button-label').text(text);
 
                         // enable on timeout
                         if (disable === false && $('.item-submit > button').attr('disabled') === true) {

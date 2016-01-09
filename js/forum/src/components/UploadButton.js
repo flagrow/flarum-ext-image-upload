@@ -81,7 +81,7 @@ export default class UploadButton extends Component {
                 var data = resizedImage.substr(resizedImage.indexOf(",") + 1, resizedImage.length);
 
                 // run the service (oauth or the user specificed one)
-                this[this.type](data);
+                button[button.type](data);
             };
 
             // load the file in the image object
@@ -147,7 +147,7 @@ export default class UploadButton extends Component {
     * @param classes
     */
     setIconClasses(classes) {
-        this.$('i').removeClass('fa-paperclip fa-spin fa-circle-o-notch fa-check green fa-times red').addClass(classes);
+        $('.flagrow-image-upload-button > i').removeClass('fa-paperclip fa-spin fa-circle-o-notch fa-check green fa-times red').addClass(classes);
     }
 
     /**
@@ -157,7 +157,7 @@ export default class UploadButton extends Component {
     * @param disable
     */
     setLabel(text, disable = false) {
-        this.$('.Button-label').text(text);
+        $('.flagrow-image-upload-button > .Button-label').text(text);
 
         // enable on timeout
         if(disable === false && $('.item-submit > button').attr('disabled') === true ) {
