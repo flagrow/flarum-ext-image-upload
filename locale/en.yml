@@ -6,4 +6,7 @@ flagrow-remote-image-upload:
             loading: Loading
             success: Success
             error: Error
-            
+    admin:
+        image_resize: Image Resize
+        max_width: Max width
+        max_height: Max height

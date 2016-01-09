@@ -43,7 +43,7 @@ System.register('flagrow/remote-image-upload/components/RemoteImageUploadSetting
                             m(
                                 'label',
                                 null,
-                                'Image Resize',
+                                app.translator.trans('flagrow-remote-image-upload.admin.image_resize'),
                                 m('input', { type: 'checkbox',
                                     name: 'resize',
                                     bidi: this.setting('flagrow.remote-image-upload.must_resize') })
@@ -51,13 +51,13 @@ System.register('flagrow/remote-image-upload/components/RemoteImageUploadSetting
                             m(
                                 'label',
                                 null,
-                                'Max Width'
+                                app.translator.trans('flagrow-remote-image-upload.admin.max_width')
                             ),
                             m('input', { className: 'FormControl', bidi: this.setting('flagrow.remote-image-upload.max_width') }),
                             m(
                                 'label',
                                 null,
-                                'Max Height'
+                                app.translator.trans('flagrow-remote-image-upload.admin.max_height')
                             ),
                             m('input', { className: 'FormControl', bidi: this.setting('flagrow.remote-image-upload.max_height') })
                         ), m('input', { type: 'radio',

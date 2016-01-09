@@ -16,14 +16,14 @@ export default class RemoteImageUploadSettingsModal extends SettingsModal {
                 <input className="FormControl" bidi={this.setting('flagrow.remote-image-upload.client_id')} />
             </div>,
             <div className="Form-group">
-                <label>Image Resize 
+                <label>{app.translator.trans('flagrow-remote-image-upload.admin.image_resize')}
                     <input type="checkbox"
                     name="resize"
                     bidi={this.setting('flagrow.remote-image-upload.must_resize')} />
                 </label>
-                <label>Max Width</label>
+                <label>{app.translator.trans('flagrow-remote-image-upload.admin.max_width')}</label>
                 <input className="FormControl" bidi={this.setting('flagrow.remote-image-upload.max_width')} />
-                <label>Max Height</label>
+                <label>{app.translator.trans('flagrow-remote-image-upload.admin.max_height')}</label>
                 <input className="FormControl" bidi={this.setting('flagrow.remote-image-upload.max_height')} />
             </div>,
             <input type="radio"

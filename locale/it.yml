@@ -1,0 +1,12 @@
+flagrow-remote-image-upload:
+    forum:
+        buttons:
+            attach: Allega
+        states:
+            loading: Caricando
+            success: Caricato
+            error: Errore
+    admin:
+        image_resize: Ridimensionamento
+        max_width: Larghezza massima
+        max_height: Altezza massima
