@@ -78,7 +78,7 @@ System.register('flagrow/remote-image-upload/components/UploadButton', ['flarum/
                             imageObject.onload = function () {
 
                                 // evaluate the scalingFactor to keep aspect ratio
-                                if (button.mustResize) {
+                                if (button.mustResize == true) {
                                     button.scalingFactor = Math.min(button.maxWidth / imageObject.width, button.maxHeight / imageObject.height, 1);
                                 }
 

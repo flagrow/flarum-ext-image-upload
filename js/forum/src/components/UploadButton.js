@@ -61,7 +61,7 @@ export default class UploadButton extends Component {
             imageObject.onload = function() {
 
                 // evaluate the scalingFactor to keep aspect ratio
-                if(button.mustResize) {
+                if(button.mustResize == true) {
                     button.scalingFactor = Math.min((button.maxWidth/imageObject.width), (button.maxHeight/imageObject.height), 1);
                 }
 
