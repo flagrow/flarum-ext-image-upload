@@ -1,4 +1,4 @@
-import Component from 'flarum/components/Component';
+import Component from 'flarum/Component';
 import icon from 'flarum/helpers/icon';
 
 export default class UploadButton extends Component {
@@ -39,8 +39,9 @@ export default class UploadButton extends Component {
         this.markLoaderStarted();
 
         console.log(this);
-        this.[this.type]();
 
+        //run the service (oauth or the user specificed one)
+        this[this.type]();
     }
 
     oauth() {
