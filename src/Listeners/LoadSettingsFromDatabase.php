@@ -1,7 +1,7 @@
 <?php namespace Flagrow\ImageUpload\Listeners;
 
 /*
-* This file is part of remote-image-upload.
+* This file is part of image-upload.
 *
 * (c) Flagrow
 *
@@ -42,12 +42,11 @@ class LoadSettingsFromDatabase {
   */
   public function prepareApiAttributes(PrepareApiAttributes $event) {
     if ($event->isSerializer(ForumSerializer::class)) {
-      $event->attributes['flagrow.remote-image-upload.endpoint'] = $this->settings->get('flagrow.remote-image-upload.endpoint');
-      $event->attributes['flagrow.remote-image-upload.imgur_client_id'] = $this->settings->get('flagrow.remote-image-upload.client_id');
-      $event->attributes['flagrow.remote-image-upload.max_width'] = $this->settings->get('flagrow.remote-image-upload.max_width');
-      $event->attributes['flagrow.remote-image-upload.max_height'] = $this->settings->get('flagrow.remote-image-upload.max_height');
-      $event->attributes['flagrow.remote-image-upload.must_resize'] = $this->settings->get('flagrow.remote-image-upload.must_resize');
-
+      $event->attributes['flagrow.image-upload.endpoint'] = $this->settings->get('flagrow.image-upload.endpoint');
+      $event->attributes['flagrow.image-upload.imgur_client_id'] = $this->settings->get('flagrow.image-upload.imgur_client_id');
+      $event->attributes['flagrow.image-upload.max_width'] = $this->settings->get('flagrow.image-upload.max_width');
+      $event->attributes['flagrow.image-upload.max_height'] = $this->settings->get('flagrow.image-upload.max_height');
+      $event->attributes['flagrow.image-upload.must_resize'] = $this->settings->get('flagrow.image-upload.must_resize');
     }
   }
 }
