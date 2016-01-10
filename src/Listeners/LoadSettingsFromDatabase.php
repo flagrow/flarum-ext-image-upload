@@ -16,6 +16,15 @@ use Flarum\Api\Serializer\ForumSerializer;
 
 class LoadSettingsFromDatabase {
   protected $settings;
+  // this is the prefix we use in the settings table in the database
+  protected $packagePrefix = 'flagrow.image-upload.';
+  // those are the fields we need to get from the database
+  protected $fieldsToGet = array(
+      'imgur_client_id',
+      'must_resize',
+      'max_width',
+      'max_height'
+  );
 
   /**
   * Gets the settings variable. Called on Object creation.
@@ -42,11 +51,9 @@ class LoadSettingsFromDatabase {
   */
   public function prepareApiAttributes(PrepareApiAttributes $event) {
     if ($event->isSerializer(ForumSerializer::class)) {
-      $event->attributes['flagrow.image-upload.endpoint'] = $this->settings->get('flagrow.image-upload.endpoint');
-      $event->attributes['flagrow.image-upload.imgur_client_id'] = $this->settings->get('flagrow.image-upload.imgur_client_id');
-      $event->attributes['flagrow.image-upload.max_width'] = $this->settings->get('flagrow.image-upload.max_width');
-      $event->attributes['flagrow.image-upload.max_height'] = $this->settings->get('flagrow.image-upload.max_height');
-      $event->attributes['flagrow.image-upload.must_resize'] = $this->settings->get('flagrow.image-upload.must_resize');
+        foreach ($this->fieldsToGet as $field) {
+            $event->attributes[$this->packagePrefix . $field] = $this->settings->get($this->packagePrefix . $field);
+        }
     }
   }
 }
