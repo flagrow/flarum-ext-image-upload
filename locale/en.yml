@@ -1,4 +1,4 @@
-flagrow-remote-image-upload:
+flagrow-image-upload:
     forum:
         buttons:
             attach: Attach
@@ -7,6 +7,6 @@ flagrow-remote-image-upload:
             success: Success
             error: Error
     admin:
-        image_resize: Image Resize
+        image_resize: Image resize
         max_width: Max width
         max_height: Max height
