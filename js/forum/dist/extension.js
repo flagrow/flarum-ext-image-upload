@@ -37,7 +37,7 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                 }, {
                     key: 'view',
                     value: function view() {
-                        return m('div', { className: 'Button hasIcon flagrow-image-upload-button' }, [icon('paperclip', { className: 'Button-icon' }), m('span', { className: 'Button-label' }, app.translator.trans('flagrow-image-upload.forum.buttons.attach')), m('input', {
+                        return m('div', { className: 'Button hasIcon flagrow-image-upload-button Button--icon' }, [icon('picture-o', { className: 'Button-icon' }), m('span', { className: 'Button-label' }, app.translator.trans('flagrow-image-upload.forum.buttons.attach')), m('input', {
                             type: 'file',
                             accept: 'image/*',
                             name: 'flagrow-image-upload-input',
@@ -188,7 +188,7 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                 }, {
                     key: 'setIconClasses',
                     value: function setIconClasses(classes) {
-                        $('.flagrow-image-upload-button > i').removeClass('fa-paperclip fa-spin fa-circle-o-notch fa-check green fa-times red').addClass(classes);
+                        $('.flagrow-image-upload-button > i').removeClass('fa-picture-o fa-spin fa-circle-o-notch fa-check green fa-times red').addClass(classes);
                     }
 
                     /**
@@ -253,7 +253,7 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                 }, {
                     key: 'resetLoader',
                     value: function resetLoader() {
-                        this.setIconClasses('fa-paperclip');
+                        this.setIconClasses('fa-picture-o');
                         this.setLabel(app.translator.trans('flagrow-image-upload.forum.buttons.attach'), false);
                         // remove the old file url
                         $("input[name='flagrow-image-upload-input']").val("");
@@ -288,7 +288,13 @@ System.register('flagrow/image-upload/main', ['flarum/extend', 'flarum/component
                 extend(TextEditor.prototype, 'controlItems', function (items) {
                     var theButton = new UploadButton();
                     theButton.textAreaObj = this;
-                    items.add('flarum-image-upload', theButton, 20);
+                    items.add('flarum-image-upload', theButton, 0);
+                    $(".Button-label", ".item-flarum-image-upload > div").hide();
+                    $(".item-flarum-image-upload > div").hover(function () {
+                        $('.Button-label', this).show();$(this).removeClass('Button--icon');
+                    }, function () {
+                        $('.Button-label', this).hide();$(this).addClass('Button--icon');
+                    });
                 });
             });
         }

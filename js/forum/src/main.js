@@ -11,6 +11,11 @@ app.initializers.add('flagrow-image-upload', app => {
     {
         var theButton = new UploadButton;
         theButton.textAreaObj = this;
-        items.add('flarum-image-upload', theButton, 20);
+        items.add('flarum-image-upload', theButton, 0);
+        $(".Button-label", ".item-flarum-image-upload > div").hide();
+        $(".item-flarum-image-upload > div").hover(
+                function(){ $('.Button-label', this).show(); $(this).removeClass('Button--icon')},
+                function(){ $('.Button-label', this).hide(); $(this).addClass('Button--icon')}
+        );
     });
 });

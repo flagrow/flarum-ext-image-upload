@@ -18,8 +18,8 @@ export default class UploadButton extends Component {
     * @returns {*}
     */
     view() {
-        return m('div', {className: 'Button hasIcon flagrow-image-upload-button'}, [
-            icon('paperclip', {className: 'Button-icon'}),
+        return m('div', {className: 'Button hasIcon flagrow-image-upload-button Button--icon'}, [
+            icon('picture-o', {className: 'Button-icon'}),
             m('span', {className: 'Button-label'}, app.translator.trans('flagrow-image-upload.forum.buttons.attach')),
             m('input', {
                 type: 'file',
@@ -170,7 +170,7 @@ export default class UploadButton extends Component {
     * @param classes
     */
     setIconClasses(classes) {
-        $('.flagrow-image-upload-button > i').removeClass('fa-paperclip fa-spin fa-circle-o-notch fa-check green fa-times red').addClass(classes);
+        $('.flagrow-image-upload-button > i').removeClass('fa-picture-o fa-spin fa-circle-o-notch fa-check green fa-times red').addClass(classes);
     }
 
     /**
@@ -224,7 +224,7 @@ export default class UploadButton extends Component {
     * Resets the file upload button to its original state.
     */
     resetLoader() {
-        this.setIconClasses('fa-paperclip');
+        this.setIconClasses('fa-picture-o');
         this.setLabel(app.translator.trans('flagrow-image-upload.forum.buttons.attach'), false);
         // remove the old file url
         $("input[name='flagrow-image-upload-input']").val("");
