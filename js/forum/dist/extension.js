@@ -115,7 +115,7 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                         // api endpoint
                         this.endpoint = app.forum.attribute('flagrow.image-upload.endpoint') || 'https://api.imgur.com/3/image';
                         // client id
-                        this.client_id = app.forum.attribute('flagrow.image-upload.client_id');
+                        this.client_id = app.forum.attribute('flagrow.image-upload.imgur_client_id');
                         // client bearer token if non-anonymous
                         this.token = app.forum.attribute('flagrow.image-upload.token') || null;
                         // whether uploading is anonymous, not account bound
