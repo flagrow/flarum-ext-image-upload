@@ -1,5 +1,7 @@
 import SettingsModal from 'flarum/components/SettingsModal';
 import Switch from 'flarum/components/Switch';
+import SettingDropdown from 'flarum/components/SettingDropdown';
+
 
 export default class ImageUploadSettingsModal extends SettingsModal {
     className() {
@@ -12,28 +14,23 @@ export default class ImageUploadSettingsModal extends SettingsModal {
 
     form() {
         return [
-            <div className="Form-group" id="image-upload-method">
-                <label>Upload method</label>
-                <select className="FormControl"
-                    bidi={this.setting('flagrow.image-upload.method')}
-                    onChange={this.updateSettingsView()} >
-                    <option value="local">Local</option>
-                    <option value="imgur">Imgur</option>
-                </select>
-            </div>,
-            <div className="Form-group upload-method" id="image-upload-imgur">
-                <label>Imgur Client-ID</label>
-                <input className="FormControl" bidi={this.setting('flagrow.image-upload.client_id')} />
-            </div>
+            SettingDropdown.component({
+                label: 'Upload method',
+                key: 'flagrow.image-upload.method',
+                options: [
+                    {value: 'imgur', label: 'Imgur'},
+                    {value: 'local', label: 'Local'}
+                ]
+            })
         ];
     }
 
-    updateSettingsView() {
-        var settingToShow = '#image-upload-' + $('#image-upload-method > select').val();
-        console.log(settingToShow);
-        $('.upload-method').hide("fast");
-        $(settingToShow).show("fast");
-    }
+    // updateSettingsView() {
+    //     var settingToShow = '#image-upload-' + $('#image-upload-method > select').val();
+    //     console.log(settingToShow);
+    //     $('.upload-method').hide("fast");
+    //     $(settingToShow).show("fast");
+    // }
 }
 
 //     m('div', {className: 'Form-group', id: 'image-upload-method'}, [
