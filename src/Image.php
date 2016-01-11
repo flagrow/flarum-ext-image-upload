@@ -19,4 +19,13 @@ class Image extends AbstractModel
      * @var string
      */
     protected $table = 'flagrow_images';
+
+    static public function boot()
+    {
+        Image::deleted(function($image)
+        {
+            // todo trigger service to delete image
+            // for instance from local storage
+        });
+    }
 }

@@ -10,6 +10,7 @@
 */
 
 use Flagrow\ImageUpload\Api\Serializers\ImageSerializer;
+use Flagrow\ImageUpload\Commands\UploadImage;
 use Flarum\Api\Controller\AbstractResourceController;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
@@ -39,7 +40,7 @@ class UploadImageController extends AbstractResourceController
         $file = array_get($request->getUploadedFiles(), 'image');
 
         return $this->bus->dispatch(
-            new UploadAvatar($postId, $file, $actor)
+            new UploadImage($postId, $file, $actor)
         );
     }
 }
