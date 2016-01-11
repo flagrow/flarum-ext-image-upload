@@ -51,7 +51,7 @@ class UploadImageController extends AbstractResourceController
     {
         $postId = array_get($request->getQueryParams(), 'post');
         $actor = $request->getAttribute('actor');
-        $file = array_get($request->getUploadedFiles(), 'image');
+        $file = array_get($request->getParsedBody(), 'image');
 
         return $this->bus->dispatch(
             new UploadImage($postId, base64_decode($file), $actor)

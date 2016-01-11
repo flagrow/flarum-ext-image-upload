@@ -86,7 +86,6 @@ class UploadImageHandler
         } else {
             $post = null;
         }
-
         // todo check rights
         // todo validate file
 
