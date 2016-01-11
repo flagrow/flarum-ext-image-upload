@@ -4,6 +4,7 @@ import saveSettings from 'flarum/utils/saveSettings';
 import Alert from 'flarum/components/Alert';
 import FieldSet from 'flarum/components/FieldSet';
 import Select from 'flarum/components/Select';
+import Switch from 'flarum/components/Switch';
 
 export default class ImageUploadPage extends Component {
 
@@ -14,6 +15,9 @@ export default class ImageUploadPage extends Component {
             'upload_method',
             'imgur_client_id'
         ];
+        this.checkboxes = [
+            'must_resize'
+        ];
         this.uploadMethodOptions = {
             'local': 'Local',
             'imgur': 'Imgur'
@@ -23,6 +27,7 @@ export default class ImageUploadPage extends Component {
         this.settingsPrefix = 'flagrow.image-upload';
         const settings = app.settings;
         this.fields.forEach(key => this.values[key] = m.prop(settings[this.addPrefix(key)]));
+        this.checkboxes.forEach(key => this.values[key] = m.prop(settings[this.addPrefix(key)] === '1'));
     }
 
     view() {
@@ -36,11 +41,18 @@ export default class ImageUploadPage extends Component {
                                 Select.component({
                                     options: this.uploadMethodOptions,
                                     onchange: this.values.upload_method,
-                                    value:this.values.upload_method()
+                                    value: this.values.upload_method()
                                 })
                             ]
                         }),
-                        m('div', {style: {display: (this.values.upload_method() === 'imgur' ? "block" : "none")}}, [
+                        m('div', {className: 'ImageUploadPage-resize'}, [
+                            Switch.component({
+                                state: this.values.must_resize(),
+                                children: 'resize image before upload',
+                                onchange: this.values.must_resize
+                            })
+                        ]),
+                        m('div', {className: 'ImageUploadPage-imgur', style: {display: (this.values.upload_method() === 'imgur' ? "block" : "none")}}, [
                             FieldSet.component({
                                 label: 'Imgur settings',
                                 children: [
@@ -70,7 +82,12 @@ export default class ImageUploadPage extends Component {
     }
 
     changed() {
-        return this.fields.some(key => this.values[key]() !== app.settings[this.addPrefix(key)]);
+        var fieldsCheck = this.fields.some(key => this.values[key]() !== app.settings[this.addPrefix(key)]);
+        var checkboxesCheck = this.checkboxes.some(key => this.values[key]() !== (app.settings[this.addPrefix(key)] == '1'));
+        console.log('this is in the settings: ' + app.settings[this.addPrefix('must_resize')]);
+        console.log('this is in the checkbox: ' + this.values.must_resize());
+        console.log('this is checkboxesCheck: ' + checkboxesCheck);
+        return fieldsCheck || checkboxesCheck;
     }
 
     onsubmit(e) {
@@ -84,6 +101,7 @@ export default class ImageUploadPage extends Component {
         const settings = {};
 
         this.fields.forEach(key => settings[this.addPrefix(key)] = this.values[key]());
+        this.checkboxes.forEach(key => settings[this.addPrefix(key)] = this.values[key]());
 
         saveSettings(settings)
         .then(() => {

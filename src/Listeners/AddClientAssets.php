@@ -54,6 +54,7 @@ class AddClientAssets
     {
         if ($event->isAdmin()) {
             $event->addAssets([
+                __DIR__ . '/../../less/admin/settingsPage.less',
                 __DIR__ . '/../../js/admin/dist/extension.js'
             ]);
             $event->addBootstrapper('flagrow/image-upload/main');
