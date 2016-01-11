@@ -9,7 +9,7 @@
 * file that was distributed with this source code.
 */
 
-use Flagrow\ImageUpload\Controllers\UploadImageController;
+use Flagrow\ImageUpload\Api\Controllers\UploadImageController;
 use Flarum\Event\ConfigureApiRoutes;
 use Illuminate\Events\Dispatcher;
 
