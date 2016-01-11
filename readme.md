@@ -1,5 +1,5 @@
 # flagrow/image-upload 
-[![Latest Stable Version](https://poser.pugx.org/flagrow/image-upload/v/stable)][packagist-link][![License](https://poser.pugx.org/flagrow/image-upload/license)][packagist-link]
+[![Latest Stable Version](https://poser.pugx.org/flagrow/image-upload/v/stable)][packagist-link][![License](https://poser.pugx.org/flagrow/image-upload/license)][packagist-link][![Gitter](https://badges.gitter.im/flagrow/image-upload.svg)](https://gitter.im/flagrow/image-upload)
 
 A [Flarum](http://flarum.org) extension to allow image uploading on thread and comment creation, supports multiple services like local storage and imgur.
 
