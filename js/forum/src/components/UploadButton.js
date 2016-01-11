@@ -8,7 +8,7 @@ export default class UploadButton extends Component {
     */
     init() {
         // the service type handling uploads
-        this.type = app.forum.attribute('flagrow.image-upload.upload_method') || 'oauth';
+        this.type = app.forum.attribute('flagrow.image-upload.upload_method') || 'local';
         this.textAreaObj = null;
 
         this.button = this;
