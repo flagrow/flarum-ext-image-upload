@@ -15,6 +15,11 @@ class ImageSerializer extends AbstractSerializer
 {
 
     /**
+     * @var string
+     */
+    protected $type = 'images';
+
+    /**
      * Get the default set of serialized attributes for a model.
      *
      * @param object|array $model
@@ -22,6 +27,6 @@ class ImageSerializer extends AbstractSerializer
      */
     protected function getDefaultAttributes($model)
     {
-        // TODO: Implement getDefaultAttributes() method.
+
     }
 }

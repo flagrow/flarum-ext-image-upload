@@ -17,7 +17,13 @@ use Tobscure\JsonApi\Document;
 class UploadImageController extends AbstractResourceController
 {
 
+    /**
+     * The serializer instance for this request.
+     *
+     * @var ImageSerializer
+     */
     public $serializer = ImageSerializer::class;
+
 
     /**
      * Get the data to be serialized and assigned to the response document.
@@ -28,6 +34,12 @@ class UploadImageController extends AbstractResourceController
      */
     protected function data(ServerRequestInterface $request, Document $document)
     {
+        $postId = array_get($request->getQueryParams(), 'post');
+        $actor = $request->getAttribute('actor');
+        $file = array_get($request->getUploadedFiles(), 'image');
 
+        return $this->bus->dispatch(
+            new UploadAvatar($postId, $file, $actor)
+        );
     }
 }
