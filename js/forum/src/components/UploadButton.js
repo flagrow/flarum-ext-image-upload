@@ -210,6 +210,11 @@ export default class UploadButton extends Component {
      * @param link
      */
     success(link) {
+
+        if(typeof link == 'object') {
+            link = link.data.attributes.url;
+        }
+
         this.markLoaderSuccess();
 
         // create a markdown string that holds the image link
@@ -224,9 +229,10 @@ export default class UploadButton extends Component {
             this.textAreaObj.props.preview();
         }
 
+        button = this;
         // reset the button for a new upload
         setTimeout(function() {
-            this.resetLoader();
+            button.resetLoader();
         }, 1000);
     }
 

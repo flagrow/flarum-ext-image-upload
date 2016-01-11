@@ -236,6 +236,11 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                 }, {
                     key: 'success',
                     value: function success(link) {
+
+                        if (typeof link == 'object') {
+                            link = link.data.attributes.url;
+                        }
+
                         this.markLoaderSuccess();
 
                         // create a markdown string that holds the image link
@@ -250,9 +255,10 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                             this.textAreaObj.props.preview();
                         }
 
+                        button = this;
                         // reset the button for a new upload
                         setTimeout(function () {
-                            this.resetLoader();
+                            button.resetLoader();
                         }, 1000);
                     }
 
