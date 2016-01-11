@@ -38,8 +38,8 @@ class CreateFlagrowImagesTable extends AbstractMigration
             // the method this file was uploaded to, allows for future erasing on remote systems
             $table->string('upload_method');
 
-            // adds created_at and updated_at
-            $table->timestamps();
+            // adds created_at
+            $table->timestamp('created_at');
 
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
 

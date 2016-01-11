@@ -19,6 +19,4 @@ class Image extends AbstractModel
      * @var string
      */
     protected $table = 'flagrow_images';
-
-
 }

@@ -10,6 +10,8 @@ export default class UploadButton extends Component {
         // the service type handling uploads
         this.type = app.forum.attribute('flagrow.image-upload.upload_method') || 'oauth';
         this.textAreaObj = null;
+
+        this.button = this;
     }
 
     /**
@@ -35,7 +37,7 @@ export default class UploadButton extends Component {
     */
     process() {
         // keep track of the parent object
-        var button = this;
+        var button = this.button;
 
         // wheter the image should be resized
         this.mustResize = app.forum.attribute('flagrow.image-upload.must_resize') || false;
@@ -92,6 +94,18 @@ export default class UploadButton extends Component {
 
     local(imageData) {
 
+        const data = new FormData();
+        data.append('image', imageData);
+
+        app.request({
+            method: 'POST',
+            url: app.forum.attribute('apiUrl') + '/image/upload',
+            serialize: raw => raw,
+            data
+        }).then(
+            this.success.bind(this),
+            this.failure.bind(this)
+        );
     }
 
     /**
@@ -164,42 +178,56 @@ export default class UploadButton extends Component {
             },
             // upload success
             success: function (payload, statusCode, xhr) {
-
-                button.markLoaderSuccess();
-
-                // get the link to the uploaded image and put https instead of http
-                var linkString = '\n![alt text]('+payload.data.link.replace('http:', 'https:')+')\n';
-
-                // place the Markdown image link in the Composer
-                button.textAreaObj.insertAtCursor(linkString);
-
-                // if we are not starting a new discussion, the variable is defined
-                if (typeof button.textAreaObj.props.preview !== 'undefined') {
-                    // show what we just uploaded
-                    button.textAreaObj.props.preview();
-                }
-
-                // reset the button for a new upload
-                setTimeout(function() {
-                    button.resetLoader();
-                }, 1000);
+                // redirects the call to the success method of the button
+                button.success(payload.data.link.replace('^http:', 'https:'));
             },
             // upload error
             error: function(xhr, statusText, error) {
-
-                button.markLoaderFailed();
-
-                // reset the button for a new upload
-                setTimeout(function() {
-                    button.resetLoader();
-                }, 1000);
+                button.failure(statusText);
             },
             statusCode: {
                 // unauthorized
                 401: function () {
+                    button.failure('Unauthorized');
                 }
             }
         });
+    }
+
+    /**
+     * Handles errors.
+     *
+     * @param message
+     */
+    failure(message) {
+        this.markLoaderFailed();
+        // todo show popup
+    }
+
+    /**
+     * Appends the link to the body of the composer.
+     *
+     * @param link
+     */
+    success(link) {
+        this.markLoaderSuccess();
+
+        // create a markdown string that holds the image link
+        var markdownString = '\n![image ' + link + '](' + link + ')\n';
+
+        // place the Markdown image link in the Composer
+        this.textAreaObj.insertAtCursor(markdownString);
+
+        // if we are not starting a new discussion, the variable is defined
+        if (typeof this.textAreaObj.props.preview !== 'undefined') {
+            // show what we just uploaded
+            this.textAreaObj.props.preview();
+        }
+
+        // reset the button for a new upload
+        setTimeout(function() {
+            this.resetLoader();
+        }, 1000);
     }
 
     /**
