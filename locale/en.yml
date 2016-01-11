@@ -7,6 +7,18 @@ flagrow-image-upload:
             success: Success
             error: Error
     admin:
-        image_resize: Image resize
-        max_width: Max width
-        max_height: Max height
+        upload_methods:
+            local: Local
+            imgur: Imgur
+        labels:
+            upload_method: Upload method
+            resize:
+                title: Image resize
+                toggle: Toggle the resize
+                max_width: Maxiumum image width
+                max_height: Maximum image height
+            imgur:
+                title: Imgur settings
+                client_id: Client-ID
+        buttons:
+            save: Save settings

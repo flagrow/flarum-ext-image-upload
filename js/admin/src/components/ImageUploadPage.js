@@ -27,8 +27,8 @@ export default class ImageUploadPage extends Component {
 
         // options for the dropdown menu
         this.uploadMethodOptions = {
-            'local': 'Local',
-            'imgur': 'Imgur'
+            'local': app.translator.trans('flagrow-image-upload.admin.upload_methods.local'),
+            'imgur': app.translator.trans('flagrow-image-upload.admin.upload_methods.imgur')
         };
 
         this.values = {};
@@ -53,7 +53,7 @@ export default class ImageUploadPage extends Component {
                 m('div', {className: 'container'}, [
                     m('form', {onsubmit: this.onsubmit.bind(this)}, [
                         FieldSet.component({
-                            label: 'Upload method',
+                            label: app.translator.trans('flagrow-image-upload.admin.labels.upload_method'),
                             children: [
                                 Select.component({
                                     options: this.uploadMethodOptions,
@@ -64,21 +64,21 @@ export default class ImageUploadPage extends Component {
                         }),
                         m('div', {className: 'ImageUploadPage-resize'}, [
                             FieldSet.component({
-                                label: 'Image resize settings',
+                                label: app.translator.trans('flagrow-image-upload.admin.labels.resize.title'),
                                 children: [
                                     Switch.component({
                                         state: this.values.must_resize() || false,
-                                        children: 'resize image before upload',
+                                        children: app.translator.trans('flagrow-image-upload.admin.labels.resize.toggle'),
                                         onchange: this.values.must_resize
                                     }),
-                                    m('label', {}, 'Maximum image width'),
+                                    m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.resize.max_width')),
                                     m('input', {
                                         className: 'FormControl',
                                         value: this.values.resize_max_width() || '',
                                         oninput: m.withAttr('value', this.values.resize_max_width),
                                         disabled: !this.values.must_resize()
                                     }),
-                                    m('label', {}, 'Maximum image height'),
+                                    m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.resize.max_height')),
                                     m('input', {
                                         className: 'FormControl',
                                         value: this.values.resize_max_height() || '',
@@ -91,9 +91,9 @@ export default class ImageUploadPage extends Component {
                         ]),
                         m('div', {className: 'ImageUploadPage-imgur', style: {display: (this.values.upload_method() === 'imgur' ? "block" : "none")}}, [
                             FieldSet.component({
-                                label: 'Imgur settings',
+                                label: app.translator.trans('flagrow-image-upload.admin.labels.imgur.title'),
                                 children: [
-                                    m('label', {}, 'Imgur Client-ID'),
+                                    m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.imgur.client_id')),
                                     m('input', {
                                         className: 'FormControl',
                                         value: this.values.imgur_client_id() || '',
@@ -108,7 +108,7 @@ export default class ImageUploadPage extends Component {
                         Button.component({
                             type: 'submit',
                             className: 'Button Button--primary',
-                            children: 'Save settings',
+                            children: app.translator.trans('flagrow-image-upload.admin.buttons.save'),
                             loading: this.loading,
                             disabled: !this.changed()
                         }),
@@ -127,9 +127,6 @@ export default class ImageUploadPage extends Component {
     changed() {
         var fieldsCheck = this.fields.some(key => this.values[key]() !== app.settings[this.addPrefix(key)]);
         var checkboxesCheck = this.checkboxes.some(key => this.values[key]() !== (app.settings[this.addPrefix(key)] == '1'));
-        console.log('this is in the settings: ' + app.settings[this.addPrefix('must_resize')]);
-        console.log('this is in the checkbox: ' + this.values.must_resize());
-        console.log('this is checkboxesCheck: ' + checkboxesCheck);
         return fieldsCheck || checkboxesCheck;
     }
 
