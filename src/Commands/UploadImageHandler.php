@@ -9,6 +9,7 @@
 * file that was distributed with this source code.
 */
 
+use Carbon\Carbon;
 use Flagrow\ImageUpload\Events\ImageWillBeSaved;
 use Flagrow\ImageUpload\Image;
 use Flagrow\ImageUpload\Validators\ImageValidator;
@@ -108,6 +109,7 @@ class UploadImageHandler
         }
 
         $image->file_name = sprintf('%s/%s', $this->app->url(), $file_name);
+        $image->created_at = Carbon::now();
 
         $image->save();
 
