@@ -8,7 +8,7 @@ export default class UploadButton extends Component {
     */
     init() {
         // the service type handling uploads
-        this.type = app.forum.attribute('flagrow.image-upload.type') || 'oauth';
+        this.type = app.forum.attribute('flagrow.image-upload.upload_method') || 'oauth';
         this.textAreaObj = null;
     }
 
@@ -40,8 +40,8 @@ export default class UploadButton extends Component {
         // wheter the image should be resized
         this.mustResize = app.forum.attribute('flagrow.image-upload.must_resize') || false;
         // max width and height of the uploaded image
-        this.maxWidth = app.forum.attribute('flagrow.image-upload.max_width') || null;
-        this.maxHeight = app.forum.attribute('flagrow.image-upload.max_height') || null;
+        this.maxWidth = app.forum.attribute('flagrow.image-upload.resize_max_width') || null;
+        this.maxHeight = app.forum.attribute('flagrow.image-upload.resize_max_height') || null;
         // set the default value (changed later if necessary)
         this.scalingFactor = 1;
 
@@ -94,20 +94,57 @@ export default class UploadButton extends Component {
 
     }
 
+    /**
+    * Imgur upload method. Uses oauth.
+    *
+    * @param imageData
+    */
+    imgur(imageData) {
+        //checks if the imgur client-id is defined
+        if(app.forum.attribute('flagrow.image-upload.imgur_client_id') !== '') {
+            // create the imgur specific parameters that are going to be passed to
+            // the ouath method.
+            const connectionParameters = {
+                'endpoint' : 'https://api.imgur.com/3/image',
+                'headers' : {
+                    Authorization: 'Client-ID ' + app.forum.attribute('flagrow.image-upload.imgur_client_id')
+                }
+            }
 
-    oauth(imageData) {
+            // now we call the oauth method.
+            this.oauth(imageData, connectionParameters);
+        } else {
+            // otherwise throws an error
+            this.markLoaderFailed();
+            // reset the button after 2s
+            setTimeout(function() {
+                this.resetLoader();
+            }.bind(this), 2000);
+            // also logs the error for debug
+            console.log('Flagrow Image Upload Extension: the Imgur client-id was not provided');
+        }
+
+    }
+
+    /**
+    * oauth general upload method.
+    *
+    * @param imageData
+    * @param connectionParameters
+    */
+    oauth(imageData, connectionParameters = {}) {
         // api endpoint
-        this.endpoint = app.forum.attribute('flagrow.image-upload.endpoint') || 'https://api.imgur.com/3/image';
+        this.endpoint = connectionParameters.endpoint || app.forum.attribute('flagrow.image-upload.endpoint');
         // client id
-        this.client_id = app.forum.attribute('flagrow.image-upload.imgur_client_id');
+        this.client_id = connectionParameters.client_id || app.forum.attribute('flagrow.image-upload.client_id');
         // client bearer token if non-anonymous
-        this.token = app.forum.attribute('flagrow.image-upload.token') || null;
+        this.token = connectionParameters.token || app.forum.attribute('flagrow.image-upload.token') || null;
         // whether uploading is anonymous, not account bound
-        this.isAnonymous = app.forum.attribute('flagrow.image-upload.anonymous') || true;
+        this.isAnonymous = connectionParameters.anonymous || app.forum.attribute('flagrow.image-upload.anonymous') || true;
 
         if (this.isAnonymous || !this.token) {
             var headers = {
-                Authorization: 'Client-ID ' + this.client_id
+                client_id: this.client_id
             };
         } else {
             var headers = {
@@ -120,7 +157,7 @@ export default class UploadButton extends Component {
         $.ajax(this.endpoint, {
             method: 'post',
             // authorization and other headers
-            headers: headers,
+            headers: connectionParameters.headers || headers,
             data: {
                 'image': imageData,
                 'type': 'base64'

@@ -1,36 +1,37 @@
 System.register('flagrow/image-upload/addImageUploadPane', ['flarum/extend', 'flarum/components/AdminNav', 'flarum/components/AdminLinkButton', 'flagrow/image-upload/components/ImageUploadPage'], function (_export) {
-  'use strict';
+    'use strict';
 
-  var extend, AdminNav, AdminLinkButton, ImageUploadPage;
-  return {
-    setters: [function (_flarumExtend) {
-      extend = _flarumExtend.extend;
-    }, function (_flarumComponentsAdminNav) {
-      AdminNav = _flarumComponentsAdminNav['default'];
-    }, function (_flarumComponentsAdminLinkButton) {
-      AdminLinkButton = _flarumComponentsAdminLinkButton['default'];
-    }, function (_flagrowImageUploadComponentsImageUploadPage) {
-      ImageUploadPage = _flagrowImageUploadComponentsImageUploadPage['default'];
-    }],
-    execute: function () {
-      _export('default', function () {
-        app.routes['image-upload'] = { path: '/image-upload', component: ImageUploadPage.component() };
+    var extend, AdminNav, AdminLinkButton, ImageUploadPage;
+    return {
+        setters: [function (_flarumExtend) {
+            extend = _flarumExtend.extend;
+        }, function (_flarumComponentsAdminNav) {
+            AdminNav = _flarumComponentsAdminNav['default'];
+        }, function (_flarumComponentsAdminLinkButton) {
+            AdminLinkButton = _flarumComponentsAdminLinkButton['default'];
+        }, function (_flagrowImageUploadComponentsImageUploadPage) {
+            ImageUploadPage = _flagrowImageUploadComponentsImageUploadPage['default'];
+        }],
+        execute: function () {
+            _export('default', function () {
+                app.routes['image-upload'] = { path: '/image-upload', component: ImageUploadPage.component() };
 
-        app.extensionSettings['flagrow-image-upload'] = function () {
-          return m.route(app.route('image-upload'));
-        };
+                app.extensionSettings['flagrow-image-upload'] = function () {
+                    return m.route(app.route('image-upload'));
+                };
 
-        extend(AdminNav.prototype, 'items', function (items) {
-          items.add('image-upload', AdminLinkButton.component({
-            href: app.route('image-upload'),
-            icon: 'picture-o',
-            children: 'Image Upload',
-            description: 'Flagrow (c). Description here'
-          }));
-        });
-      });
-    }
-  };
+                extend(AdminNav.prototype, 'items', function (items) {
+                    // add the Image Upload tab to the admin navigation menu
+                    items.add('image-upload', AdminLinkButton.component({
+                        href: app.route('image-upload'),
+                        icon: 'picture-o',
+                        children: 'Image Upload',
+                        description: 'Flagrow (c). Description here'
+                    }));
+                });
+            });
+        }
+    };
 });;
 System.register('flagrow/image-upload/components/ImageUploadGrid', ['flarum/Component', 'flarum/components/SettingDropdown', 'flarum/components/Button', 'flarum/utils/ItemList', 'flarum/helpers/icon'], function (_export) {
   'use strict';
@@ -339,17 +340,27 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                     value: function init() {
                         var _this = this;
 
+                        // wheter we are saving the settings or not right now
                         this.loading = false;
 
-                        this.fields = ['upload_method', 'imgur_client_id'];
+                        // the fields we need to watch and to save
+                        this.fields = ['upload_method', 'imgur_client_id', 'resize_max_width', 'resize_max_height'];
+
+                        // the checkboxes we need to watch and to save.
                         this.checkboxes = ['must_resize'];
+
+                        // options for the dropdown menu
                         this.uploadMethodOptions = {
                             'local': 'Local',
                             'imgur': 'Imgur'
                         };
 
                         this.values = {};
+
+                        // our package prefix (to be added to every field and checkbox in the setting table)
                         this.settingsPrefix = 'flagrow.image-upload';
+
+                        // bind the values of the fileds anc checkboxes to the getter/setter functions
                         var settings = app.settings;
                         this.fields.forEach(function (key) {
                             return _this.values[key] = m.prop(settings[_this.addPrefix(key)]);
@@ -358,6 +369,12 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                             return _this.values[key] = m.prop(settings[_this.addPrefix(key)] === '1');
                         });
                     }
+
+                    /**
+                    * Show the actual ImageUploadPage.
+                    *
+                    * @returns {*}
+                    */
                 }, {
                     key: 'view',
                     value: function view() {
@@ -366,17 +383,30 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                             children: [Select.component({
                                 options: this.uploadMethodOptions,
                                 onchange: this.values.upload_method,
-                                value: this.values.upload_method()
+                                value: this.values.upload_method() || 'local'
                             })]
-                        }), m('div', { className: 'ImageUploadPage-resize' }, [Switch.component({
-                            state: this.values.must_resize(),
-                            children: 'resize image before upload',
-                            onchange: this.values.must_resize
+                        }), m('div', { className: 'ImageUploadPage-resize' }, [FieldSet.component({
+                            label: 'Image resize settings',
+                            children: [Switch.component({
+                                state: this.values.must_resize() || false,
+                                children: 'resize image before upload',
+                                onchange: this.values.must_resize
+                            }), m('label', {}, 'Maximum image width'), m('input', {
+                                className: 'FormControl',
+                                value: this.values.resize_max_width() || '',
+                                oninput: m.withAttr('value', this.values.resize_max_width),
+                                disabled: !this.values.must_resize()
+                            }), m('label', {}, 'Maximum image height'), m('input', {
+                                className: 'FormControl',
+                                value: this.values.resize_max_height() || '',
+                                oninput: m.withAttr('value', this.values.resize_max_height),
+                                disabled: !this.values.must_resize()
+                            })]
                         })]), m('div', { className: 'ImageUploadPage-imgur', style: { display: this.values.upload_method() === 'imgur' ? "block" : "none" } }, [FieldSet.component({
                             label: 'Imgur settings',
                             children: [m('label', {}, 'Imgur Client-ID'), m('input', {
                                 className: 'FormControl',
-                                value: this.values.imgur_client_id(),
+                                value: this.values.imgur_client_id() || '',
                                 oninput: m.withAttr('value', this.values.imgur_client_id)
                             })]
                         })]), m('div', { style: { display: this.values.upload_method() === 'local' ? "block" : "none" } }, ['This is local setting']), Button.component({
@@ -387,6 +417,13 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                             disabled: !this.changed()
                         })])])])];
                     }
+
+                    /**
+                    * Checks if the values of the fields and checkboxes are different from
+                    * the ones stored in the database
+                    *
+                    * @returns bool
+                    */
                 }, {
                     key: 'changed',
                     value: function changed() {
@@ -403,20 +440,30 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                         console.log('this is checkboxesCheck: ' + checkboxesCheck);
                         return fieldsCheck || checkboxesCheck;
                     }
+
+                    /**
+                    * Saves the settings to the database and redraw the page
+                    *
+                    * @param e
+                    */
                 }, {
                     key: 'onsubmit',
                     value: function onsubmit(e) {
                         var _this3 = this;
 
+                        // prevent the usual form submit behaviour
                         e.preventDefault();
 
+                        // if the page is already saving, do nothing
                         if (this.loading) return;
 
+                        // prevents multiple savings
                         this.loading = true;
                         app.alerts.dismiss(this.successAlert);
 
                         var settings = {};
 
+                        // gets all the svalues from the form
                         this.fields.forEach(function (key) {
                             return settings[_this3.addPrefix(key)] = _this3.values[key]();
                         });
@@ -424,13 +471,22 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                             return settings[_this3.addPrefix(key)] = _this3.values[key]();
                         });
 
+                        // actually saves everything in the database
                         saveSettings(settings).then(function () {
+                            // on succes, show an alert
                             app.alerts.show(_this3.successAlert = new Alert({ type: 'success', children: app.translator.trans('core.admin.basics.saved_message') }));
                         })['finally'](function () {
+                            // return to the initial state and redraw the page
                             _this3.loading = false;
                             m.redraw();
                         });
                     }
+
+                    /**
+                    * Adds the prefix `this.settingsPrefix` at the beginning of `key`
+                    *
+                    * @returns string
+                    */
                 }, {
                     key: 'addPrefix',
                     value: function addPrefix(key) {
@@ -441,97 +497,6 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
             })(Component);
 
             _export('default', ImageUploadPage);
-        }
-    };
-});;
-System.register('flagrow/image-upload/components/ImageUploadSettingsModal', ['flarum/components/SettingsModal', 'flarum/components/Switch', 'flarum/components/SettingDropdown'], function (_export) {
-    'use strict';
-
-    var SettingsModal, Switch, SettingDropdown, ImageUploadSettingsModal;
-    return {
-        setters: [function (_flarumComponentsSettingsModal) {
-            SettingsModal = _flarumComponentsSettingsModal['default'];
-        }, function (_flarumComponentsSwitch) {
-            Switch = _flarumComponentsSwitch['default'];
-        }, function (_flarumComponentsSettingDropdown) {
-            SettingDropdown = _flarumComponentsSettingDropdown['default'];
-        }],
-        execute: function () {
-            ImageUploadSettingsModal = (function (_SettingsModal) {
-                babelHelpers.inherits(ImageUploadSettingsModal, _SettingsModal);
-
-                function ImageUploadSettingsModal() {
-                    babelHelpers.classCallCheck(this, ImageUploadSettingsModal);
-                    babelHelpers.get(Object.getPrototypeOf(ImageUploadSettingsModal.prototype), 'constructor', this).apply(this, arguments);
-                }
-
-                //     m('div', {className: 'Form-group', id: 'image-upload-method'}, [
-                //         m('label', 'Upload method'),
-                //         m('select', {className: 'FormControl', bidi: this.setting('flagrow.image-upload.method')}, [
-                //             m('option', {value: 'local'}, 'Local'),
-                //             m('option', {value: 'imgur'}, 'Imgur')
-                //         ])
-                //     ]),
-                //     m('section', {id: 'imgur', style: {display: 'none'}}, [
-                //         m('div', {className: 'Form-group'}, [
-                //             m('label', 'Imgur Client-ID'),
-                //             m('input', {className: 'FormControl', bidi: this.setting('flagrow.image-upload.client_id')})
-                //         ]),
-                //         m('div', {className: 'Form-group'}, [
-                //             Switch.component({
-                //                 state: this.setting('flagrow.image-upload.must_resize'),
-                //                 children: app.translator.trans('flagrow-image-upload.admin.image_resize'),
-                //                 onchange: this.setting('flagrow.image-upload.must_resize')
-                //             })
-                //         ])
-                //     ]),
-                // ];
-                // <div className="Form-group">
-                //     <label>{app.translator.trans('flagrow-image-upload.admin.image_resize')}
-                //         <input type="checkbox"
-                //         name="resize"
-                //         bidi={this.setting('flagrow.image-upload.must_resize')} />
-                //     </label>
-                //     <label>{app.translator.trans('flagrow-image-upload.admin.max_width')}</label>
-                //     <input className="FormControl" bidi={this.setting('flagrow.image-upload.max_width')} />
-                //     <label>{app.translator.trans('flagrow-image-upload.admin.max_height')}</label>
-                //     <input className="FormControl" bidi={this.setting('flagrow.image-upload.max_height')} />
-                // </div>,
-                // <input type="radio"
-                // name="endpoint"
-                // bidi={this.setting('flagrow.image-upload.endpoint')}
-                // value="https://api.imgur.com/3/image" hidden />
-                babelHelpers.createClass(ImageUploadSettingsModal, [{
-                    key: 'className',
-                    value: function className() {
-                        return 'RemoteImageUploadSettingsModal Modal--small';
-                    }
-                }, {
-                    key: 'title',
-                    value: function title() {
-                        return 'Image Upload Settings';
-                    }
-                }, {
-                    key: 'form',
-                    value: function form() {
-                        return [SettingDropdown.component({
-                            label: 'Upload method',
-                            key: 'flagrow.image-upload.method',
-                            options: [{ value: 'imgur', label: 'Imgur' }, { value: 'local', label: 'Local' }]
-                        })];
-                    }
-
-                    // updateSettingsView() {
-                    //     var settingToShow = '#image-upload-' + $('#image-upload-method > select').val();
-                    //     console.log(settingToShow);
-                    //     $('.upload-method').hide("fast");
-                    //     $(settingToShow).show("fast");
-                    // }
-                }]);
-                return ImageUploadSettingsModal;
-            })(SettingsModal);
-
-            _export('default', ImageUploadSettingsModal);
         }
     };
 });;
@@ -551,13 +516,6 @@ System.register('flagrow/image-upload/main', ['flarum/extend', 'flarum/app', 'fl
         execute: function () {
 
             app.initializers.add('flagrow-image-upload', function (app) {
-                //app.extensionSettings['flagrow-image-upload'] = () => app.modal.show(new ImageUploadSettingsModal());
-
-                // this selects imgur as endpoint.
-                // $('input:radio[name=endpoint]', '.ImageUploadSettingsModal')
-                //     .filter('[value="https://api.imgur.com/3/image"]')
-                //     .prop('checked', true);
-
                 addImageUploadPane();
             });
         }

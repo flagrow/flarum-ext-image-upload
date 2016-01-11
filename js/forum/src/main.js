@@ -12,6 +12,7 @@ app.initializers.add('flagrow-image-upload', app => {
         var theButton = new UploadButton;
         theButton.textAreaObj = this;
         items.add('flarum-image-upload', theButton, 0);
+        // animate the button on hover: shows the label
         $(".Button-label", ".item-flarum-image-upload > div").hide();
         $(".item-flarum-image-upload > div").hover(
                 function(){ $('.Button-label', this).show(); $(this).removeClass('Button--icon')},

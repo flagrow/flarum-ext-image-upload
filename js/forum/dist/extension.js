@@ -25,7 +25,7 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                     */
                     value: function init() {
                         // the service type handling uploads
-                        this.type = app.forum.attribute('flagrow.image-upload.type') || 'oauth';
+                        this.type = app.forum.attribute('flagrow.image-upload.upload_method') || 'oauth';
                         this.textAreaObj = null;
                     }
 
@@ -57,8 +57,8 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                         // wheter the image should be resized
                         this.mustResize = app.forum.attribute('flagrow.image-upload.must_resize') || false;
                         // max width and height of the uploaded image
-                        this.maxWidth = app.forum.attribute('flagrow.image-upload.max_width') || null;
-                        this.maxHeight = app.forum.attribute('flagrow.image-upload.max_height') || null;
+                        this.maxWidth = app.forum.attribute('flagrow.image-upload.resize_max_width') || null;
+                        this.maxHeight = app.forum.attribute('flagrow.image-upload.resize_max_height') || null;
                         // set the default value (changed later if necessary)
                         this.scalingFactor = 1;
 
@@ -109,21 +109,63 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                 }, {
                     key: 'local',
                     value: function local(imageData) {}
+
+                    /**
+                    * Imgur upload method. Uses oauth.
+                    *
+                    * @param imageData
+                    */
+                }, {
+                    key: 'imgur',
+                    value: function imgur(imageData) {
+                        //checks if the imgur client-id is defined
+                        if (app.forum.attribute('flagrow.image-upload.imgur_client_id') !== '') {
+                            // create the imgur specific parameters that are going to be passed to
+                            // the ouath method.
+                            var connectionParameters = {
+                                'endpoint': 'https://api.imgur.com/3/image',
+                                'headers': {
+                                    Authorization: 'Client-ID ' + app.forum.attribute('flagrow.image-upload.imgur_client_id')
+                                }
+                            };
+
+                            // now we call the oauth method.
+                            this.oauth(imageData, connectionParameters);
+                        } else {
+                            // otherwise throws an error
+                            this.markLoaderFailed();
+                            // reset the button after 2s
+                            setTimeout((function () {
+                                this.resetLoader();
+                            }).bind(this), 2000);
+                            // also logs the error for debug
+                            console.log('Flagrow Image Upload Extension: the Imgur client-id was not provided');
+                        }
+                    }
+
+                    /**
+                    * oauth general upload method.
+                    *
+                    * @param imageData
+                    * @param connectionParameters
+                    */
                 }, {
                     key: 'oauth',
                     value: function oauth(imageData) {
+                        var connectionParameters = arguments.length <= 1 || arguments[1] === undefined ? {} : arguments[1];
+
                         // api endpoint
-                        this.endpoint = app.forum.attribute('flagrow.image-upload.endpoint') || 'https://api.imgur.com/3/image';
+                        this.endpoint = connectionParameters.endpoint || app.forum.attribute('flagrow.image-upload.endpoint');
                         // client id
-                        this.client_id = app.forum.attribute('flagrow.image-upload.imgur_client_id');
+                        this.client_id = connectionParameters.client_id || app.forum.attribute('flagrow.image-upload.client_id');
                         // client bearer token if non-anonymous
-                        this.token = app.forum.attribute('flagrow.image-upload.token') || null;
+                        this.token = connectionParameters.token || app.forum.attribute('flagrow.image-upload.token') || null;
                         // whether uploading is anonymous, not account bound
-                        this.isAnonymous = app.forum.attribute('flagrow.image-upload.anonymous') || true;
+                        this.isAnonymous = connectionParameters.anonymous || app.forum.attribute('flagrow.image-upload.anonymous') || true;
 
                         if (this.isAnonymous || !this.token) {
                             var headers = {
-                                Authorization: 'Client-ID ' + this.client_id
+                                client_id: this.client_id
                             };
                         } else {
                             var headers = {
@@ -136,7 +178,7 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                         $.ajax(this.endpoint, {
                             method: 'post',
                             // authorization and other headers
-                            headers: headers,
+                            headers: connectionParameters.headers || headers,
                             data: {
                                 'image': imageData,
                                 'type': 'base64'
@@ -289,6 +331,7 @@ System.register('flagrow/image-upload/main', ['flarum/extend', 'flarum/component
                     var theButton = new UploadButton();
                     theButton.textAreaObj = this;
                     items.add('flarum-image-upload', theButton, 0);
+                    // animate the button on hover: shows the label
                     $(".Button-label", ".item-flarum-image-upload > div").hide();
                     $(".item-flarum-image-upload > div").hover(function () {
                         $('.Button-label', this).show();$(this).removeClass('Button--icon');

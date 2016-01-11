@@ -5,12 +5,5 @@ import app from 'flarum/app';
 import addImageUploadPane from 'flagrow/image-upload/addImageUploadPane'
 
 app.initializers.add('flagrow-image-upload', app => {
-    //app.extensionSettings['flagrow-image-upload'] = () => app.modal.show(new ImageUploadSettingsModal());
-
-    // this selects imgur as endpoint.
-    // $('input:radio[name=endpoint]', '.ImageUploadSettingsModal')
-    //     .filter('[value="https://api.imgur.com/3/image"]')
-    //     .prop('checked', true);
-
     addImageUploadPane();
 });

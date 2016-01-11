@@ -1,7 +1,7 @@
 <?php namespace Flagrow\ImageUpload\Listeners;
 
 /*
-* This file is part of remote-image-upload.
+* This file is part of image-upload.
 *
 * (c) Flagrow
 *
