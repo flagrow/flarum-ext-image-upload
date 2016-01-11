@@ -4,9 +4,34 @@ flagrow-image-upload:
             attach: Allega
         states:
             loading: Caricando
-            success: Caricato
+            success: Perfetto
             error: Errore
     admin:
-        image_resize: Ridimensionamento
-        max_width: Larghezza massima
-        max_height: Altezza massima
+
+        upload_methods:
+            local: Locale
+            imgur: Imgur
+        labels:
+            upload_method: Metodo di caricamento
+            resize:
+                title: Ridimensionamento dell'immagine
+                toggle: Aziona il ridimensionamento
+                max_width: Massima larghezza
+                max_height: Massima altezza
+            imgur:
+                title: Impostazioni di Imgur
+                client_id: Client-ID
+        buttons:
+            save: Salva impostazioni
+        help_texts:
+            description: >
+                Imposta i servizi e le preferenze dell'uploader.
+            upload_method: >
+                Da qui puoi selezionare il metodo che vuoi usare
+                per caricare le tue immagini. Quando ne selezioni uno,
+                verrà mostrato il relativo pannello delle impostazioni.
+            resize: >
+                Segli se vuoi ridimensionare o meno le immagini
+                prima del loro caricamento. Puoi scelgiere l'altezza e la
+                larghezza massime, in pixel. Il ridimensionamento mantiene
+                il rapporto altezza:larghezza delle immagini.

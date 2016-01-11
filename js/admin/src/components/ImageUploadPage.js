@@ -9,7 +9,7 @@ import Switch from 'flarum/components/Switch';
 export default class ImageUploadPage extends Component {
 
     init() {
-        // wheter we are saving the settings or not right now
+        // whether we are saving the settings or not right now
         this.loading = false;
 
         // the fields we need to watch and to save
@@ -150,7 +150,7 @@ export default class ImageUploadPage extends Component {
 
         const settings = {};
 
-        // gets all the svalues from the form
+        // gets all the values from the form
         this.fields.forEach(key => settings[this.addPrefix(key)] = this.values[key]());
         this.checkboxes.forEach(key => settings[this.addPrefix(key)] = this.values[key]());
 
