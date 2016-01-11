@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a78c63c1aff9497bb9e51b592bf6c3b8",
-    "content-hash": "8b41ed59300c9b5d54a7dac29fafdac5",
+    "hash": "13efdb7227ab3d9919985f3002f99c63",
+    "content-hash": "acd0af2df5af2b4d7e314ebd909d1bcd",
     "packages": [
         {
             "name": "danielstjules/stringy",
@@ -1628,16 +1628,16 @@
         },
         {
             "name": "matthiasmullie/minify",
-            "version": "1.3.30",
+            "version": "1.3.32",
             "source": {
                 "type": "git",
                 "url": "https://github.com/matthiasmullie/minify.git",
-                "reference": "0cd5108683e7376e795555ced56229c4c16597aa"
+                "reference": "140c714688908afcecde87338c8309233bdc2519"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/matthiasmullie/minify/zipball/0cd5108683e7376e795555ced56229c4c16597aa",
-                "reference": "0cd5108683e7376e795555ced56229c4c16597aa",
+                "url": "https://api.github.com/repos/matthiasmullie/minify/zipball/140c714688908afcecde87338c8309233bdc2519",
+                "reference": "140c714688908afcecde87338c8309233bdc2519",
                 "shasum": ""
             },
             "require": {
@@ -1681,7 +1681,7 @@
                 "minifier",
                 "minify"
             ],
-            "time": "2016-01-05 07:43:18"
+            "time": "2016-01-11 02:10:11"
         },
         {
             "name": "matthiasmullie/path-converter",
@@ -2051,16 +2051,16 @@
         },
         {
             "name": "s9e/text-formatter",
-            "version": "0.4.6",
+            "version": "0.4.7",
             "source": {
                 "type": "git",
                 "url": "https://github.com/s9e/TextFormatter.git",
-                "reference": "da255f4be12d9b192063b2e4c9de580faee180a8"
+                "reference": "eaaed02715cac15fcf58f4966e410a046e1ef42b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/s9e/TextFormatter/zipball/da255f4be12d9b192063b2e4c9de580faee180a8",
-                "reference": "da255f4be12d9b192063b2e4c9de580faee180a8",
+                "url": "https://api.github.com/repos/s9e/TextFormatter/zipball/eaaed02715cac15fcf58f4966e410a046e1ef42b",
+                "reference": "eaaed02715cac15fcf58f4966e410a046e1ef42b",
                 "shasum": ""
             },
             "require": {
@@ -2106,7 +2106,7 @@
                 "parser",
                 "shortcodes"
             ],
-            "time": "2015-12-21 11:07:20"
+            "time": "2016-01-08 22:58:44"
         },
         {
             "name": "swiftmailer/swiftmailer",
