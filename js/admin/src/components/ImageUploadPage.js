@@ -104,9 +104,6 @@ export default class ImageUploadPage extends Component {
                                 ]
                             })
                         ]),
-                        m('div', {style: {display: (this.values.upload_method() === 'local' ? "block" : "none")}}, [
-                            'This is local setting'
-                        ]),
                         Button.component({
                             type: 'submit',
                             className: 'Button Button--primary',
