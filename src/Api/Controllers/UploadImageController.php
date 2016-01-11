@@ -1,4 +1,4 @@
-<?php namespace Flagrow\ImageUpload\Controllers;
+<?php namespace Flagrow\ImageUpload\Api\Controllers;
 
 /*
 * This file is part of image-upload.
@@ -9,12 +9,15 @@
 * file that was distributed with this source code.
 */
 
+use Flagrow\ImageUpload\Api\Serializers\ImageSerializer;
 use Flarum\Api\Controller\AbstractResourceController;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
 
 class UploadImageController extends AbstractResourceController
 {
+
+    public $serializer = ImageSerializer::class;
 
     /**
      * Get the data to be serialized and assigned to the response document.
