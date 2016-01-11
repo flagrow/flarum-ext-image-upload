@@ -229,7 +229,7 @@ export default class UploadButton extends Component {
             this.textAreaObj.props.preview();
         }
 
-        button = this;
+        var button = this;
         // reset the button for a new upload
         setTimeout(function() {
             button.resetLoader();

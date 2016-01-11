@@ -255,7 +255,7 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                             this.textAreaObj.props.preview();
                         }
 
-                        button = this;
+                        var button = this;
                         // reset the button for a new upload
                         setTimeout(function () {
                             button.resetLoader();
