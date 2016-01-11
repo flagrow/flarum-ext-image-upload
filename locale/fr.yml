@@ -6,6 +6,3 @@ flagrow-image-upload:
             loading: Envoi
             success: Terminé
             error: Erreur
-    admin:
-        max_width: Largeur maximale
-        max_height: Hauteur maximale

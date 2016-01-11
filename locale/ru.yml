@@ -6,6 +6,3 @@ flagrow-image-upload:
             loading: Загрузка
             success: Загружено
             error: Ошибка
-    admin:
-        max_width: Максимальная ширина изображения
-        max_height: Максимальная высота изображения
