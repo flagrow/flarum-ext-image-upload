@@ -55,6 +55,7 @@ export default class ImageUploadPage extends Component {
                         FieldSet.component({
                             label: app.translator.trans('flagrow-image-upload.admin.labels.upload_method'),
                             children: [
+                                m('div', {className: 'helpText'}, app.translator.trans('flagrow-image-upload.admin.help_texts.upload_method')),
                                 Select.component({
                                     options: this.uploadMethodOptions,
                                     onchange: this.values.upload_method,
@@ -66,6 +67,7 @@ export default class ImageUploadPage extends Component {
                             FieldSet.component({
                                 label: app.translator.trans('flagrow-image-upload.admin.labels.resize.title'),
                                 children: [
+                                    m('div', {className: 'helpText'}, app.translator.trans('flagrow-image-upload.admin.help_texts.resize')),
                                     Switch.component({
                                         state: this.values.must_resize() || false,
                                         children: app.translator.trans('flagrow-image-upload.admin.labels.resize.toggle'),

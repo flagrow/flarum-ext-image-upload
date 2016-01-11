@@ -22,3 +22,13 @@ flagrow-image-upload:
                 client_id: Client-ID
         buttons:
             save: Save settings
+        help_texts:
+            upload_method: >
+                Here you can select the method that you want to use
+                to upload your images. When you select one the
+                relative setting card is going to be displayed.
+            resize: >
+                Choose wheter you want to resize your images before
+                they get uploaded. You can choose a maxiumum width
+                and height, in pixels. The resizing process keeps the
+                aspect ratio of the images.
