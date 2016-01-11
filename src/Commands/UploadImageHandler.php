@@ -48,18 +48,23 @@ class UploadImageHandler
     protected $validator;
 
     /**
-     * @param Dispatcher          $events
-     * @param UserRepository      $users
-     * @param PostRepository      $posts
-     * @param Application         $app
-     * @param ImageValidator      $validator
+     * @param Dispatcher     $events
+     * @param UserRepository $users
+     * @param PostRepository $posts
+     * @param Application    $app
+     * @param ImageValidator $validator
      */
-    public function __construct(Dispatcher $events, UserRepository $users, PostRepository $posts, Application $app, ImageValidator $validator)
-    {
-        $this->events = $events;
-        $this->users = $users;
-        $this->posts = $posts;
-        $this->app = $app;
+    public function __construct(
+        Dispatcher $events,
+        UserRepository $users,
+        PostRepository $posts,
+        Application $app,
+        ImageValidator $validator
+    ) {
+        $this->events    = $events;
+        $this->users     = $users;
+        $this->posts     = $posts;
+        $this->app       = $app;
         $this->validator = $validator;
 
         /** @var Filesystem uploadDir */
@@ -74,7 +79,7 @@ class UploadImageHandler
      */
     public function handle(UploadImage $command)
     {
-        if($command->postId) {
+        if ($command->postId) {
             // load the Post for this image
             $post = $this->posts->findOrFail($command->postId, $command->actor);
         } else {
@@ -84,10 +89,10 @@ class UploadImageHandler
         // todo check rights
         // todo validate file
 
-        $image = new Image();
-        $image->user_id = $command->actor->id;
+        $image                = new Image();
+        $image->user_id       = $command->actor->id;
         $image->upload_method = 'local';
-        if($post) {
+        if ($post) {
             $image->post_id = $post->id;
         }
 
@@ -97,7 +102,7 @@ class UploadImageHandler
 
         $file_name = sprintf('%d-%d-%s.jpg', $post ? $post->id : 0, $command->actor->id, str_random());
 
-        if($this->uploadDir->write($file_name, $command->file)) {
+        if (!$this->uploadDir->write($file_name, $command->file)) {
             // todo should throw error
             return null;
         }

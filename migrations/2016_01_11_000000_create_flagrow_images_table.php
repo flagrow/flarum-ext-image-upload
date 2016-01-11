@@ -1,4 +1,4 @@
-<?php namespace Flagrow\ImageUpload\Migration;
+<?php namespace flagrow\image\upload\Migration;
 
 /*
 * This file is part of image-upload.
@@ -40,11 +40,6 @@ class CreateFlagrowImagesTable extends AbstractMigration
 
             // adds created_at
             $table->timestamp('created_at');
-
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
-
-            $table->unique('file_name');
-            $table->index('file_name');
         });
     }
 
