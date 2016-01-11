@@ -26,7 +26,7 @@ System.register('flagrow/image-upload/addImageUploadPane', ['flarum/extend', 'fl
                         href: app.route('image-upload'),
                         icon: 'picture-o',
                         children: 'Image Upload',
-                        description: 'Flagrow (c). Description here'
+                        description: 'Set up image uploading services and preferences.'
                     }));
                 });
             });
@@ -351,8 +351,8 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
 
                         // options for the dropdown menu
                         this.uploadMethodOptions = {
-                            'local': 'Local',
-                            'imgur': 'Imgur'
+                            'local': app.translator.trans('flagrow-image-upload.admin.upload_methods.local'),
+                            'imgur': app.translator.trans('flagrow-image-upload.admin.upload_methods.imgur')
                         };
 
                         this.values = {};
@@ -379,32 +379,32 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                     key: 'view',
                     value: function view() {
                         return [m('div', { className: 'ImageUploadPage' }, [m('div', { className: 'container' }, [m('form', { onsubmit: this.onsubmit.bind(this) }, [FieldSet.component({
-                            label: 'Upload method',
-                            children: [Select.component({
+                            label: app.translator.trans('flagrow-image-upload.admin.labels.upload_method'),
+                            children: [m('div', { className: 'helpText' }, app.translator.trans('flagrow-image-upload.admin.help_texts.upload_method')), Select.component({
                                 options: this.uploadMethodOptions,
                                 onchange: this.values.upload_method,
                                 value: this.values.upload_method() || 'local'
                             })]
                         }), m('div', { className: 'ImageUploadPage-resize' }, [FieldSet.component({
-                            label: 'Image resize settings',
-                            children: [Switch.component({
+                            label: app.translator.trans('flagrow-image-upload.admin.labels.resize.title'),
+                            children: [m('div', { className: 'helpText' }, app.translator.trans('flagrow-image-upload.admin.help_texts.resize')), Switch.component({
                                 state: this.values.must_resize() || false,
-                                children: 'resize image before upload',
+                                children: app.translator.trans('flagrow-image-upload.admin.labels.resize.toggle'),
                                 onchange: this.values.must_resize
-                            }), m('label', {}, 'Maximum image width'), m('input', {
+                            }), m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.resize.max_width')), m('input', {
                                 className: 'FormControl',
                                 value: this.values.resize_max_width() || '',
                                 oninput: m.withAttr('value', this.values.resize_max_width),
                                 disabled: !this.values.must_resize()
-                            }), m('label', {}, 'Maximum image height'), m('input', {
+                            }), m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.resize.max_height')), m('input', {
                                 className: 'FormControl',
                                 value: this.values.resize_max_height() || '',
                                 oninput: m.withAttr('value', this.values.resize_max_height),
                                 disabled: !this.values.must_resize()
                             })]
                         })]), m('div', { className: 'ImageUploadPage-imgur', style: { display: this.values.upload_method() === 'imgur' ? "block" : "none" } }, [FieldSet.component({
-                            label: 'Imgur settings',
-                            children: [m('label', {}, 'Imgur Client-ID'), m('input', {
+                            label: app.translator.trans('flagrow-image-upload.admin.labels.imgur.title'),
+                            children: [m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.imgur.client_id')), m('input', {
                                 className: 'FormControl',
                                 value: this.values.imgur_client_id() || '',
                                 oninput: m.withAttr('value', this.values.imgur_client_id)
@@ -412,7 +412,7 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                         })]), m('div', { style: { display: this.values.upload_method() === 'local' ? "block" : "none" } }, ['This is local setting']), Button.component({
                             type: 'submit',
                             className: 'Button Button--primary',
-                            children: 'Save settings',
+                            children: app.translator.trans('flagrow-image-upload.admin.buttons.save'),
                             loading: this.loading,
                             disabled: !this.changed()
                         })])])])];
@@ -435,9 +435,6 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                         var checkboxesCheck = this.checkboxes.some(function (key) {
                             return _this2.values[key]() !== (app.settings[_this2.addPrefix(key)] == '1');
                         });
-                        console.log('this is in the settings: ' + app.settings[this.addPrefix('must_resize')]);
-                        console.log('this is in the checkbox: ' + this.values.must_resize());
-                        console.log('this is checkboxesCheck: ' + checkboxesCheck);
                         return fieldsCheck || checkboxesCheck;
                     }
 

@@ -27,6 +27,8 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                         // the service type handling uploads
                         this.type = app.forum.attribute('flagrow.image-upload.upload_method') || 'oauth';
                         this.textAreaObj = null;
+
+                        this.button = this;
                     }
 
                     /**
@@ -52,7 +54,7 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                     key: 'process',
                     value: function process() {
                         // keep track of the parent object
-                        var button = this;
+                        var button = this.button;
 
                         // wheter the image should be resized
                         this.mustResize = app.forum.attribute('flagrow.image-upload.must_resize') || false;
@@ -108,7 +110,20 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                     }
                 }, {
                     key: 'local',
-                    value: function local(imageData) {}
+                    value: function local(imageData) {
+
+                        var data = new FormData();
+                        data.append('image', imageData);
+
+                        app.request({
+                            method: 'POST',
+                            url: app.forum.attribute('apiUrl') + '/image/upload',
+                            serialize: function serialize(raw) {
+                                return raw;
+                            },
+                            data: data
+                        }).then(this.success.bind(this), this.failure.bind(this));
+                    }
 
                     /**
                     * Imgur upload method. Uses oauth.
@@ -185,41 +200,60 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                             },
                             // upload success
                             success: function success(payload, statusCode, xhr) {
-
-                                button.markLoaderSuccess();
-
-                                // get the link to the uploaded image and put https instead of http
-                                var linkString = '\n![alt text](' + payload.data.link.replace('http:', 'https:') + ')\n';
-
-                                // place the Markdown image link in the Composer
-                                button.textAreaObj.insertAtCursor(linkString);
-
-                                // if we are not starting a new discussion, the variable is defined
-                                if (typeof button.textAreaObj.props.preview !== 'undefined') {
-                                    // show what we just uploaded
-                                    button.textAreaObj.props.preview();
-                                }
-
-                                // reset the button for a new upload
-                                setTimeout(function () {
-                                    button.resetLoader();
-                                }, 1000);
+                                // redirects the call to the success method of the button
+                                button.success(payload.data.link.replace('^http:', 'https:'));
                             },
                             // upload error
                             error: function error(xhr, statusText, _error) {
-
-                                button.markLoaderFailed();
-
-                                // reset the button for a new upload
-                                setTimeout(function () {
-                                    button.resetLoader();
-                                }, 1000);
+                                button.failure(statusText);
                             },
                             statusCode: {
                                 // unauthorized
-                                401: function _() {}
+                                401: function _() {
+                                    button.failure('Unauthorized');
+                                }
                             }
                         });
+                    }
+
+                    /**
+                     * Handles errors.
+                     *
+                     * @param message
+                     */
+                }, {
+                    key: 'failure',
+                    value: function failure(message) {
+                        this.markLoaderFailed();
+                        // todo show popup
+                    }
+
+                    /**
+                     * Appends the link to the body of the composer.
+                     *
+                     * @param link
+                     */
+                }, {
+                    key: 'success',
+                    value: function success(link) {
+                        this.markLoaderSuccess();
+
+                        // create a markdown string that holds the image link
+                        var markdownString = '\n![image ' + link + '](' + link + ')\n';
+
+                        // place the Markdown image link in the Composer
+                        this.textAreaObj.insertAtCursor(markdownString);
+
+                        // if we are not starting a new discussion, the variable is defined
+                        if (typeof this.textAreaObj.props.preview !== 'undefined') {
+                            // show what we just uploaded
+                            this.textAreaObj.props.preview();
+                        }
+
+                        // reset the button for a new upload
+                        setTimeout(function () {
+                            this.resetLoader();
+                        }, 1000);
                     }
 
                     /**

@@ -12,8 +12,10 @@
 use Flagrow\ImageUpload\Api\Serializers\ImageSerializer;
 use Flagrow\ImageUpload\Commands\UploadImage;
 use Flarum\Api\Controller\AbstractResourceController;
+use Illuminate\Contracts\Bus\Dispatcher;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
+use Zend\Diactoros\UploadedFile;
 
 class UploadImageController extends AbstractResourceController
 {
@@ -26,6 +28,18 @@ class UploadImageController extends AbstractResourceController
     public $serializer = ImageSerializer::class;
 
 
+    /**
+     * @var Dispatcher
+     */
+    protected $bus;
+
+    /**
+     * @param Dispatcher $bus
+     */
+    public function __construct(Dispatcher $bus)
+    {
+        $this->bus = $bus;
+    }
     /**
      * Get the data to be serialized and assigned to the response document.
      *
@@ -40,7 +54,7 @@ class UploadImageController extends AbstractResourceController
         $file = array_get($request->getUploadedFiles(), 'image');
 
         return $this->bus->dispatch(
-            new UploadImage($postId, $file, $actor)
+            new UploadImage($postId, base64_decode($file), $actor)
         );
     }
 }
