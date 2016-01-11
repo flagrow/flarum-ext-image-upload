@@ -15,7 +15,7 @@ export default function() {
             href: app.route('image-upload'),
             icon: 'picture-o',
             children: 'Image Upload',
-            description: 'Flagrow (c). Description here'
+            description: 'Set up image uploading services and preferences.'
         }));
     });
 }
