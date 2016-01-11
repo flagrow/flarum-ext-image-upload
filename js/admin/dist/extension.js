@@ -26,7 +26,7 @@ System.register('flagrow/image-upload/addImageUploadPane', ['flarum/extend', 'fl
                         href: app.route('image-upload'),
                         icon: 'picture-o',
                         children: 'Image Upload',
-                        description: 'Set up image uploading services and preferences.'
+                        description: app.translator.trans('flagrow-image-upload.admin.help_texts.description')
                     }));
                 });
             });
@@ -340,7 +340,7 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                     value: function init() {
                         var _this = this;
 
-                        // wheter we are saving the settings or not right now
+                        // whether we are saving the settings or not right now
                         this.loading = false;
 
                         // the fields we need to watch and to save
@@ -460,7 +460,7 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
 
                         var settings = {};
 
-                        // gets all the svalues from the form
+                        // gets all the values from the form
                         this.fields.forEach(function (key) {
                             return settings[_this3.addPrefix(key)] = _this3.values[key]();
                         });
@@ -500,7 +500,6 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
 System.register('flagrow/image-upload/main', ['flarum/extend', 'flarum/app', 'flagrow/image-upload/addImageUploadPane'], function (_export) {
     'use strict';
 
-    //import ImageUploadSettingsModal from 'flagrow/image-upload/components/ImageUploadSettingsModal';
     var extend, app, addImageUploadPane;
     return {
         setters: [function (_flarumExtend) {

@@ -27,6 +27,9 @@ class ImageSerializer extends AbstractSerializer
      */
     protected function getDefaultAttributes($model)
     {
-
+        return [
+            'url' => $model->file_name,
+            'post_id' => (int) $model->post_id,
+        ];
     }
 }

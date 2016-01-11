@@ -97,7 +97,7 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                                 // this formats the file for base64 upload
                                 var data = resizedImage.substr(resizedImage.indexOf(",") + 1, resizedImage.length);
 
-                                // run the service (oauth or the user specificed one)
+                                // run the service (oauth or the admin specified one)
                                 button[button.type](data);
                             };
 
