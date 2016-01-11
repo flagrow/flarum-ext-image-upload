@@ -1,6 +1,9 @@
-# flagrow/image-upload
+# flagrow/image-upload 
+[![Latest Stable Version](https://poser.pugx.org/flagrow/image-upload/v/stable)][packagist-link][![License](https://poser.pugx.org/flagrow/image-upload/license)][packagist-link]
 
-This package for Flarum allows uploading images.
+A [Flarum](http://flarum.org) extension to allow image uploading on thread and comment creation, supports multiple services like local storage and imgur.
+
+---
 
 ## Install
 
@@ -10,7 +13,7 @@ composer require flagrow/image-upload
 
 ## Configuration
 
-Visit the settings page of the extension to configure your services.
+Visit the settings tab of the extension in your admin to configure your image upload services.
 
 ## End-user usage
 
@@ -23,3 +26,5 @@ the image size and your connection will take some time to complete.
 - by [Flagrow](https://github.com/flagrow)
 - [changelog](changelog.md)
 - [license](license.md)
+
+[packagist-link]: https://packagist.org/packages/flagrow/image-upload
