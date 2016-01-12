@@ -111,11 +111,8 @@ class UploadImageHandler
         }
 
         $appPath = parse_url($this->app->url(), PHP_URL_PATH);
-        if (empty($appPath)) {
-            $appPath = '/';
-        }
 
-        $image->file_name  = sprintf('%sassets/images/%s', $appPath, $file_name);
+        $image->file_name  = sprintf('%s/assets/images/%s', $appPath, $file_name);
         $image->created_at = Carbon::now();
 
         $image->save();
