@@ -1,5 +1,5 @@
 {
-    "name": "flagrow/image-upload",
+    "name": "flagrow/flarum-ext-image-upload",
     "description": "Image uploader for Flarum forum messages.",
     "keywords": ["upload", "flarum", "flagrow", "image", "imgur"],
     "type": "flarum-extension",

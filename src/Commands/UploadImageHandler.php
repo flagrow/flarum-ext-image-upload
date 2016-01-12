@@ -1,13 +1,14 @@
-<?php namespace Flagrow\ImageUpload\Commands;
-
+<?php 
 /*
-* This file is part of image-upload.
-*
-* (c) Flagrow
-*
-* For the full copyright and license information, please view the license.md
-* file that was distributed with this source code.
-*/
+ * This file is part of image-upload.
+ *
+ * A package by Flagrow.
+ *
+ * For the full copyright and license information, please view the license.md
+ * file that was distributed with this source code.
+ */
+
+namespace Flagrow\ImageUpload\Commands;
 
 use Carbon\Carbon;
 use Flagrow\ImageUpload\Events\ImageWillBeSaved;
@@ -112,7 +113,7 @@ class UploadImageHandler
             $appPath = '/';
         }
 
-        $image->file_name  = sprintf('%s/assets/images/%s', $appPath, $file_name);
+        $image->file_name  = sprintf('%sassets/images/%s', $appPath, $file_name);
         $image->created_at = Carbon::now();
 
         $image->save();

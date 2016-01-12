@@ -1,13 +1,14 @@
-<?php namespace Flagrow\ImageUpload\Api\Controllers;
-
+<?php 
 /*
-* This file is part of image-upload.
-*
-* (c) Flagrow
-*
-* For the full copyright and license information, please view the license.md
-* file that was distributed with this source code.
-*/
+ * This file is part of image-upload.
+ *
+ * A package by Flagrow.
+ *
+ * For the full copyright and license information, please view the license.md
+ * file that was distributed with this source code.
+ */
+
+namespace Flagrow\ImageUpload\Api\Controllers;
 
 use Flagrow\ImageUpload\Api\Serializers\ImageSerializer;
 use Flagrow\ImageUpload\Commands\UploadImage;
