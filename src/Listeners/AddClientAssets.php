@@ -10,15 +10,6 @@
 
 namespace Flagrow\ImageUpload\Listeners;
 
-/*
-* This file is part of image-upload.
-*
-* (c) Flagrow
-*
-* For the full copyright and license information, please view the license.md
-* file that was distributed with this source code.
-*/
-
 use DirectoryIterator;
 use Flarum\Event\ConfigureClientView;
 use Flarum\Event\ConfigureLocales;

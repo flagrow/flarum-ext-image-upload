@@ -10,15 +10,6 @@
 
 namespace Flagrow\ImageUpload\Api\Controllers;
 
-/*
-* This file is part of image-upload.
-*
-* (c) Flagrow
-*
-* For the full copyright and license information, please view the license.md
-* file that was distributed with this source code.
-*/
-
 use Flagrow\ImageUpload\Api\Serializers\ImageSerializer;
 use Flagrow\ImageUpload\Commands\UploadImage;
 use Flarum\Api\Controller\AbstractResourceController;
