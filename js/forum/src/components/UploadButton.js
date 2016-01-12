@@ -179,7 +179,8 @@ export default class UploadButton extends Component {
             // upload success
             success: function (payload, statusCode, xhr) {
                 // redirects the call to the success method of the button
-                button.success(payload.data.link.replace('^http:', 'https:'));
+                // also replaces `http` with `https`
+                button.success(payload.data.link.replace('http:', 'https:'));
             },
             // upload error
             error: function(xhr, statusText, error) {
