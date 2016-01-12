@@ -1,6 +1,7 @@
 # 0.2.0 [tba]
 
 - support imgur account mode; oauth adapter
+- permission to allow uploading only to a specific group
 
 # 0.1.1
 

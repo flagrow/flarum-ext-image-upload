@@ -7,6 +7,8 @@ flagrow-image-upload:
             success: Success
             error: Error
     admin:
+        permissions:
+            upload_images_label: Upload images
         upload_methods:
             local: Local
             imgur: Imgur
