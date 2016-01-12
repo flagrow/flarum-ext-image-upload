@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * This file is part of image-upload.
  *
@@ -22,11 +22,11 @@ class LoadSettingsFromDatabase
   protected $packagePrefix = 'flagrow.image-upload.';
   // those are the fields we need to get from the database
   protected $fieldsToGet = array(
-      'upload_method',
-      'imgur_client_id',
-      'must_resize',
-      'resize_max_width',
-      'resize_max_height'
+      'uploadMethod',
+      'imgurClientId',
+      'mustResize',
+      'resizeMaxWidth',
+      'resizeMaxHeight'
   );
 
   /**
