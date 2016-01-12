@@ -1,4 +1,14 @@
-<?php namespace flagrow\image\upload\Migration;
+<?php 
+/*
+ * This file is part of image-upload.
+ *
+ * A package by Flagrow.
+ *
+ * For the full copyright and license information, please view the license.md
+ * file that was distributed with this source code.
+ */
+
+namespace flagrow\image\upload\Migration;
 
 /*
 * This file is part of image-upload.
@@ -22,8 +32,7 @@ class CreateFlagrowImagesTable extends AbstractMigration
      */
     public function up()
     {
-        $this->schema->create('flagrow_images', function(Blueprint $table)
-        {
+        $this->schema->create('flagrow_images', function (Blueprint $table) {
             $table->increments('id');
 
             // the user who posted the image

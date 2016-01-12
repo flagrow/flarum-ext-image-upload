@@ -1,4 +1,14 @@
-<?php namespace Flagrow\ImageUpload;
+<?php 
+/*
+ * This file is part of image-upload.
+ *
+ * A package by Flagrow.
+ *
+ * For the full copyright and license information, please view the license.md
+ * file that was distributed with this source code.
+ */
+
+namespace Flagrow\ImageUpload;
 
 /*
 * This file is part of image-upload.
@@ -20,10 +30,9 @@ class Image extends AbstractModel
      */
     protected $table = 'flagrow_images';
 
-    static public function boot()
+    public static function boot()
     {
-        Image::deleted(function($image)
-        {
+        Image::deleted(function ($image) {
             // todo trigger service to delete image
             // for instance from local storage
         });
