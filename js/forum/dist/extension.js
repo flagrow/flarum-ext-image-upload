@@ -25,7 +25,7 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                     */
                     value: function init() {
                         // the service type handling uploads
-                        this.type = app.forum.attribute('flagrow.image-upload.upload_method') || 'local';
+                        this.type = app.forum.attribute('flagrow.image-upload.uploadMethod') || 'local';
                         this.textAreaObj = null;
 
                         this.button = this;
@@ -57,10 +57,10 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                         var button = this.button;
 
                         // wheter the image should be resized
-                        this.mustResize = app.forum.attribute('flagrow.image-upload.must_resize') || false;
+                        this.mustResize = app.forum.attribute('flagrow.image-upload.mustResize') || false;
                         // max width and height of the uploaded image
-                        this.maxWidth = app.forum.attribute('flagrow.image-upload.resize_max_width') || null;
-                        this.maxHeight = app.forum.attribute('flagrow.image-upload.resize_max_height') || null;
+                        this.maxWidth = app.forum.attribute('flagrow.image-upload.resizeMaxWidth') || null;
+                        this.maxHeight = app.forum.attribute('flagrow.image-upload.resizeMaxHeight') || null;
                         // set the default value (changed later if necessary)
                         this.scalingFactor = 1;
 
@@ -134,13 +134,13 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                     key: 'imgur',
                     value: function imgur(imageData) {
                         //checks if the imgur client-id is defined
-                        if (app.forum.attribute('flagrow.image-upload.imgur_client_id') !== '') {
+                        if (app.forum.attribute('flagrow.image-upload.imgurClientId') !== '') {
                             // create the imgur specific parameters that are going to be passed to
                             // the ouath method.
                             var connectionParameters = {
                                 'endpoint': 'https://api.imgur.com/3/image',
                                 'headers': {
-                                    Authorization: 'Client-ID ' + app.forum.attribute('flagrow.image-upload.imgur_client_id')
+                                    Authorization: 'Client-ID ' + app.forum.attribute('flagrow.image-upload.imgurClientId')
                                 }
                             };
 
@@ -172,7 +172,7 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                         // api endpoint
                         this.endpoint = connectionParameters.endpoint || app.forum.attribute('flagrow.image-upload.endpoint');
                         // client id
-                        this.client_id = connectionParameters.client_id || app.forum.attribute('flagrow.image-upload.client_id');
+                        this.client_id = connectionParameters.client_id || app.forum.attribute('flagrow.image-upload.clientId');
                         // client bearer token if non-anonymous
                         this.token = connectionParameters.token || app.forum.attribute('flagrow.image-upload.token') || null;
                         // whether uploading is anonymous, not account bound

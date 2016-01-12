@@ -14,15 +14,15 @@ export default class ImageUploadPage extends Component {
 
         // the fields we need to watch and to save
         this.fields = [
-            'upload_method',
-            'imgur_client_id',
-            'resize_max_width',
-            'resize_max_height'
+            'uploadMethod',
+            'imgurClientId',
+            'resizeMaxWidth',
+            'resizeMaxHeight'
         ];
 
         // the checkboxes we need to watch and to save.
         this.checkboxes = [
-            'must_resize'
+            'mustResize'
         ];
 
         // options for the dropdown menu
@@ -58,8 +58,8 @@ export default class ImageUploadPage extends Component {
                                 m('div', {className: 'helpText'}, app.translator.trans('flagrow-image-upload.admin.help_texts.upload_method')),
                                 Select.component({
                                     options: this.uploadMethodOptions,
-                                    onchange: this.values.upload_method,
-                                    value: this.values.upload_method() || 'local'
+                                    onchange: this.values.uploadMethod,
+                                    value: this.values.uploadMethod() || 'local'
                                 })
                             ]
                         }),
@@ -69,37 +69,37 @@ export default class ImageUploadPage extends Component {
                                 children: [
                                     m('div', {className: 'helpText'}, app.translator.trans('flagrow-image-upload.admin.help_texts.resize')),
                                     Switch.component({
-                                        state: this.values.must_resize() || false,
+                                        state: this.values.mustResize() || false,
                                         children: app.translator.trans('flagrow-image-upload.admin.labels.resize.toggle'),
-                                        onchange: this.values.must_resize
+                                        onchange: this.values.mustResize
                                     }),
                                     m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.resize.max_width')),
                                     m('input', {
                                         className: 'FormControl',
-                                        value: this.values.resize_max_width() || '',
-                                        oninput: m.withAttr('value', this.values.resize_max_width),
-                                        disabled: !this.values.must_resize()
+                                        value: this.values.resizeMaxWidth() || '',
+                                        oninput: m.withAttr('value', this.values.resizeMaxWidth),
+                                        disabled: !this.values.mustResize()
                                     }),
                                     m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.resize.max_height')),
                                     m('input', {
                                         className: 'FormControl',
-                                        value: this.values.resize_max_height() || '',
-                                        oninput: m.withAttr('value', this.values.resize_max_height),
-                                        disabled: !this.values.must_resize()
+                                        value: this.values.resizeMaxHeight() || '',
+                                        oninput: m.withAttr('value', this.values.resizeMaxHeight),
+                                        disabled: !this.values.mustResize()
                                     })
                                 ]
                             })
 
                         ]),
-                        m('div', {className: 'ImageUploadPage-imgur', style: {display: (this.values.upload_method() === 'imgur' ? "block" : "none")}}, [
+                        m('div', {className: 'ImageUploadPage-imgur', style: {display: (this.values.uploadMethod() === 'imgur' ? "block" : "none")}}, [
                             FieldSet.component({
                                 label: app.translator.trans('flagrow-image-upload.admin.labels.imgur.title'),
                                 children: [
                                     m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.imgur.client_id')),
                                     m('input', {
                                         className: 'FormControl',
-                                        value: this.values.imgur_client_id() || '',
-                                        oninput: m.withAttr('value', this.values.imgur_client_id)
+                                        value: this.values.imgurClientId() || '',
+                                        oninput: m.withAttr('value', this.values.imgurClientId)
                                     })
                                 ]
                             })
