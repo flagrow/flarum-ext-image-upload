@@ -1,4 +1,14 @@
-<?php namespace Flagrow\ImageUpload\Events;
+<?php 
+/*
+ * This file is part of image-upload.
+ *
+ * A package by Flagrow.
+ *
+ * For the full copyright and license information, please view the license.md
+ * file that was distributed with this source code.
+ */
+
+namespace Flagrow\ImageUpload\Events;
 
 /*
 * This file is part of image-upload.
