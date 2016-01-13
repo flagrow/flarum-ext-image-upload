@@ -36,7 +36,7 @@ export default class ImageUploadPage extends Component {
         // our package prefix (to be added to every field and checkbox in the setting table)
         this.settingsPrefix = 'flagrow.image-upload';
 
-        // bind the values of the fileds anc checkboxes to the getter/setter functions
+        // bind the values of the fields and checkboxes to the getter/setter functions
         const settings = app.settings;
         this.fields.forEach(key => this.values[key] = m.prop(settings[this.addPrefix(key)]));
         this.checkboxes.forEach(key => this.values[key] = m.prop(settings[this.addPrefix(key)] === '1'));
