@@ -22,9 +22,11 @@ use Flarum\Core\Repository\UserRepository;
 use Flarum\Core\Support\DispatchEventsTrait;
 use Flarum\Foundation\Application;
 use Illuminate\Events\Dispatcher;
+use Intervention\Image\ImageManager;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UploadImageHandler
 {
@@ -47,7 +49,7 @@ class UploadImageHandler
     protected $app;
 
     /**
-     * @var AvatarValidator
+     * @var ImageValidator
      */
     protected $validator;
 
@@ -80,6 +82,8 @@ class UploadImageHandler
      *
      * @param UploadImage $command
      * @return null|string
+     *
+     * @todo check permission
      */
     public function handle(UploadImage $command)
     {
@@ -89,10 +93,45 @@ class UploadImageHandler
         } else {
             $post = null;
         }
-        // todo check rights
-        // todo validate file
 
-        $image                = new Image();
+        $tmpFile = tempnam($this->app->storagePath().'/tmp', 'image');
+        $command->file->moveTo($tmpFile);
+
+        $file = new UploadedFile(
+            $tmpFile,
+            $command->file->getClientFilename(),
+            $command->file->getClientMediaType(),
+            $command->file->getSize(),
+            $command->file->getError(),
+            true
+        );
+
+        // validate the file
+        $this->validator->assertValid(['image' => $file]);
+
+        // resize if enabled
+        if($this->app->config('flagrow.image-upload.mustResize')) {
+            $manager = new ImageManager;
+            $manager->make($tmpFile)->fit(
+                $this->app->config('flagrow.image-upload.resizeMaxWidth'),
+                $this->app->config('flagrow.image-upload.resizeMaxHeight')
+            )->save();
+        }
+
+        $image = new Image([
+            'user_id' => $command->actor->id,
+            'upload_method' => '',
+            'post_id' => $post ? $post->id : null,
+            'file_name' => sprintf('%d-%d-%s.jpg', $post ? $post->id : 0, $command->actor->id, str_random())
+        ]);
+
+        $this->events->fire(
+            new ImageWillBeSaved($post, $command->actor, $image, $file)
+        );
+
+
+
+/*        $image                = new Image();
         $image->user_id       = $command->actor->id;
         $image->upload_method = 'local';
         if ($post) {
@@ -117,6 +156,6 @@ class UploadImageHandler
 
         $image->save();
 
-        return $image;
+        return $image;*/
     }
 }

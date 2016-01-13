@@ -39,11 +39,11 @@ class UploadImage
     public $actor;
 
     /**
-     * @param int $postId The ID of the post to upload the image for.
-     * @param string $file The avatar file to upload.
-     * @param User $actor The user performing the action.
+     * @param int                          $postId The ID of the post to upload the image for.
+     * @param UploadedFileInterface|string $file   The avatar file to upload.
+     * @param User                         $actor  The user performing the action.
      */
-    public function __construct($postId = null, $file, User $actor)
+    public function __construct($postId = null, UploadedFileInterface $file, User $actor)
     {
         $this->postId = $postId;
         $this->file = $file;
