@@ -11,7 +11,8 @@ export default class UploadButton extends Component {
         // the service type handling uploads
         this.textAreaObj = null;
 
-        this.button = this;
+        // initial state of the button
+        this.loading = false;
     }
 
     /**
@@ -45,7 +46,7 @@ export default class UploadButton extends Component {
 
         app.request({
             method: 'POST',
-            url: app.forum.attribute('apiUrl') + '/users/' + user.id() + '/avatar',
+            url: app.forum.attribute('apiUrl') + '/image/upload',
             serialize: raw => raw,
             data
         }).then(
