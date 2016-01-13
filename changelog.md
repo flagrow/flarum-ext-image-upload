@@ -3,6 +3,10 @@
 - support imgur account mode; oauth adapter
 - permission to allow uploading only to a specific group
 
+# 0.1.4
+
+- added chinese locale
+
 # 0.1.3
 
 - removed composer.lock
