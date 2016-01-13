@@ -12,12 +12,15 @@
 
 namespace Flagrow\ImageUpload\Providers;
 
+use Flagrow\ImageUpload\Adapters\ImgurAdapter;
 use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
 use Flagrow\ImageUpload\Commands\UploadImageHandler;
+use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
 
-class StorageServiceProvider extends ServiceProvider {
+class StorageServiceProvider extends ServiceProvider
+{
 
     /**
      * Register the service provider.
@@ -26,7 +29,8 @@ class StorageServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $filesystem = function(Container $app) {
+
+        $filesystem = function (Container $app) {
             return $this->loadUploadSystem($app);
         };
 
@@ -41,10 +45,21 @@ class StorageServiceProvider extends ServiceProvider {
      */
     protected function loadUploadSystem($app)
     {
-        if($app->config('flagrow.image-upload.uploadMethod', 'local') == 'local') {
-            return $app->make('filesystem')->createLocalDriver([
-                'root' => public_path('assets/images')
-            ])->getDriver();
+        switch ($app->make('flarum.settings')->get('flagrow.image-upload.uploadMethod', 'local')) {
+            case 'imgur':
+                return $app->make('filesystem')
+                    ->extend('imgur', function ($app, $config) {
+                        return new Filesystem(new ImgurAdapter());
+                    })
+                    ->callCustomCreator([
+                        'driver' => 'imgur'
+                    ]);
+                break;
+            default:
+                return $app->make('filesystem')->createLocalDriver([
+                    'root' => public_path('assets/images')
+                ])->getDriver();
+
         }
     }
 }

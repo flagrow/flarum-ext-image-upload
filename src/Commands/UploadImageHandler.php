@@ -21,6 +21,7 @@ use Flarum\Core\Repository\PostRepository;
 use Flarum\Core\Repository\UserRepository;
 use Flarum\Core\Support\DispatchEventsTrait;
 use Flarum\Foundation\Application;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Support\Str;
 use Intervention\Image\ImageManager;
@@ -56,12 +57,18 @@ class UploadImageHandler
     protected $validator;
 
     /**
-     * @param Dispatcher          $events
-     * @param UserRepository      $users
-     * @param FilesystemInterface $uploadDir
-     * @param PostRepository      $posts
-     * @param Application         $app
-     * @param ImageValidator      $validator
+     * @var SettingsRepositoryInterface
+     */
+    protected $settings;
+
+    /**
+     * @param Dispatcher                  $events
+     * @param UserRepository              $users
+     * @param FilesystemInterface         $uploadDir
+     * @param PostRepository              $posts
+     * @param Application                 $app
+     * @param ImageValidator              $validator
+     * @param SettingsRepositoryInterface $settings
      */
     public function __construct(
         Dispatcher $events,
@@ -69,7 +76,8 @@ class UploadImageHandler
         FilesystemInterface $uploadDir,
         PostRepository $posts,
         Application $app,
-        ImageValidator $validator
+        ImageValidator $validator,
+        SettingsRepositoryInterface $settings
     ) {
         $this->events    = $events;
         $this->users     = $users;
@@ -77,6 +85,7 @@ class UploadImageHandler
         $this->posts     = $posts;
         $this->app       = $app;
         $this->validator = $validator;
+        $this->settings = $settings;
     }
 
     /**
@@ -106,17 +115,17 @@ class UploadImageHandler
         $this->validator->assertValid(['image' => $file]);
 
         // resize if enabled
-        if($this->app->config('flagrow.image-upload.mustResize')) {
+        if($this->settings->get('flagrow.image-upload.mustResize')) {
             $manager = new ImageManager;
             $manager->make($tmpFile)->fit(
-                $this->app->config('flagrow.image-upload.resizeMaxWidth'),
-                $this->app->config('flagrow.image-upload.resizeMaxHeight')
+                $this->settings->get('flagrow.image-upload.resizeMaxWidth', 100),
+                $this->settings->get('flagrow.image-upload.resizeMaxHeight', 100)
             )->save();
         }
 
         $image = (new Image())->forceFill([
             'user_id' => $command->actor->id,
-            'upload_method' => $this->app->config('flagrow.image-upload.uploadMethod', 'local'),
+            'upload_method' => $this->settings->get('flagrow.image-upload.uploadMethod', 'local'),
             'created_at' => Carbon::now(),
             'file_name' => sprintf('%d-%s.jpg', $command->actor->id, Str::quickRandom()),
             'file_size' => $file->getSize()
