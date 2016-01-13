@@ -71,7 +71,6 @@ export default class UploadButton extends Component {
      * @param link
      */
     success(image) {
-        // @todo image is now an object
 
         // create a markdown string that holds the image link
         var markdownString = '\n![image ' + link + '](' + link + ')\n';

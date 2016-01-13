@@ -22,10 +22,12 @@ use Flarum\Core\Repository\UserRepository;
 use Flarum\Core\Support\DispatchEventsTrait;
 use Flarum\Foundation\Application;
 use Illuminate\Events\Dispatcher;
+use Illuminate\Support\Str;
 use Intervention\Image\ImageManager;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
+use League\Flysystem\MountManager;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UploadImageHandler
@@ -87,12 +89,6 @@ class UploadImageHandler
      */
     public function handle(UploadImage $command)
     {
-        if ($command->postId) {
-            // load the Post for this image
-            $post = $this->posts->findOrFail($command->postId, $command->actor);
-        } else {
-            $post = null;
-        }
 
         $tmpFile = tempnam($this->app->storagePath().'/tmp', 'image');
         $command->file->moveTo($tmpFile);
@@ -120,42 +116,25 @@ class UploadImageHandler
 
         $image = (new Image())->forceFill([
             'user_id' => $command->actor->id,
-            'upload_method' => '',
-            'post_id' => $post ? $post->id : null,
-            'file_name' => sprintf('%d-%d-%s.jpg', $post ? $post->id : 0, $command->actor->id, str_random())
+            'upload_method' => $this->app->config('flagrow.image-upload.uploadMethod', 'local'),
+            'created_at' => Carbon::now(),
+            'file_name' => sprintf('%d-%s.jpg', $command->actor->id, Str::quickRandom()),
+            'file_size' => $file->getSize()
         ]);
 
         $this->events->fire(
-            new ImageWillBeSaved($post, $command->actor, $image, $file)
+            new ImageWillBeSaved($command->actor, $image, $file)
         );
 
+        $mount = new MountManager([
+            'source' => new Filesystem(new Local(pathinfo($tmpFile, PATHINFO_DIRNAME))),
+            'target' => $this->uploadDir,
+        ]);
 
-
-/*        $image                = new Image();
-        $image->user_id       = $command->actor->id;
-        $image->upload_method = 'local';
-        if ($post) {
-            $image->post_id = $post->id;
-        }
-
-        $this->events->fire(
-            new ImageWillBeSaved($post, $command->actor, $image, $command->file)
-        );
-
-        $file_name = sprintf('%d-%d-%s.jpg', $post ? $post->id : 0, $command->actor->id, str_random());
-
-        if (!$this->uploadDir->write($file_name, $command->file)) {
-            // todo should throw error
-            return null;
-        }
-
-        $appPath = parse_url($this->app->url(), PHP_URL_PATH);
-
-        $image->file_name  = sprintf('%s/assets/images/%s', $appPath, $file_name);
-        $image->created_at = Carbon::now();
+        $mount->move("source://".pathinfo($tmpFile, PATHINFO_BASENAME), "target://{$image->file_name}");
 
         $image->save();
 
-        return $image;*/
+        return $image;
     }
 }
