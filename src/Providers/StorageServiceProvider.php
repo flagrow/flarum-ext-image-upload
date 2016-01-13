@@ -29,9 +29,8 @@ class StorageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
         $filesystem = function (Container $app) {
-            return $this->loadUploadSystem($app);
+            return $this->instantiateUploadAdapter($app);
         };
 
         $this->app->when(UploadImageHandler::class)
@@ -40,10 +39,12 @@ class StorageServiceProvider extends ServiceProvider
     }
 
     /**
+     * Sets the upload adapter for the specific preferred service.
+     *
      * @param $app
-     * @return mixed
+     * @return FilesystemInterface
      */
-    protected function loadUploadSystem($app)
+    protected function instantiateUploadAdapter($app)
     {
         switch ($app->make('flarum.settings')->get('flagrow.image-upload.uploadMethod', 'local')) {
             case 'imgur':
