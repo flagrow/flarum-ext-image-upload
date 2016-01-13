@@ -17,7 +17,8 @@ export default class ImageUploadPage extends Component {
             'uploadMethod',
             'imgurClientId',
             'resizeMaxWidth',
-            'resizeMaxHeight'
+            'resizeMaxHeight',
+            'cdnUrl'
         ];
 
         // the checkboxes we need to watch and to save.
@@ -100,6 +101,19 @@ export default class ImageUploadPage extends Component {
                                         className: 'FormControl',
                                         value: this.values.imgurClientId() || '',
                                         oninput: m.withAttr('value', this.values.imgurClientId)
+                                    })
+                                ]
+                            })
+                        ]),
+                        m('div', {className: 'ImageUploadPage-local', style: {display: (this.values.uploadMethod() === 'local' ? "block" : "none")}}, [
+                            FieldSet.component({
+                                label: app.translator.trans('flagrow-image-upload.admin.labels.local.title'),
+                                children: [
+                                    m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.local.cdn_url')),
+                                    m('input', {
+                                        className: 'FormControl',
+                                        value: this.values.cdnUrl() || '',
+                                        oninput: m.withAttr('value', this.values.cdnUrl)
                                     })
                                 ]
                             })
