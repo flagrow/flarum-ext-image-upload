@@ -71,7 +71,7 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                         this.loading = false;
 
                         // the fields we need to watch and to save
-                        this.fields = ['uploadMethod', 'imgurClientId', 'resizeMaxWidth', 'resizeMaxHeight'];
+                        this.fields = ['uploadMethod', 'imgurClientId', 'resizeMaxWidth', 'resizeMaxHeight', 'cdnUrl'];
 
                         // the checkboxes we need to watch and to save.
                         this.checkboxes = ['mustResize'];
@@ -87,7 +87,7 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                         // our package prefix (to be added to every field and checkbox in the setting table)
                         this.settingsPrefix = 'flagrow.image-upload';
 
-                        // bind the values of the fileds anc checkboxes to the getter/setter functions
+                        // bind the values of the fields and checkboxes to the getter/setter functions
                         var settings = app.settings;
                         this.fields.forEach(function (key) {
                             return _this.values[key] = m.prop(settings[_this.addPrefix(key)]);
@@ -135,6 +135,13 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                                 className: 'FormControl',
                                 value: this.values.imgurClientId() || '',
                                 oninput: m.withAttr('value', this.values.imgurClientId)
+                            })]
+                        })]), m('div', { className: 'ImageUploadPage-local', style: { display: this.values.uploadMethod() === 'local' ? "block" : "none" } }, [FieldSet.component({
+                            label: app.translator.trans('flagrow-image-upload.admin.labels.local.title'),
+                            children: [m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.local.cdn_url')), m('input', {
+                                className: 'FormControl',
+                                value: this.values.cdnUrl() || '',
+                                oninput: m.withAttr('value', this.values.cdnUrl)
                             })]
                         })]), Button.component({
                             type: 'submit',

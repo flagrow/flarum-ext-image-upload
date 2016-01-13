@@ -10,7 +10,7 @@
  * file that was distributed with this source code.
  */
 
-namespace flagrow\ext\image\upload\Migration;
+namespace flagrow\image\upload\Migration;
 
 use Flarum\Database\AbstractMigration;
 use Illuminate\Database\Schema\Blueprint;

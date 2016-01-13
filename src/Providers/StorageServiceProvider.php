@@ -12,7 +12,11 @@
 
 namespace Flagrow\ImageUpload\Providers;
 
+use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
+use Flagrow\ImageUpload\Commands\UploadImageHandler;
+use League\Flysystem\FilesystemInterface;
+use Illuminate\Contracts\Filesystem\Factory;
 
 class StorageServiceProvider extends ServiceProvider {
 
@@ -23,6 +27,16 @@ class StorageServiceProvider extends ServiceProvider {
      */
     public function register()
     {
+        if($this->app->config('flagrow.image-upload.uploadMethod', 'local') == 'local') {
+            $imagesFileSystem = function(Container $app) {
+                return $app->make('filesystem')->createLocalDriver([
+                    'root' => public_path('assets/images')
+                ]);
+            };
+        }
 
+        $this->app->when(UploadImageHandler::class)
+            ->needs(FileSystemInterface::class)
+            ->give($imagesFileSystem);
     }
 }

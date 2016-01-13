@@ -54,27 +54,27 @@ class UploadImageHandler
     protected $validator;
 
     /**
-     * @param Dispatcher     $events
-     * @param UserRepository $users
-     * @param PostRepository $posts
-     * @param Application    $app
-     * @param ImageValidator $validator
+     * @param Dispatcher          $events
+     * @param UserRepository      $users
+     * @param FilesystemInterface $uploadDir
+     * @param PostRepository      $posts
+     * @param Application         $app
+     * @param ImageValidator      $validator
      */
     public function __construct(
         Dispatcher $events,
         UserRepository $users,
+        FilesystemInterface $uploadDir,
         PostRepository $posts,
         Application $app,
         ImageValidator $validator
     ) {
         $this->events    = $events;
         $this->users     = $users;
+        $this->uploadDir = $uploadDir;
         $this->posts     = $posts;
         $this->app       = $app;
         $this->validator = $validator;
-
-        /** @var Filesystem uploadDir */
-        $this->uploadDir = new Filesystem(new Local(public_path('assets/images')));
     }
 
     /**
@@ -118,7 +118,7 @@ class UploadImageHandler
             )->save();
         }
 
-        $image = new Image([
+        $image = (new Image())->forceFill([
             'user_id' => $command->actor->id,
             'upload_method' => '',
             'post_id' => $post ? $post->id : null,

@@ -36,7 +36,7 @@ export default class UploadButton extends Component {
     /**
      * Process the upload event.
      */
-    process() {
+    process(e) {
 
         const data = new FormData();
         data.append('image', $(e.target)[0].files[0]);
