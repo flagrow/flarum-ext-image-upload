@@ -49,7 +49,7 @@ class StorageServiceProvider extends ServiceProvider
             case 'imgur':
                 return $app->make('filesystem')
                     ->extend('imgur', function ($app, $config) {
-                        return new Filesystem(new ImgurAdapter());
+                        return new Filesystem(new ImgurAdapter($app->make('flarum.settings')->get('flagrow.image-upload.imgurClientId')));
                     })
                     ->callCustomCreator([
                         'driver' => 'imgur'

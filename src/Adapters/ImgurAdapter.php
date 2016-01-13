@@ -12,7 +12,6 @@
 
 namespace Flagrow\ImageUpload\Adapters;
 
-use Illuminate\Container\Container;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
 use GuzzleHttp\Client;
@@ -24,13 +23,17 @@ class ImgurAdapter implements AdapterInterface {
      */
     protected $client;
 
-    public function __construct(Container $app)
+    /**
+     * ImgurAdapter constructor.
+     *
+     * @param $clientId
+     */
+    public function __construct($clientId)
     {
-        $client_id = $app->config('flagrow.image-upload.imgurClientId');
         $this->client = new Client([
             'base_uri' => 'https://api.imgur.com/3/',
             'headers' => [
-                'Authorization: Client-ID ' . $client_id
+                'Authorization: Client-ID ' . $clientId
             ]
         ]);
     }
