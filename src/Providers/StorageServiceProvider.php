@@ -46,15 +46,15 @@ class StorageServiceProvider extends ServiceProvider
      */
     protected function instantiateUploadAdapter($app)
     {
+
         switch ($app->make('flarum.settings')->get('flagrow.image-upload.uploadMethod', 'local')) {
             case 'imgur':
+                $app->make('config')->set('filesystems.disks.imgur', ['driver' => 'imgur']);
                 return $app->make('filesystem')
                     ->extend('imgur', function ($app, $config) {
                         return new Filesystem(new ImgurAdapter($app->make('flarum.settings')->get('flagrow.image-upload.imgurClientId')));
                     })
-                    ->callCustomCreator([
-                        'driver' => 'imgur'
-                    ]);
+                    ->disk('imgur')->getDriver();
                 break;
             default:
                 return $app->make('filesystem')->createLocalDriver([

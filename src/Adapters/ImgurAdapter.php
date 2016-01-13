@@ -33,7 +33,7 @@ class ImgurAdapter implements AdapterInterface {
         $this->client = new Client([
             'base_uri' => 'https://api.imgur.com/3/',
             'headers' => [
-                'Authorization: Client-ID ' . $clientId
+                'Authorization' => 'Client-ID ' . $clientId
             ]
         ]);
     }
@@ -49,10 +49,10 @@ class ImgurAdapter implements AdapterInterface {
      */
     public function write($path, $contents, Config $config)
     {
-        $result = $this->client->post('upload', json_encode([
+        $result = $this->client->post('upload', [
             'image' => base64_encode($contents),
             'type' => 'base64',
-        ]));
+        ]);
         dd($result);
     }
 
