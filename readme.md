@@ -1,5 +1,7 @@
-# flagrow/image-upload 
-[![Latest Stable Version](https://poser.pugx.org/flagrow/image-upload/v/stable)][packagist-link][![License](https://poser.pugx.org/flagrow/image-upload/license)][packagist-link]
+# flagrow/flarum-ext-image-upload
+
+[![Join the chat at https://gitter.im/flagrow/flarum-ext-image-upload](https://badges.gitter.im/flagrow/flarum-ext-image-upload.svg)](https://gitter.im/flagrow/flarum-ext-image-upload?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Latest Stable Version](https://poser.pugx.org/flagrow/flarum-ext-image-upload/v/stable)][packagist-link] [![License](https://poser.pugx.org/flagrow/flarum-ext-image-upload/license)][packagist-link] [![Gitter](https://badges.gitter.im/flagrow/flarum-ext-image-upload.svg)](https://gitter.im/flagrow/flarum-ext-image-upload)
 
 A [Flarum](http://flarum.org) extension to allow image uploading on thread and comment creation, supports multiple services like local storage and imgur.
 
@@ -8,7 +10,7 @@ A [Flarum](http://flarum.org) extension to allow image uploading on thread and c
 ## Install
 
 ```bash
-composer require flagrow/image-upload
+composer require flagrow/flarum-ext-image-upload
 ```
 
 ## Configuration
