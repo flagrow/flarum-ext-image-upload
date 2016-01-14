@@ -61,7 +61,6 @@ export default class UploadButton extends Component {
      * @param message
      */
     failure(message) {
-        this.markLoaderFailed();
         // todo show popup
     }
 
@@ -71,6 +70,8 @@ export default class UploadButton extends Component {
      * @param link
      */
     success(image) {
+
+        var link = image.data.attributes.url;
 
         // create a markdown string that holds the image link
         var markdownString = '\n![image ' + link + '](' + link + ')\n';

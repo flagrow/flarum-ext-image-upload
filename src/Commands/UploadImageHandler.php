@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * This file is part of flagrow/flarum-ext-image-upload.
  *
@@ -85,7 +85,7 @@ class UploadImageHandler
         $this->posts     = $posts;
         $this->app       = $app;
         $this->validator = $validator;
-        $this->settings = $settings;
+        $this->settings  = $settings;
     }
 
     /**
@@ -99,7 +99,7 @@ class UploadImageHandler
     public function handle(UploadImage $command)
     {
 
-        $tmpFile = tempnam($this->app->storagePath().'/tmp', 'image');
+        $tmpFile = tempnam($this->app->storagePath() . '/tmp', 'image');
         $command->file->moveTo($tmpFile);
 
         $file = new UploadedFile(
@@ -115,7 +115,7 @@ class UploadImageHandler
         $this->validator->assertValid(['image' => $file]);
 
         // resize if enabled
-        if($this->settings->get('flagrow.image-upload.mustResize')) {
+        if ($this->settings->get('flagrow.image-upload.mustResize')) {
             $manager = new ImageManager;
             $manager->make($tmpFile)->fit(
                 $this->settings->get('flagrow.image-upload.resizeMaxWidth', 100),
@@ -124,26 +124,39 @@ class UploadImageHandler
         }
 
         $image = (new Image())->forceFill([
-            'user_id' => $command->actor->id,
+            'user_id'       => $command->actor->id,
             'upload_method' => $this->settings->get('flagrow.image-upload.uploadMethod', 'local'),
-            'created_at' => Carbon::now(),
-            'file_name' => sprintf('%d-%s.jpg', $command->actor->id, Str::quickRandom()),
-            'file_size' => $file->getSize()
+            'created_at'    => Carbon::now(),
+            'file_name'     => sprintf('%d-%s.%s', $command->actor->id, Str::quickRandom(),
+                $file->guessExtension() ?: 'jpg'),
+            'file_size'     => $file->getSize()
         ]);
 
         $this->events->fire(
             new ImageWillBeSaved($command->actor, $image, $file)
         );
 
-        $mount = new MountManager([
-            'source' => new Filesystem(new Local(pathinfo($tmpFile, PATHINFO_DIRNAME))),
-            'target' => $this->uploadDir,
-        ]);
+        $tmpFilesystem = new Filesystem(new Local(pathinfo($tmpFile, PATHINFO_DIRNAME)));
 
-        $mount->move("source://".pathinfo($tmpFile, PATHINFO_BASENAME), "target://{$image->file_name}");
+        $uploaded = $this->uploadDir->write(
+            $image->file_name,
+            $tmpFilesystem->readAndDelete(pathinfo($tmpFile, PATHINFO_BASENAME)),
+            // inject the image so it can be mutated in the process.
+            ['image' => &$image]
+        );
 
-        $image->save();
+        if ($uploaded) {
+            if (!$image->file_url) {
+                // todo base this on the filesystem adapter in use?
+                $image->file_url = $this->app->publicPath() . '/assets/images/' . $image->file_name;
+            }
+            if ($image->isDirty()) {
+                $image->save();
+            }
 
-        return $image;
+            return $image;
+        }
+
+        return false;
     }
 }

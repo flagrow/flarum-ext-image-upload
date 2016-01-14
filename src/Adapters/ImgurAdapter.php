@@ -16,7 +16,8 @@ use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
 use GuzzleHttp\Client;
 
-class ImgurAdapter implements AdapterInterface {
+class ImgurAdapter implements AdapterInterface
+{
 
     /**
      * @var Client
@@ -32,7 +33,7 @@ class ImgurAdapter implements AdapterInterface {
     {
         $this->client = new Client([
             'base_uri' => 'https://api.imgur.com/3/',
-            'headers' => [
+            'headers'  => [
                 'Authorization' => 'Client-ID ' . $clientId
             ]
         ]);
@@ -50,10 +51,22 @@ class ImgurAdapter implements AdapterInterface {
     public function write($path, $contents, Config $config)
     {
         $result = $this->client->post('upload', [
-            'image' => base64_encode($contents),
-            'type' => 'base64',
+            'json' => [
+                'image' => base64_encode($contents),
+                'type'  => 'base64',
+            ]
         ]);
-        dd($result);
+        if ($result->getStatusCode() === 200) {
+            $meta = array_get(json_decode($result->getBody(), true), 'data', []);
+            if ($config->has('image')) {
+                $image           = $config->get('image');
+                $image->file_url = array_get($meta, 'link');
+            }
+
+            return $meta;
+        } else {
+            return false;
+        }
     }
 
     /**

@@ -79,20 +79,20 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                      */
                 }, {
                     key: 'failure',
-                    value: function failure(message) {
-                        this.markLoaderFailed();
-                        // todo show popup
-                    }
+                    value: function failure(message) {}
+                    // todo show popup
 
                     /**
                      * Appends the link to the body of the composer.
                      *
                      * @param link
                      */
+
                 }, {
                     key: 'success',
                     value: function success(image) {
-                        // @todo image is now an object
+
+                        var link = image.data.attributes.url;
 
                         // create a markdown string that holds the image link
                         var markdownString = '\n![image ' + link + '](' + link + ')\n';
