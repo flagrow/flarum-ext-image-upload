@@ -142,14 +142,10 @@ class UploadImageHandler
             $image->file_name,
             $tmpFilesystem->readAndDelete(pathinfo($tmpFile, PATHINFO_BASENAME)),
             // inject the image so it can be mutated in the process.
-            ['image' => &$image]
+            ['image' => &$image, 'settings' => $this->settings]
         );
 
         if ($uploaded) {
-            if (!$image->file_url) {
-                // todo base this on the filesystem adapter in use?
-                $image->file_url = $this->app->url() . '/assets/images/' . $image->file_name;
-            }
             if ($image->isDirty()) {
                 $image->save();
             }
