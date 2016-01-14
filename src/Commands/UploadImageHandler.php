@@ -142,7 +142,7 @@ class UploadImageHandler
             $image->file_name,
             $tmpFilesystem->readAndDelete(pathinfo($tmpFile, PATHINFO_BASENAME)),
             // inject the image so it can be mutated in the process.
-            ['image' => &$image, 'settings' => $this->settings]
+            ['flagrow-image' => &$image, 'flarum-settings' => $this->settings]
         );
 
         if ($uploaded) {

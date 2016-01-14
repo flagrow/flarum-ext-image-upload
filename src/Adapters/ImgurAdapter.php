@@ -12,6 +12,7 @@
 
 namespace Flagrow\ImageUpload\Adapters;
 
+use Flagrow\ImageUpload\Traits\UrlAssignable;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\Config;
 use GuzzleHttp\Client;
@@ -19,6 +20,7 @@ use GuzzleHttp\Client;
 class ImgurAdapter implements AdapterInterface
 {
 
+    use UrlAssignable;
     /**
      * @var Client
      */
@@ -58,10 +60,7 @@ class ImgurAdapter implements AdapterInterface
         ]);
         if ($result->getStatusCode() === 200) {
             $meta = array_get(json_decode($result->getBody(), true), 'data', []);
-            if ($config->has('image')) {
-                $image           = $config->get('image');
-                $image->file_url = array_get($meta, 'link');
-            }
+            $this->assignUrl(array_get($meta, 'link'), $config);
 
             return $meta;
         } else {

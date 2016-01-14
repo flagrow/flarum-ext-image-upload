@@ -12,24 +12,28 @@
 
 namespace Flagrow\ImageUpload\Adapters;
 
+use Flagrow\ImageUpload\Traits\UrlAssignable;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Config;
 
 class LocalAdapter extends Local
 {
+    use UrlAssignable;
+
+    /**
+     * {@inheritdoc}
+     */
     public function write($path, $contents, Config $config)
     {
         $meta = parent::write($path, $contents, $config);
 
-        if($meta !== false && $config->has('image')) {
+        if ($meta !== false) {
             $relative = str_replace(app()->publicPath(), null, $this->getPathPrefix());
-            $image = $config->get('image');
-            $image->file_url = $relative . $path;
-            // take CDN url into account if set
-            if($config->has('settings') && !empty($config->get('settings')->get('flagrow.image-upload.cdnUrl'))) {
-                $image->file_url = $config->get('settings')->get('flagrow.image-upload.cdnUrl') . $image->file_url;
+            $url      = $relative . $path;
+            if ($config->has('flarum-settings') && !empty($config->get('flarum-settings')->get('flagrow.image-upload.cdnUrl'))) {
+                $url = $config->get('flarum-settings')->get('flagrow.image-upload.cdnUrl') . $url;
             }
-            $image->save();
+            $this->assignUrl($url, $config);
         }
 
         return $meta;
