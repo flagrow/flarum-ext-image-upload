@@ -148,7 +148,7 @@ class UploadImageHandler
         if ($uploaded) {
             if (!$image->file_url) {
                 // todo base this on the filesystem adapter in use?
-                $image->file_url = $this->app->publicPath() . '/assets/images/' . $image->file_name;
+                $image->file_url = $this->app->url() . '/assets/images/' . $image->file_name;
             }
             if ($image->isDirty()) {
                 $image->save();
