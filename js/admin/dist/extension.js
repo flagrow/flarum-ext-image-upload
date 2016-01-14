@@ -71,7 +71,7 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                         this.loading = false;
 
                         // the fields we need to watch and to save
-                        this.fields = ['uploadMethod', 'imgurClientId', 'resizeMaxWidth', 'resizeMaxHeight', 'cdnUrl'];
+                        this.fields = ['uploadMethod', 'imgurClientId', 'resizeMaxWidth', 'resizeMaxHeight', 'cdnUrl', 'maxFileSize'];
 
                         // the checkboxes we need to watch and to save.
                         this.checkboxes = ['mustResize'];
@@ -112,7 +112,14 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                                 onchange: this.values.uploadMethod,
                                 value: this.values.uploadMethod() || 'local'
                             })]
-                        }), m('div', { className: 'ImageUploadPage-resize' }, [FieldSet.component({
+                        }), m('div', { className: 'ImageUploadPage-preferences' }, [FieldSet.component({
+                            label: app.translator.trans('flagrow-image-upload.admin.labels.preferences.title'),
+                            children: [m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.preferences.max_file_size')), m('input', {
+                                className: 'FormControl',
+                                value: this.values.maxFileSize() || 2048,
+                                oninput: m.withAttr('value', this.values.maxFileSize)
+                            })]
+                        })]), m('div', { className: 'ImageUploadPage-resize' }, [FieldSet.component({
                             label: app.translator.trans('flagrow-image-upload.admin.labels.resize.title'),
                             children: [m('div', { className: 'helpText' }, app.translator.trans('flagrow-image-upload.admin.help_texts.resize')), Switch.component({
                                 state: this.values.mustResize() || false,

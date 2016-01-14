@@ -18,7 +18,8 @@ export default class ImageUploadPage extends Component {
             'imgurClientId',
             'resizeMaxWidth',
             'resizeMaxHeight',
-            'cdnUrl'
+            'cdnUrl',
+            'maxFileSize'
         ];
 
         // the checkboxes we need to watch and to save.
@@ -64,6 +65,19 @@ export default class ImageUploadPage extends Component {
                                 })
                             ]
                         }),
+                        m('div', {className: 'ImageUploadPage-preferences'}, [
+                            FieldSet.component({
+                                label: app.translator.trans('flagrow-image-upload.admin.labels.preferences.title'),
+                                children: [
+                                    m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.preferences.max_file_size')),
+                                    m('input', {
+                                        className: 'FormControl',
+                                        value: this.values.maxFileSize() || 2048,
+                                        oninput: m.withAttr('value', this.values.maxFileSize)
+                                    }),
+                                ]
+                            })
+                        ]),
                         m('div', {className: 'ImageUploadPage-resize'}, [
                             FieldSet.component({
                                 label: app.translator.trans('flagrow-image-upload.admin.labels.resize.title'),
@@ -90,7 +104,6 @@ export default class ImageUploadPage extends Component {
                                     })
                                 ]
                             })
-
                         ]),
                         m('div', {className: 'ImageUploadPage-imgur', style: {display: (this.values.uploadMethod() === 'imgur' ? "block" : "none")}}, [
                             FieldSet.component({
