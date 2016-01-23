@@ -15,6 +15,13 @@ composer require flagrow/flarum-ext-image-upload
 
 Visit the settings tab of the extension in your admin to configure your image upload services.
 
+## Upload services
+
+The following upload services are supported:
+
+- Locally in `assets/images`
+- Imgur anonymously (requires Client Id by signing up)
+
 ## End-user usage
 
 During post creation, click the Attach button to select a file. Once
