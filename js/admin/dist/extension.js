@@ -238,10 +238,10 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
         }
     };
 });;
-System.register('flagrow/image-upload/main', ['flarum/extend', 'flarum/app', 'flarum/utils/saveSettings', 'flagrow/image-upload/addImageUploadPane'], function (_export) {
+System.register('flagrow/image-upload/main', ['flarum/extend', 'flarum/app', 'flarum/utils/saveSettings', 'flarum/components/PermissionGrid', 'flagrow/image-upload/addImageUploadPane'], function (_export) {
     'use strict';
 
-    var extend, app, saveSettings, addImageUploadPane;
+    var extend, app, saveSettings, PermissionGrid, addImageUploadPane;
     return {
         setters: [function (_flarumExtend) {
             extend = _flarumExtend.extend;
@@ -249,6 +249,8 @@ System.register('flagrow/image-upload/main', ['flarum/extend', 'flarum/app', 'fl
             app = _flarumApp['default'];
         }, function (_flarumUtilsSaveSettings) {
             saveSettings = _flarumUtilsSaveSettings['default'];
+        }, function (_flarumComponentsPermissionGrid) {
+            PermissionGrid = _flarumComponentsPermissionGrid['default'];
         }, function (_flagrowImageUploadAddImageUploadPane) {
             addImageUploadPane = _flagrowImageUploadAddImageUploadPane['default'];
         }],
@@ -256,6 +258,14 @@ System.register('flagrow/image-upload/main', ['flarum/extend', 'flarum/app', 'fl
 
             app.initializers.add('flagrow-image-upload', function (app) {
                 addImageUploadPane();
+
+                extend(PermissionGrid.prototype, 'startItems', function (items) {
+                    items.add('uploadImages', {
+                        icon: 'picture-o',
+                        label: app.translator.trans('flagrow-image-upload.admin.permissions.upload_images_label'),
+                        permission: 'flagrow.images.upload'
+                    });
+                });
             });
         }
     };
