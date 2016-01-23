@@ -20,7 +20,7 @@
         "source": "https://github.com/flagrow/image-upload"
     },
     "require": {
-        "flarum/core": "^0.1.0-beta.5",
+        "flarum/core": "^0.1.0-beta.4",
         "flarum/composer-installer": "^0.3.0"
     },
     "extra": {
