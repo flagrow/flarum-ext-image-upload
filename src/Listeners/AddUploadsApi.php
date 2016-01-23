@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * This file is part of flagrow/flarum-ext-image-upload.
  *
@@ -13,7 +13,10 @@
 namespace Flagrow\ImageUpload\Listeners;
 
 use Flagrow\ImageUpload\Api\Controllers\UploadImageController;
+
+use Flarum\Api\Serializer\DiscussionSerializer;
 use Flarum\Event\ConfigureApiRoutes;
+use Flarum\Event\PrepareApiAttributes;
 use Illuminate\Events\Dispatcher;
 
 class AddUploadsApi
@@ -26,6 +29,7 @@ class AddUploadsApi
     public function subscribe(Dispatcher $events)
     {
         $events->listen(ConfigureApiRoutes::class, [$this, 'configureApiRoutes']);
+        $events->listen(PrepareApiAttributes::class, [$this, 'prepareApiAttributes']);
     }
 
     /**
@@ -36,5 +40,17 @@ class AddUploadsApi
     public function configureApiRoutes(ConfigureApiRoutes $event)
     {
         $event->post('/image/upload', 'flagrow.image.upload', UploadImageController::class);
+    }
+
+    /**
+     * Gets the api attributes and makes them available to the forum.
+     *
+     * @param ConfigureApiRoutes $event
+     */
+    public function prepareApiAttributes(PrepareApiAttributes $event)
+    {
+        if ($event->isSerializer(DiscussionSerializer::class)) {
+            $event->attributes['canUploadImages'] = $event->actor->can('flagrow.images.upload', $event->model);
+        }
     }
 }

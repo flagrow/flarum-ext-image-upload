@@ -7,11 +7,16 @@ flagrow-image-upload:
             success: Perfetto
             error: Errore
     admin:
+        permissions:
+            upload_images_label: Caricare immagini
         upload_methods:
             local: Locale
             imgur: Imgur
         labels:
             upload_method: Metodo di caricamento
+            preferences:
+                title: Impostazioni generali
+                max_file_size: Dimensione massima immagini (in KB)
             resize:
                 title: Ridimensionamento dell'immagine
                 toggle: Aziona il ridimensionamento
@@ -20,6 +25,9 @@ flagrow-image-upload:
             imgur:
                 title: Impostazioni di Imgur
                 client_id: Client-ID
+            local:
+                title: Impostazioni di caricamento locale
+                cdn_url: Indirizzo CDN (prefisso per i file)
         buttons:
             save: Salva impostazioni
         help_texts:
