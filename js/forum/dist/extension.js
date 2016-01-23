@@ -144,9 +144,8 @@ System.register('flagrow/image-upload/main', ['flarum/extend', 'flarum/Model', '
                  * Add the upload button to the post composer.
                  */
                 extend(TextEditor.prototype, 'controlItems', function (items) {
-                    // get the current post object
+                    // get the current discussion object
                     var discussion = app.current.discussion;
-                    console.log(discussion);
                     // check whether the user can upload images. If not, returns.
                     if (!discussion.canUploadImages()) return;
 
