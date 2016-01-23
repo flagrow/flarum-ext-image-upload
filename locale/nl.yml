@@ -12,6 +12,9 @@ flagrow-image-upload:
             imgur: Imgur
         labels:
             upload_method: Upload methode
+            preferences:
+                title: Algemene instellingen
+                max_file_size: Maximale bestandsgrootte (in kilobytes)
             resize:
                 title: Verkleinen
                 toggle: Schakel verkleining in
@@ -20,6 +23,9 @@ flagrow-image-upload:
             imgur:
                 title: Imgur settings
                 client_id: Client-ID
+            local:
+                title: Lokale opslag instellingen
+                cdn_url: Content Delivery URL (prefixed de bestandsnaam)
         buttons:
             save: Opslaan
         help_texts:

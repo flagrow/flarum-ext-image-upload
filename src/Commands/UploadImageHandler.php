@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * This file is part of flagrow/flarum-ext-image-upload.
  *
@@ -13,6 +13,7 @@
 namespace Flagrow\ImageUpload\Commands;
 
 use Carbon\Carbon;
+use Flagrow\ImageUpload\Contracts\UploadAdapterContract;
 use Flagrow\ImageUpload\Events\ImageWillBeSaved;
 use Flagrow\ImageUpload\Image;
 use Flagrow\ImageUpload\Validators\ImageValidator;
@@ -21,10 +22,13 @@ use Flarum\Core\Repository\PostRepository;
 use Flarum\Core\Repository\UserRepository;
 use Flarum\Core\Support\DispatchEventsTrait;
 use Flarum\Foundation\Application;
+use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Events\Dispatcher;
+use Illuminate\Support\Str;
+use Intervention\Image\ImageManager;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
-use League\Flysystem\FilesystemInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UploadImageHandler
 {
@@ -37,9 +41,9 @@ class UploadImageHandler
     protected $users;
 
     /**
-     * @var FilesystemInterface
+     * @var UploadAdapterContract
      */
-    protected $uploadDir;
+    protected $upload;
 
     /**
      * @var Application
@@ -47,32 +51,40 @@ class UploadImageHandler
     protected $app;
 
     /**
-     * @var AvatarValidator
+     * @var ImageValidator
      */
     protected $validator;
 
     /**
-     * @param Dispatcher     $events
-     * @param UserRepository $users
-     * @param PostRepository $posts
-     * @param Application    $app
-     * @param ImageValidator $validator
+     * @var SettingsRepositoryInterface
+     */
+    protected $settings;
+
+    /**
+     * @param Dispatcher                  $events
+     * @param UserRepository              $users
+     * @param UploadAdapterContract       $upload
+     * @param PostRepository              $posts
+     * @param Application                 $app
+     * @param ImageValidator              $validator
+     * @param SettingsRepositoryInterface $settings
      */
     public function __construct(
         Dispatcher $events,
         UserRepository $users,
+        UploadAdapterContract $upload,
         PostRepository $posts,
         Application $app,
-        ImageValidator $validator
+        ImageValidator $validator,
+        SettingsRepositoryInterface $settings
     ) {
         $this->events    = $events;
         $this->users     = $users;
+        $this->upload    = $upload;
         $this->posts     = $posts;
         $this->app       = $app;
         $this->validator = $validator;
-
-        /** @var Filesystem uploadDir */
-        $this->uploadDir = new Filesystem(new Local(public_path('assets/images')));
+        $this->settings  = $settings;
     }
 
     /**
@@ -80,43 +92,67 @@ class UploadImageHandler
      *
      * @param UploadImage $command
      * @return null|string
+     *
+     * @todo check permission
      */
     public function handle(UploadImage $command)
     {
-        if ($command->postId) {
-            // load the Post for this image
-            $post = $this->posts->findOrFail($command->postId, $command->actor);
-        } else {
-            $post = null;
-        }
-        // todo check rights
-        // todo validate file
 
-        $image                = new Image();
-        $image->user_id       = $command->actor->id;
-        $image->upload_method = 'local';
-        if ($post) {
-            $image->post_id = $post->id;
-        }
+        $tmpFile = tempnam($this->app->storagePath() . '/tmp', 'image');
+        $command->file->moveTo($tmpFile);
 
-        $this->events->fire(
-            new ImageWillBeSaved($post, $command->actor, $image, $command->file)
+        $file = new UploadedFile(
+            $tmpFile,
+            $command->file->getClientFilename(),
+            $command->file->getClientMediaType(),
+            $command->file->getSize(),
+            $command->file->getError(),
+            true
         );
 
-        $file_name = sprintf('%d-%d-%s.jpg', $post ? $post->id : 0, $command->actor->id, str_random());
+        // validate the file
+        $this->validator->assertValid(['image' => $file]);
 
-        if (!$this->uploadDir->write($file_name, $command->file)) {
-            // todo should throw error
-            return null;
+        // resize if enabled
+        if ($this->settings->get('flagrow.image-upload.mustResize')) {
+            $manager = new ImageManager;
+            $manager->make($tmpFile)->fit(
+                $this->settings->get('flagrow.image-upload.resizeMaxWidth', 100),
+                $this->settings->get('flagrow.image-upload.resizeMaxHeight', 100)
+            )->save();
         }
 
-        $appPath = parse_url($this->app->url(), PHP_URL_PATH);
+        $image = (new Image())->forceFill([
+            'user_id'       => $command->actor->id,
+            'upload_method' => $this->settings->get('flagrow.image-upload.uploadMethod', 'local'),
+            'created_at'    => Carbon::now(),
+            'file_name'     => sprintf('%d-%s.%s', $command->actor->id, Str::quickRandom(),
+                $file->guessExtension() ?: 'jpg'),
+            'file_size'     => $file->getSize()
+        ]);
 
-        $image->file_name  = sprintf('%s/assets/images/%s', $appPath, $file_name);
-        $image->created_at = Carbon::now();
+        $this->events->fire(
+            new ImageWillBeSaved($command->actor, $image, $file)
+        );
 
-        $image->save();
+        $tmpFilesystem = new Filesystem(new Local(pathinfo($tmpFile, PATHINFO_DIRNAME)));
 
-        return $image;
+        $meta = $this->upload->uploadContents(
+            $image->file_name,
+            $tmpFilesystem->readAndDelete(pathinfo($tmpFile, PATHINFO_BASENAME))
+        );
+
+        if ($meta) {
+
+            $image->file_url = array_get($meta, 'url');
+
+            if ($image->isDirty()) {
+                $image->save();
+            }
+
+            return $image;
+        }
+
+        return false;
     }
 }

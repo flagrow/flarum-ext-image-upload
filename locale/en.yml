@@ -14,6 +14,9 @@ flagrow-image-upload:
             imgur: Imgur
         labels:
             upload_method: Upload method
+            preferences:
+                title: General preferences
+                max_file_size: Maximum file size (in kilobytes)
             resize:
                 title: Image resize
                 toggle: Toggle the resize
@@ -22,6 +25,9 @@ flagrow-image-upload:
             imgur:
                 title: Imgur settings
                 client_id: Client-ID
+            local:
+                title: Local storage settings
+                cdn_url: Content Delivery URL (prefixes files)
         buttons:
             save: Save settings
         help_texts:

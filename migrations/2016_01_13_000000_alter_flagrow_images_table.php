@@ -15,7 +15,7 @@ namespace flagrow\image\upload\Migration;
 use Flarum\Database\AbstractMigration;
 use Illuminate\Database\Schema\Blueprint;
 
-class CreateFlagrowImagesTable extends AbstractMigration
+class AlterFlagrowImagesTable extends AbstractMigration
 {
 
     /**
@@ -25,23 +25,13 @@ class CreateFlagrowImagesTable extends AbstractMigration
      */
     public function up()
     {
-        $this->schema->create('flagrow_images', function (Blueprint $table) {
-            $table->increments('id');
-
-            // the user who posted the image
-            $table->integer('user_id')->unsigned()->nullable();
-
+        $this->schema->table('flagrow_images', function (Blueprint $table) {
             // the specific post id this image is appearing in
-            $table->integer('post_id')->unsigned();
-
-            // file name of the image
-            $table->string('file_name')->nullable();
-
-            // the method this file was uploaded to, allows for future erasing on remote systems
-            $table->string('upload_method');
-
-            // adds created_at
-            $table->timestamp('created_at');
+            $table->dropColumn('post_id');
+            // file url of the image
+            $table->string('file_url')->nullable();
+            // file size of the image
+            $table->integer('file_size')->default(0);
         });
     }
 
@@ -52,6 +42,10 @@ class CreateFlagrowImagesTable extends AbstractMigration
      */
     public function down()
     {
-        $this->schema->drop('flagrow_images');
+        $this->schema->table('flagrow_images', function (Blueprint $table) {
+            $table->dropColumn('file_url');
+            $table->dropColumn('file_size');
+            $table->integer('post_id')->unsigned();
+        });
     }
 }

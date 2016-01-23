@@ -15,15 +15,10 @@ namespace Flagrow\ImageUpload\Events;
 use Flagrow\ImageUpload\Image;
 use Flarum\Core\Post;
 use Flarum\Core\User;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class ImageWillBeSaved
 {
-    /**
-     * The post this image was upload in.
-     *
-     * @var Post
-     */
-    public $post;
 
     /**
      * The user performing the action.
@@ -33,7 +28,7 @@ class ImageWillBeSaved
     public $actor;
 
     /**
-     * The image uploaded.
+     * The image object.
      *
      * @var Image
      */
@@ -42,20 +37,19 @@ class ImageWillBeSaved
     /**
      * The actual image.
      *
-     * @var string
+     * @var UploadedFile
      */
-    public $body;
+    public $file;
 
     /**
-     * @param Post  $post
-     * @param User  $actor The user performing the action.
-     * @param Image $image
+     * @param User         $actor The user performing the action.
+     * @param Image        $image
+     * @param UploadedFile $file
      */
-    public function __construct(Post $post = null, User $actor, Image $image, $body)
+    public function __construct(User $actor, Image $image, UploadedFile $file)
     {
-        $this->post = $post;
         $this->actor = $actor;
         $this->image = $image;
-        $this->body = $body;
+        $this->body = $file;
     }
 }

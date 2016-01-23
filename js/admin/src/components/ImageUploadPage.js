@@ -17,7 +17,9 @@ export default class ImageUploadPage extends Component {
             'uploadMethod',
             'imgurClientId',
             'resizeMaxWidth',
-            'resizeMaxHeight'
+            'resizeMaxHeight',
+            'cdnUrl',
+            'maxFileSize'
         ];
 
         // the checkboxes we need to watch and to save.
@@ -36,7 +38,7 @@ export default class ImageUploadPage extends Component {
         // our package prefix (to be added to every field and checkbox in the setting table)
         this.settingsPrefix = 'flagrow.image-upload';
 
-        // bind the values of the fileds anc checkboxes to the getter/setter functions
+        // bind the values of the fields and checkboxes to the getter/setter functions
         const settings = app.settings;
         this.fields.forEach(key => this.values[key] = m.prop(settings[this.addPrefix(key)]));
         this.checkboxes.forEach(key => this.values[key] = m.prop(settings[this.addPrefix(key)] === '1'));
@@ -63,6 +65,19 @@ export default class ImageUploadPage extends Component {
                                 })
                             ]
                         }),
+                        m('div', {className: 'ImageUploadPage-preferences'}, [
+                            FieldSet.component({
+                                label: app.translator.trans('flagrow-image-upload.admin.labels.preferences.title'),
+                                children: [
+                                    m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.preferences.max_file_size')),
+                                    m('input', {
+                                        className: 'FormControl',
+                                        value: this.values.maxFileSize() || 2048,
+                                        oninput: m.withAttr('value', this.values.maxFileSize)
+                                    }),
+                                ]
+                            })
+                        ]),
                         m('div', {className: 'ImageUploadPage-resize'}, [
                             FieldSet.component({
                                 label: app.translator.trans('flagrow-image-upload.admin.labels.resize.title'),
@@ -89,7 +104,6 @@ export default class ImageUploadPage extends Component {
                                     })
                                 ]
                             })
-
                         ]),
                         m('div', {className: 'ImageUploadPage-imgur', style: {display: (this.values.uploadMethod() === 'imgur' ? "block" : "none")}}, [
                             FieldSet.component({
@@ -100,6 +114,19 @@ export default class ImageUploadPage extends Component {
                                         className: 'FormControl',
                                         value: this.values.imgurClientId() || '',
                                         oninput: m.withAttr('value', this.values.imgurClientId)
+                                    })
+                                ]
+                            })
+                        ]),
+                        m('div', {className: 'ImageUploadPage-local', style: {display: (this.values.uploadMethod() === 'local' ? "block" : "none")}}, [
+                            FieldSet.component({
+                                label: app.translator.trans('flagrow-image-upload.admin.labels.local.title'),
+                                children: [
+                                    m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.local.cdn_url')),
+                                    m('input', {
+                                        className: 'FormControl',
+                                        value: this.values.cdnUrl() || '',
+                                        oninput: m.withAttr('value', this.values.cdnUrl)
                                     })
                                 ]
                             })
