@@ -2,6 +2,10 @@
 
 - support imgur account mode; oauth adapter
 - permission to allow uploading only to a specific group
+- requires flarum/core 0.1.0-beta.5
+- moved logic of uploading to php
+- added imgur and local adapters
+- now validates image uploads
 
 # 0.1.4
 

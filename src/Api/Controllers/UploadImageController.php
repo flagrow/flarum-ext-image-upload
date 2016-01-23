@@ -18,7 +18,6 @@ use Flarum\Api\Controller\AbstractResourceController;
 use Illuminate\Contracts\Bus\Dispatcher;
 use Psr\Http\Message\ServerRequestInterface;
 use Tobscure\JsonApi\Document;
-use Zend\Diactoros\UploadedFile;
 
 class UploadImageController extends AbstractResourceController
 {
@@ -54,10 +53,10 @@ class UploadImageController extends AbstractResourceController
     {
         $postId = array_get($request->getQueryParams(), 'post');
         $actor = $request->getAttribute('actor');
-        $file = array_get($request->getParsedBody(), 'image');
+        $file = array_get($request->getUploadedFiles(), 'image');
 
         return $this->bus->dispatch(
-            new UploadImage($postId, base64_decode($file), $actor)
+            new UploadImage($postId, $file, $actor)
         );
     }
 }
