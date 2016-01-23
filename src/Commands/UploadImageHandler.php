@@ -97,6 +97,7 @@ class UploadImageHandler
      */
     public function handle(UploadImage $command)
     {
+        $this->assertCan($command->actor, 'flagrow.images.upload');
 
         $tmpFile = tempnam($this->app->storagePath() . '/tmp', 'image');
         $command->file->moveTo($tmpFile);
@@ -126,8 +127,12 @@ class UploadImageHandler
             'user_id'       => $command->actor->id,
             'upload_method' => $this->settings->get('flagrow.image-upload.uploadMethod', 'local'),
             'created_at'    => Carbon::now(),
-            'file_name'     => sprintf('%d-%s.%s', $command->actor->id, Str::quickRandom(),
-                $file->guessExtension() ?: 'jpg'),
+            'file_name'     => sprintf(
+                '%d-%s.%s',
+                $command->actor->id,
+                Str::quickRandom(),
+                $file->guessExtension() ?: 'jpg'
+            ),
             'file_size'     => $file->getSize()
         ]);
 

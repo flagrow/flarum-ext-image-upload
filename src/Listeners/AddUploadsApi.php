@@ -45,12 +45,12 @@ class AddUploadsApi
     /**
      * Gets the api attributes and makes them available to the forum.
      *
-     * @param ConfigureApiRoutes $event
+     * @param PrepareApiAttributes $event
      */
     public function prepareApiAttributes(PrepareApiAttributes $event)
     {
         if ($event->isSerializer(DiscussionSerializer::class)) {
-            $event->attributes['canUploadImages'] = $event->actor->can('flagrow.images.upload', $event->model);
+            $event->attributes['canUploadImages'] = $event->actor->can('flagrow.images.upload');
         }
     }
 }
