@@ -99,8 +99,8 @@ class UploadImageHandler
     {
         $this->assertCan(
             $command->actor,
-            'flagrow.images.upload',
-            $this->posts->findOrFail($command->postId)->discussion
+            'flagrow.image.upload'
+            //$this->posts->findOrFail($command->postId)->discussion
         );
 
         $tmpFile = tempnam($this->app->storagePath() . '/tmp', 'image');
