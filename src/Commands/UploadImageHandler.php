@@ -97,7 +97,11 @@ class UploadImageHandler
      */
     public function handle(UploadImage $command)
     {
-        $this->assertCan($command->actor, 'flagrow.images.upload');
+        $this->assertCan(
+            $command->actor,
+            'flagrow.images.upload',
+            $this->posts->findOrFail($command->postId)->discussion
+        );
 
         $tmpFile = tempnam($this->app->storagePath() . '/tmp', 'image');
         $command->file->moveTo($tmpFile);

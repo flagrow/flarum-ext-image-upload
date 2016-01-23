@@ -13,7 +13,8 @@ composer require flagrow/flarum-ext-image-upload
 
 ## Configuration
 
-Visit the settings tab of the extension in your admin to configure your image upload services.
+- Visit the permission tab to select what user group can upload images in posts.
+- Visit the settings tab of the extension in your admin to configure your image upload services.
 
 ## Upload services
 
