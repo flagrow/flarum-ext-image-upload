@@ -14,11 +14,14 @@ namespace Flagrow\ImageUpload\Providers;
 
 use Flagrow\ImageUpload\Adapters\ImgurAdapter;
 use Flagrow\ImageUpload\Adapters\LocalAdapter;
+use Flagrow\ImageUpload\Contracts\UploadAdapterContract;
 use Illuminate\Container\Container;
 use Illuminate\Support\ServiceProvider;
 use Flagrow\ImageUpload\Commands\UploadImageHandler;
+use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemInterface;
+use Flarum\Settings\SettingsRepositoryInterface;
 
 class StorageServiceProvider extends ServiceProvider
 {
@@ -30,13 +33,13 @@ class StorageServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $filesystem = function (Container $app) {
+        $uploadAdapter = function (Container $app) {
             return $this->instantiateUploadAdapter($app);
         };
 
         $this->app->when(UploadImageHandler::class)
-            ->needs(FileSystemInterface::class)
-            ->give($filesystem);
+            ->needs(UploadAdapterContract::class)
+            ->give($uploadAdapter);
     }
 
     /**
@@ -50,23 +53,13 @@ class StorageServiceProvider extends ServiceProvider
 
         switch ($app->make('flarum.settings')->get('flagrow.image-upload.uploadMethod', 'local')) {
             case 'imgur':
-                $app->make('config')->set('filesystems.disks.flagrow-imgur', ['driver' => 'flagrow-imgur']);
-                return $app->make('filesystem')
-                    ->extend('flagrow-imgur', function ($app, $config) {
-                        return new Filesystem(new ImgurAdapter($app->make('flarum.settings')->get('flagrow.image-upload.imgurClientId')));
-                    })
-                    ->disk('flagrow-imgur')->getDriver();
+                return new ImgurAdapter($app->make('flarum.settings')->get('flagrow.image-upload.imgurClientId'));
                 break;
             default:
-                $app->make('config')->set('filesystems.disks.flagrow-local', ['driver' => 'flagrow-local']);
-                return $app->make('filesystem')
-                    ->extend('flagrow-local', function ($app, $config) {
-                        return new Filesystem(new LocalAdapter(
-                            public_path('assets/images')
-                        ));
-                    })
-                    ->disk('flagrow-local')->getDriver();
-
+                return new LocalAdapter(
+                    new Filesystem(new Local(public_path('assets/images'))),
+                    $app->make(SettingsRepositoryInterface::class)
+                );
         }
     }
 }

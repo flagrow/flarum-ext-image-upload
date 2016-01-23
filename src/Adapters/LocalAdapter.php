@@ -12,31 +12,69 @@
 
 namespace Flagrow\ImageUpload\Adapters;
 
-use Flagrow\ImageUpload\Traits\UrlAssignable;
-use League\Flysystem\Adapter\Local;
-use League\Flysystem\Config;
+use Flagrow\ImageUpload\Contracts\UploadAdapterContract;
+use Flarum\Settings\SettingsRepositoryInterface;
+use League\Flysystem\FilesystemInterface;
 
-class LocalAdapter extends Local
+class LocalAdapter implements UploadAdapterContract
 {
-    use UrlAssignable;
 
     /**
-     * {@inheritdoc}
+     * @var FilesystemInterface
      */
-    public function write($path, $contents, Config $config)
-    {
-        $meta = parent::write($path, $contents, $config);
+    protected $filesystem;
 
-        if ($meta !== false) {
-            $relative = str_replace(app()->publicPath(), null, $this->getPathPrefix());
-            $url      = $relative . $path;
-            if ($config->has('flarum-settings') && !empty($config->get('flarum-settings')->get('flagrow.image-upload.cdnUrl'))) {
-                $url = $config->get('flarum-settings')->get('flagrow.image-upload.cdnUrl') . $url;
-            }
-            $this->assignUrl($url, $config);
+    /**
+     * @var SettingsRepositoryInterface
+     */
+    protected $settings;
+
+    /**
+     * LocalAdapter constructor.
+     *
+     * @param FilesystemInterface         $filesystem
+     * @param SettingsRepositoryInterface $settings
+     */
+    public function __construct(FilesystemInterface $filesystem, SettingsRepositoryInterface $settings)
+    {
+        $this->filesystem = $filesystem;
+        $this->settings   = $settings;
+    }
+
+    /**
+     * Uploads raw contents to the service.
+     *
+     * @param string $contents
+     * @return array    The meta of the file.
+     */
+    public function uploadContents($name, $contents)
+    {
+        $this->filesystem->write($name, $contents);
+        $meta        = $this->filesystem->getMetadata($name);
+        $meta['url'] = '/assets/images/' . $name;
+
+        if ($this->settings->get('flarum-settings') && !empty($this->settings->get('flarum-settings')->get('flagrow.image-upload.cdnUrl'))) {
+            $meta['url'] = $this->settings->get('flarum-settings')->get('flagrow.image-upload.cdnUrl') . $meta['url'];
         }
 
         return $meta;
     }
 
+
+    public function uploadFile($name, $file)
+    {
+        // TODO: Implement uploadFile() method.
+    }
+
+    /**
+     * Delete a remote file based on a adapter identifier.
+     *
+     * @param string $name
+     * @param string $file
+     * @return bool
+     */
+    public function deleteFile($name, $file)
+    {
+        // TODO: Implement deleteFile() method.
+    }
 }

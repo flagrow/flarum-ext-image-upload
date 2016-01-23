@@ -13,6 +13,7 @@
 namespace Flagrow\ImageUpload\Commands;
 
 use Carbon\Carbon;
+use Flagrow\ImageUpload\Contracts\UploadAdapterContract;
 use Flagrow\ImageUpload\Events\ImageWillBeSaved;
 use Flagrow\ImageUpload\Image;
 use Flagrow\ImageUpload\Validators\ImageValidator;
@@ -27,8 +28,6 @@ use Illuminate\Support\Str;
 use Intervention\Image\ImageManager;
 use League\Flysystem\Adapter\Local;
 use League\Flysystem\Filesystem;
-use League\Flysystem\FilesystemInterface;
-use League\Flysystem\MountManager;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UploadImageHandler
@@ -42,9 +41,9 @@ class UploadImageHandler
     protected $users;
 
     /**
-     * @var FilesystemInterface
+     * @var UploadAdapterContract
      */
-    protected $uploadDir;
+    protected $upload;
 
     /**
      * @var Application
@@ -64,7 +63,7 @@ class UploadImageHandler
     /**
      * @param Dispatcher                  $events
      * @param UserRepository              $users
-     * @param FilesystemInterface         $uploadDir
+     * @param UploadAdapterContract       $upload
      * @param PostRepository              $posts
      * @param Application                 $app
      * @param ImageValidator              $validator
@@ -73,7 +72,7 @@ class UploadImageHandler
     public function __construct(
         Dispatcher $events,
         UserRepository $users,
-        FilesystemInterface $uploadDir,
+        UploadAdapterContract $upload,
         PostRepository $posts,
         Application $app,
         ImageValidator $validator,
@@ -81,7 +80,7 @@ class UploadImageHandler
     ) {
         $this->events    = $events;
         $this->users     = $users;
-        $this->uploadDir = $uploadDir;
+        $this->upload    = $upload;
         $this->posts     = $posts;
         $this->app       = $app;
         $this->validator = $validator;
@@ -138,14 +137,15 @@ class UploadImageHandler
 
         $tmpFilesystem = new Filesystem(new Local(pathinfo($tmpFile, PATHINFO_DIRNAME)));
 
-        $uploaded = $this->uploadDir->write(
+        $meta = $this->upload->uploadContents(
             $image->file_name,
-            $tmpFilesystem->readAndDelete(pathinfo($tmpFile, PATHINFO_BASENAME)),
-            // inject the image so it can be mutated in the process.
-            ['flagrow-image' => &$image, 'flarum-settings' => $this->settings]
+            $tmpFilesystem->readAndDelete(pathinfo($tmpFile, PATHINFO_BASENAME))
         );
 
-        if ($uploaded) {
+        if ($meta) {
+
+            $image->file_url = array_get($meta, 'url');
+
             if ($image->isDirty()) {
                 $image->save();
             }
