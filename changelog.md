@@ -1,8 +1,11 @@
-# 0.2.0 [tba]
+# 0.3.0 [tba]
 
 - support imgur account mode; oauth adapter
+
+# 0.2.0
+
 - permission to allow uploading only to a specific group
-- requires flarum/core 0.1.0-beta.5
+- requires flarum/composer-installer 0.3.0
 - moved logic of uploading to php
 - added imgur and local adapters
 - now validates image uploads
