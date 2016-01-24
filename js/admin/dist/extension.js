@@ -71,16 +71,13 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                         this.loading = false;
 
                         // the fields we need to watch and to save
-                        this.fields = ['uploadMethod', 'imgurClientId', 'resizeMaxWidth', 'resizeMaxHeight', 'cdnUrl', 'maxFileSize'];
+                        this.fields = ['availableUploadMethods', 'uploadMethod', 'imgurClientId', 'resizeMaxWidth', 'resizeMaxHeight', 'cdnUrl', 'maxFileSize'];
 
                         // the checkboxes we need to watch and to save.
                         this.checkboxes = ['mustResize'];
 
                         // options for the dropdown menu
-                        this.uploadMethodOptions = {
-                            'local': app.translator.trans('flagrow-image-upload.admin.upload_methods.local'),
-                            'imgur': app.translator.trans('flagrow-image-upload.admin.upload_methods.imgur')
-                        };
+                        this.uploadMethodOptions = {};
 
                         this.values = {};
 
@@ -89,12 +86,16 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
 
                         // bind the values of the fields and checkboxes to the getter/setter functions
                         var settings = app.settings;
+                        // set the upload methods
+                        this.uploadMethodOptions = settings[this.addPrefix('availableUploadMethods')];
+
                         this.fields.forEach(function (key) {
                             return _this.values[key] = m.prop(settings[_this.addPrefix(key)]);
                         });
                         this.checkboxes.forEach(function (key) {
                             return _this.values[key] = m.prop(settings[_this.addPrefix(key)] === '1');
                         });
+                        console.log(settings);
                     }
 
                     /**

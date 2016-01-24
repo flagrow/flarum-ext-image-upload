@@ -14,6 +14,7 @@ export default class ImageUploadPage extends Component {
 
         // the fields we need to watch and to save
         this.fields = [
+            'availableUploadMethods',
             'uploadMethod',
             'imgurClientId',
             'resizeMaxWidth',
@@ -28,10 +29,7 @@ export default class ImageUploadPage extends Component {
         ];
 
         // options for the dropdown menu
-        this.uploadMethodOptions = {
-            'local': app.translator.trans('flagrow-image-upload.admin.upload_methods.local'),
-            'imgur': app.translator.trans('flagrow-image-upload.admin.upload_methods.imgur')
-        };
+        this.uploadMethodOptions = {};
 
         this.values = {};
 
@@ -40,8 +38,12 @@ export default class ImageUploadPage extends Component {
 
         // bind the values of the fields and checkboxes to the getter/setter functions
         const settings = app.settings;
+        // set the upload methods
+        this.uploadMethodOptions = settings[this.addPrefix('availableUploadMethods')];
+
         this.fields.forEach(key => this.values[key] = m.prop(settings[this.addPrefix(key)]));
         this.checkboxes.forEach(key => this.values[key] = m.prop(settings[this.addPrefix(key)] === '1'));
+        console.log(settings);
     }
 
     /**
