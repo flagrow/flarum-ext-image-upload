@@ -71,7 +71,7 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                         this.loading = false;
 
                         // the fields we need to watch and to save
-                        this.fields = ['availableUploadMethods', 'uploadMethod', 'imgurClientId', 'resizeMaxWidth', 'resizeMaxHeight', 'cdnUrl', 'maxFileSize'];
+                        this.fields = ['availableUploadMethods', 'uploadMethod', 'imgurClientId', 'resizeMaxWidth', 'resizeMaxHeight', 'cdnUrl', 'maxFileSize', 'cloudinaryApiKey', 'cloudinaryApiSecret', 'cloudinaryCloudName'];
 
                         // the checkboxes we need to watch and to save.
                         this.checkboxes = ['mustResize'];
@@ -150,6 +150,21 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                                 className: 'FormControl',
                                 value: this.values.cdnUrl() || '',
                                 oninput: m.withAttr('value', this.values.cdnUrl)
+                            })]
+                        })]), m('div', { className: 'ImageUploadPage-cloudinary', style: { display: this.values.uploadMethod() === 'cloudinary' ? "block" : "none" } }, [FieldSet.component({
+                            label: app.translator.trans('flagrow-image-upload.admin.labels.cloudinary.title'),
+                            children: [m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.cloudinary.cloud_name')), m('input', {
+                                className: 'FormControl',
+                                value: this.values.cloudinaryCloudName() || '',
+                                oninput: m.withAttr('value', this.values.cloudinaryCloudName)
+                            }), m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.cloudinary.api_key')), m('input', {
+                                className: 'FormControl',
+                                value: this.values.cloudinaryApiKey() || '',
+                                oninput: m.withAttr('value', this.values.cloudinaryApiKey)
+                            }), m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.cloudinary.api_secret')), m('input', {
+                                className: 'FormControl',
+                                value: this.values.cloudinaryApiSecret() || '',
+                                oninput: m.withAttr('value', this.values.cloudinaryApiSecret)
                             })]
                         })]), Button.component({
                             type: 'submit',

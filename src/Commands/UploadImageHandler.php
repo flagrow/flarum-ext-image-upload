@@ -151,10 +151,7 @@ class UploadImageHandler
         );
 
         if ($meta) {
-
             $image->file_url = array_get($meta, 'url');
-
-
 
             if ($image->isDirty()) {
                 $image->save();
