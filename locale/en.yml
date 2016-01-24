@@ -12,6 +12,7 @@ flagrow-image-upload:
         upload_methods:
             local: Local
             imgur: Imgur
+            cloudinary: Cloudinary
         labels:
             upload_method: Upload method
             preferences:
@@ -28,6 +29,11 @@ flagrow-image-upload:
             local:
                 title: Local storage settings
                 cdn_url: Content Delivery URL (prefixes files)
+            cloudinary:
+                title: Cloudinary settings
+                cloud_name: Cloud name
+                api_key: Api key
+                api_secret: Api secret
         buttons:
             save: Save settings
         help_texts:
