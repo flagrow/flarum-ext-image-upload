@@ -83,6 +83,8 @@ class LoadSettingsFromDatabase
             $methods[] = 'cloudinary';
         }
 
+        $event->settings['flagrow.image-upload.availableUploadMethods'] = [];
+
         foreach ($methods as $method) {
             $event->settings['flagrow.image-upload.availableUploadMethods'][$method] = app('translator')->trans('flagrow-image-upload.admin.upload_methods.' . $method);
         }
