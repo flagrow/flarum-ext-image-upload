@@ -29,6 +29,4 @@ class ImageValidator extends AbstractValidator
             ]
         ];
     }
-
-
 }
