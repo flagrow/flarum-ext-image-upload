@@ -53,10 +53,11 @@ class LocalAdapter implements UploadAdapterContract
         $meta        = $this->filesystem->getMetadata($name);
 
         $urlGenerator = app('Flarum\Forum\UrlGenerator');
-        $meta['url'] = $urlGenerator->toPath('assets/images/' . $name);
 
-        if ($this->settings->get('flarum-settings') && !empty($this->settings->get('flarum-settings')->get('flagrow.image-upload.cdnUrl'))) {
-            $meta['url'] = $this->settings->get('flarum-settings')->get('flagrow.image-upload.cdnUrl') . $meta['url'];
+        if (empty($this->settings->get('flagrow.image-upload.cdnUrl'))) { // if there is no cdnUrl
+            $meta['url'] = $urlGenerator->toPath('assets/images/' . $name);
+        } else { // if there is
+            $meta['url'] = $this->settings->get('flagrow.image-upload.cdnUrl') . 'assets/images/' . $name;
         }
 
         return $meta;
