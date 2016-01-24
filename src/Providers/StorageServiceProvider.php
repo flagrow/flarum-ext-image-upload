@@ -12,6 +12,7 @@
 
 namespace Flagrow\ImageUpload\Providers;
 
+use Flagrow\ImageUpload\Adapters\CloudinaryAdapter;
 use Flagrow\ImageUpload\Adapters\ImgurAdapter;
 use Flagrow\ImageUpload\Adapters\LocalAdapter;
 use Flagrow\ImageUpload\Contracts\UploadAdapterContract;
@@ -50,10 +51,17 @@ class StorageServiceProvider extends ServiceProvider
      */
     protected function instantiateUploadAdapter($app)
     {
-
-        switch ($app->make('flarum.settings')->get('flagrow.image-upload.uploadMethod', 'local')) {
+        $settings = $app->make('flarum.settings');
+        switch ($settings->get('flagrow.image-upload.uploadMethod', 'local')) {
             case 'imgur':
-                return new ImgurAdapter($app->make('flarum.settings')->get('flagrow.image-upload.imgurClientId'));
+                return new ImgurAdapter($settings->get('flagrow.image-upload.imgurClientId'));
+                break;
+            case 'cloudinary':
+                return new CloudinaryAdapter(
+                    $settings->get('flagrow.image-upload.cloudinaryCloudName'),
+                    $settings->get('flagrow.image-upload.cloudinaryApiKey'),
+                    $settings->get('flagrow.image-upload.cloudinaryApiSecret')
+                );
                 break;
             default:
                 return new LocalAdapter(

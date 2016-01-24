@@ -14,12 +14,16 @@ export default class ImageUploadPage extends Component {
 
         // the fields we need to watch and to save
         this.fields = [
+            'availableUploadMethods',
             'uploadMethod',
             'imgurClientId',
             'resizeMaxWidth',
             'resizeMaxHeight',
             'cdnUrl',
-            'maxFileSize'
+            'maxFileSize',
+            'cloudinaryApiKey',
+            'cloudinaryApiSecret',
+            'cloudinaryCloudName'
         ];
 
         // the checkboxes we need to watch and to save.
@@ -28,10 +32,7 @@ export default class ImageUploadPage extends Component {
         ];
 
         // options for the dropdown menu
-        this.uploadMethodOptions = {
-            'local': app.translator.trans('flagrow-image-upload.admin.upload_methods.local'),
-            'imgur': app.translator.trans('flagrow-image-upload.admin.upload_methods.imgur')
-        };
+        this.uploadMethodOptions = {};
 
         this.values = {};
 
@@ -40,8 +41,12 @@ export default class ImageUploadPage extends Component {
 
         // bind the values of the fields and checkboxes to the getter/setter functions
         const settings = app.settings;
+        // set the upload methods
+        this.uploadMethodOptions = settings[this.addPrefix('availableUploadMethods')];
+
         this.fields.forEach(key => this.values[key] = m.prop(settings[this.addPrefix(key)]));
         this.checkboxes.forEach(key => this.values[key] = m.prop(settings[this.addPrefix(key)] === '1'));
+        console.log(settings);
     }
 
     /**
@@ -127,6 +132,33 @@ export default class ImageUploadPage extends Component {
                                         className: 'FormControl',
                                         value: this.values.cdnUrl() || '',
                                         oninput: m.withAttr('value', this.values.cdnUrl)
+                                    }),
+                                ]
+                            })
+                        ]),
+                        m('div', {className: 'ImageUploadPage-cloudinary', style: {display: (this.values.uploadMethod() === 'cloudinary' ? "block" : "none")}}, [
+                            FieldSet.component({
+                                label: app.translator.trans('flagrow-image-upload.admin.labels.cloudinary.title'),
+                                children: [
+                                    m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.cloudinary.cloud_name')),
+                                    m('input', {
+                                        className: 'FormControl',
+                                        value: this.values.cloudinaryCloudName() || '',
+                                        oninput: m.withAttr('value', this.values.cloudinaryCloudName)
+                                    }),
+
+                                    m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.cloudinary.api_key')),
+                                    m('input', {
+                                        className: 'FormControl',
+                                        value: this.values.cloudinaryApiKey() || '',
+                                        oninput: m.withAttr('value', this.values.cloudinaryApiKey)
+                                    }),
+
+                                    m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.cloudinary.api_secret')),
+                                    m('input', {
+                                        className: 'FormControl',
+                                        value: this.values.cloudinaryApiSecret() || '',
+                                        oninput: m.withAttr('value', this.values.cloudinaryApiSecret)
                                     })
                                 ]
                             })

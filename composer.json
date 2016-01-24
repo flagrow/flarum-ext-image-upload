@@ -21,7 +21,11 @@
     },
     "require": {
         "flarum/core": "^0.1.0-beta.4",
-        "flarum/composer-installer": "^0.3.0"
+        "flarum/composer-installer": "^0.3.0",
+        "cloudinary/cloudinary_php": "^1.2"
+    },
+    "suggest": {
+        "cloudinary/cloudinary_php": "Allows uploading to cloudinary."
     },
     "extra": {
         "flarum-extension": {
