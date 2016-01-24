@@ -7,8 +7,9 @@
 - permission to allow uploading only to a specific group
 - requires flarum/composer-installer 0.3.0
 - moved logic of uploading to php
-- added imgur and local adapters
+- added/restored imgur and local adapters
 - now validates image uploads
+- added cloudinary.com adapter
 
 # 0.1.4
 

@@ -22,6 +22,7 @@ The following upload services are supported:
 
 - Locally in `assets/images`
 - Imgur anonymously (requires Client Id by signing up)
+- Cloudinary.com (install with composer to use: `composer require cloudinary/cloudinary_php`)
 
 ## End-user usage
 
