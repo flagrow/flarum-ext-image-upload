@@ -50,7 +50,7 @@ class AddUploadsApi
     public function prepareApiAttributes(PrepareApiAttributes $event)
     {
         if ($event->isSerializer(DiscussionSerializer::class)) {
-            $event->attributes['canUploadImages'] = $event->actor->can('flagrow.images.upload', $event->model);
+            $event->attributes['canUploadImages'] = $event->actor->can('flagrow.image.upload');
         }
     }
 }

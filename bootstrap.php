@@ -20,7 +20,9 @@ return function (Dispatcher $events, Application $app) {
 
     // register the event listeners
     $events->subscribe(Listeners\AddClientAssets::class);
+    // add attributes to API
     $events->subscribe(Listeners\LoadSettingsFromDatabase::class);
+    // registers the API endpoint and the permission send to the API
     $events->subscribe(Listeners\AddUploadsApi::class);
 
     // register the service provider

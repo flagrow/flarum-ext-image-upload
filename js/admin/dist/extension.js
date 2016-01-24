@@ -263,7 +263,7 @@ System.register('flagrow/image-upload/main', ['flarum/extend', 'flarum/app', 'fl
                     items.add('uploadImages', {
                         icon: 'picture-o',
                         label: app.translator.trans('flagrow-image-upload.admin.permissions.upload_images_label'),
-                        permission: 'flagrow.images.upload'
+                        permission: 'flagrow.image.upload'
                     });
                 });
             });

@@ -12,7 +12,7 @@ app.initializers.add('flagrow-image-upload', app => {
         items.add('uploadImages', {
             icon: 'picture-o',
             label: app.translator.trans('flagrow-image-upload.admin.permissions.upload_images_label'),
-            permission: 'flagrow.images.upload'
+            permission: 'flagrow.image.upload'
         });
     });
 });
