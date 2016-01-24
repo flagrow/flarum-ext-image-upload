@@ -24,12 +24,14 @@ export default class UploadButton extends Component {
         return m('div', {className: 'Button hasIcon flagrow-image-upload-button Button--icon'}, [
             this.loading ? LoadingIndicator.component({className: 'Button-icon'}) : icon('picture-o', {className: 'Button-icon'}),
             m('span', {className: 'Button-label'}, this.loading ? app.translator.trans('flagrow-image-upload.forum.states.loading') : app.translator.trans('flagrow-image-upload.forum.buttons.attach')),
-            m('input', {
-                type: 'file',
-                accept: 'image/*',
-                name: 'flagrow-image-upload-input',
-                onchange: this.process.bind(this)
-            })
+            m('form#flagrow-image-upload-form', [
+                m('input', {
+                    type: 'file',
+                    accept: 'image/*',
+                    name: 'flagrow-image-upload-input',
+                    onchange: this.process.bind(this)
+                })
+            ])
         ]);
     }
 
@@ -86,7 +88,8 @@ export default class UploadButton extends Component {
         }
 
         // reset the button for a new upload
-        setTimeout(function () {
+        setTimeout(() => {
+            document.getElementById("flagrow-image-upload-form").reset();
             this.loading = false;
         }, 1000);
     }

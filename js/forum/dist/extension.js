@@ -41,12 +41,12 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                 }, {
                     key: 'view',
                     value: function view() {
-                        return m('div', { className: 'Button hasIcon flagrow-image-upload-button Button--icon' }, [this.loading ? LoadingIndicator.component({ className: 'Button-icon' }) : icon('picture-o', { className: 'Button-icon' }), m('span', { className: 'Button-label' }, this.loading ? app.translator.trans('flagrow-image-upload.forum.states.loading') : app.translator.trans('flagrow-image-upload.forum.buttons.attach')), m('input', {
+                        return m('div', { className: 'Button hasIcon flagrow-image-upload-button Button--icon' }, [this.loading ? LoadingIndicator.component({ className: 'Button-icon' }) : icon('picture-o', { className: 'Button-icon' }), m('span', { className: 'Button-label' }, this.loading ? app.translator.trans('flagrow-image-upload.forum.states.loading') : app.translator.trans('flagrow-image-upload.forum.buttons.attach')), m('form#flagrow-image-upload-form', [m('input', {
                             type: 'file',
                             accept: 'image/*',
                             name: 'flagrow-image-upload-input',
                             onchange: this.process.bind(this)
-                        })]);
+                        })])]);
                     }
 
                     /**
@@ -91,6 +91,7 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
                 }, {
                     key: 'success',
                     value: function success(image) {
+                        var _this = this;
 
                         var link = image.data.attributes.url;
 
@@ -108,7 +109,8 @@ System.register('flagrow/image-upload/components/UploadButton', ['flarum/Compone
 
                         // reset the button for a new upload
                         setTimeout(function () {
-                            this.loading = false;
+                            document.getElementById("flagrow-image-upload-form").reset();
+                            _this.loading = false;
                         }, 1000);
                     }
                 }]);
