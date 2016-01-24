@@ -13,7 +13,6 @@
 namespace Flagrow\ImageUpload\Listeners;
 
 use Flagrow\ImageUpload\Api\Controllers\UploadImageController;
-
 use Flarum\Api\Serializer\DiscussionSerializer;
 use Flarum\Event\ConfigureApiRoutes;
 use Flarum\Event\PrepareApiAttributes;
