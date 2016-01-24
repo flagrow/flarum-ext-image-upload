@@ -95,7 +95,6 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                         this.checkboxes.forEach(function (key) {
                             return _this.values[key] = m.prop(settings[_this.addPrefix(key)] === '1');
                         });
-                        console.log(settings);
                     }
 
                     /**

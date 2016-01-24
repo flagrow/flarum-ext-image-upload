@@ -46,7 +46,6 @@ export default class ImageUploadPage extends Component {
 
         this.fields.forEach(key => this.values[key] = m.prop(settings[this.addPrefix(key)]));
         this.checkboxes.forEach(key => this.values[key] = m.prop(settings[this.addPrefix(key)] === '1'));
-        console.log(settings);
     }
 
     /**
