@@ -100,7 +100,6 @@ class UploadImageHandler
         $this->assertCan(
             $command->actor,
             'flagrow.image.upload'
-            //$this->posts->findOrFail($command->postId)->discussion
         );
 
         $tmpFile = tempnam($this->app->storagePath() . '/tmp', 'image');
@@ -154,6 +153,8 @@ class UploadImageHandler
         if ($meta) {
 
             $image->file_url = array_get($meta, 'url');
+
+
 
             if ($image->isDirty()) {
                 $image->save();
