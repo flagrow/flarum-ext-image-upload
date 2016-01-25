@@ -37,15 +37,19 @@ export default class UploadButton extends Component {
 
     /**
      * Process the upload event.
+     *
+     * @param e
      */
     process(e) {
-
+        // get the file from the input field
         const data = new FormData();
         data.append('image', $(e.target)[0].files[0]);
 
+        // set the button in the loading state (and redraw the element!)
         this.loading = true;
         m.redraw();
 
+        // send a POST request to the api
         app.request({
             method: 'POST',
             url: app.forum.attribute('apiUrl') + '/image/upload',
@@ -67,9 +71,9 @@ export default class UploadButton extends Component {
     }
 
     /**
-     * Appends the link to the body of the composer.
+     * Appends the image's link to the body of the composer.
      *
-     * @param link
+     * @param image
      */
     success(image) {
 

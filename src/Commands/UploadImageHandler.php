@@ -97,6 +97,7 @@ class UploadImageHandler
      */
     public function handle(UploadImage $command)
     {
+        // check if the user can upload images, otherwise return
         $this->assertCan(
             $command->actor,
             'flagrow.image.upload'
@@ -139,6 +140,7 @@ class UploadImageHandler
             'file_size'     => $file->getSize()
         ]);
 
+        // fire the Event ImageWillBeSaved, which can be extended and/or modified elsewhere
         $this->events->fire(
             new ImageWillBeSaved($command->actor, $image, $file)
         );

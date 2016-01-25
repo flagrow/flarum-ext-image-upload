@@ -5,8 +5,10 @@ import AdminLinkButton from 'flarum/components/AdminLinkButton';
 import ImageUploadPage from 'flagrow/image-upload/components/ImageUploadPage';
 
 export default function() {
+    // create the route
     app.routes['image-upload'] = {path: '/image-upload', component: ImageUploadPage.component()};
 
+    // bind the route we created to the three dots settings button
     app.extensionSettings['flagrow-image-upload'] = () => m.route(app.route('image-upload'));
 
     extend(AdminNav.prototype, 'items', items => {

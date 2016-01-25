@@ -70,21 +70,26 @@ class LoadSettingsFromDatabase
     }
 
     /**
+     * Check for installed packages and provide the upload methods option
+     * in the admin page-
+     *
      * @param PrepareUnserializedSettings $event
      */
     public function addUploadMethods(PrepareUnserializedSettings $event)
     {
+        // these are the upload methods that doesn't require external libraries
         $methods = [
             'local',
             'imgur'
         ];
 
+        // check for Cloudinary, if present add the method
         if (class_exists(Cloudinary::class)) {
             $methods[] = 'cloudinary';
         }
 
+        // add the methods with the relative translations
         $event->settings['flagrow.image-upload.availableUploadMethods'] = [];
-
         foreach ($methods as $method) {
             $event->settings['flagrow.image-upload.availableUploadMethods'][$method] = app('translator')->trans('flagrow-image-upload.admin.upload_methods.' . $method);
         }
