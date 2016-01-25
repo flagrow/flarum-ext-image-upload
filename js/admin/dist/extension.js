@@ -128,12 +128,12 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                                 onchange: this.values.mustResize
                             }), m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.resize.max_width')), m('input', {
                                 className: 'FormControl',
-                                value: this.values.resizeMaxWidth() || '',
+                                value: this.values.resizeMaxWidth() || 100,
                                 oninput: m.withAttr('value', this.values.resizeMaxWidth),
                                 disabled: !this.values.mustResize()
                             }), m('label', {}, app.translator.trans('flagrow-image-upload.admin.labels.resize.max_height')), m('input', {
                                 className: 'FormControl',
-                                value: this.values.resizeMaxHeight() || '',
+                                value: this.values.resizeMaxHeight() || 100,
                                 oninput: m.withAttr('value', this.values.resizeMaxHeight),
                                 disabled: !this.values.mustResize()
                             })]
