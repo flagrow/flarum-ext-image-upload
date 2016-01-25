@@ -1,11 +1,13 @@
 # 0.2.0
 
 - permission to allow uploading only to a specific group
-- requires flarum/composer-installer 0.3.0
+- requires flarum/composer-installer 0.3.0 or higher
+- requires flarum/flarum-ext-markdown 0.1.0-beta.3 or higher
 - moved logic of uploading to php
 - added/restored imgur and local adapters
 - now validates image uploads
 - added cloudinary.com adapter
+- updated readme to reflect Flagrow skeleton
 
 # 0.1.4
 
