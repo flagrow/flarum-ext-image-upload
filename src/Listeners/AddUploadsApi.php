@@ -13,7 +13,7 @@
 namespace Flagrow\ImageUpload\Listeners;
 
 use Flagrow\ImageUpload\Api\Controllers\UploadImageController;
-use Flarum\Api\Serializer\DiscussionSerializer;
+use Flarum\Api\Serializer\ForumSerializer;
 use Flarum\Event\ConfigureApiRoutes;
 use Flarum\Event\PrepareApiAttributes;
 use Illuminate\Events\Dispatcher;
@@ -48,7 +48,7 @@ class AddUploadsApi
      */
     public function prepareApiAttributes(PrepareApiAttributes $event)
     {
-        if ($event->isSerializer(DiscussionSerializer::class)) {
+        if ($event->isSerializer(ForumSerializer::class)) {
             $event->attributes['canUploadImages'] = $event->actor->can('flagrow.image.upload');
         }
     }

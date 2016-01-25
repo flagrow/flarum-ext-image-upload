@@ -1,25 +1,17 @@
 import { extend } from 'flarum/extend';
-import Model from 'flarum/Model';
-import Discussion from 'flarum/models/Discussion';
 import TextEditor from 'flarum/components/TextEditor';
 
 import UploadButton from 'flagrow/image-upload/components/UploadButton';
 
 app.initializers.add('flagrow-image-upload', app => {
 
-    // add the `canUploadImages` attribute to the posts' prototype
-    Discussion.prototype.canUploadImages = Model.attribute('canUploadImages');
-
     /**
      * Add the upload button to the post composer.
      */
     extend(TextEditor.prototype, 'controlItems', function(items)
     {
-        // get the current discussion object
-        const discussion = app.current.discussion;
-
         // check whether the user can upload images. If not, returns.
-        if (!discussion.canUploadImages()) return;
+        if (!app.forum.attribute('canUploadImages')) return;
 
         // create and add the button
         var uploadButton = new UploadButton;
