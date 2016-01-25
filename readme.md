@@ -4,6 +4,10 @@
 
 A [Flarum](http://flarum.org) extension that adds an image upload button on discussion and comment creation, uploads the image(s) to the configured upload connection and then adds a markdown link to the uploaded image.
 
+### Screenshots
+
+![Imgur](http://i.imgur.com/YOdQaJO.png) ![Imgur](http://i.imgur.com/NN5GE7s.png)
+
 ### goals
 
 - Allow uploading and attachment of images.
