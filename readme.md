@@ -1,28 +1,35 @@
-# flagrow/flarum-ext-image-upload
-[![Latest Stable Version](https://poser.pugx.org/flagrow/flarum-ext-image-upload/v/stable)][packagist-link] [![License](https://poser.pugx.org/flagrow/flarum-ext-image-upload/license)][packagist-link] [![Gitter](https://badges.gitter.im/flagrow/flarum-ext-image-upload.svg)](https://gitter.im/flagrow/flarum-ext-image-upload)
+# image-upload by ![flagrow logo](https://avatars0.githubusercontent.com/u/16413865?v=3&s=15) [flagrow](https://discuss.flarum.org/d/1832-flagrow-extension-developer-group)
 
-A [Flarum](http://flarum.org) extension to allow image uploading on thread and comment creation, supports multiple services like local storage and imgur.
+[![Latest Stable Version](https://poser.pugx.org/flagrow/flarum-ext-image-upload/v/stable)](https://packagist.org/packages/flagrow/flarum-ext-image-upload) [![Gitter](https://badges.gitter.im/flagrow/flarum-ext-image-upload.svg)](https://gitter.im/flagrow/chat)
 
----
+A [Flarum](http://flarum.org) extension that adds an image upload button on discussion and comment creation, uploads the image(s) to the configured upload connection and then adds a markdown link to the uploaded image.
 
-## Install
+### goals
+
+- Allow uploading and attachment of images.
+- Support any needed upload service.
+
+For a complete overview of our releases, please visit the [milestones tracker](https://github.com/flagrow/flarum-ext-image-upload/milestones) on Github.
+
+### installation
 
 ```bash
 composer require flagrow/flarum-ext-image-upload
 ```
 
-## Configuration
+### configuration
 
 - Visit the permission tab to select what user group can upload images in posts.
 - Visit the settings tab of the extension in your admin to configure your image upload services.
+
 
 ## Upload services
 
 The following upload services are supported:
 
-- Locally in `assets/images`
-- Imgur anonymously (requires Client Id by signing up)
-- Cloudinary.com (install with composer to use: `composer require cloudinary/cloudinary_php`)
+- Locally in `assets/images` (default).
+- Imgur anonymously (requires Client Id by signing up).
+- Cloudinary.com (install with composer to use: `composer require cloudinary/cloudinary_php`).
 
 ## End-user usage
 
@@ -30,10 +37,13 @@ During post creation, click the Attach button to select a file. Once
 you've chosen an image, upload will immediately start and based on
 the image size and your connection will take some time to complete.
 
-## Links
+### links
 
-- by [Flagrow](https://github.com/flagrow)
-- [changelog](changelog.md)
-- [license](license.md)
+- [on github](https://github.com/flagrow/flarum-ext-image-upload)
+- [on packagist](http://packagist.com/packages/flagrow/flarum-ext-image-upload)
+- [issues](https://github.com/flagrow/flarum-ext-image-upload/issues)
+- [changelog](https://github.com/flagrow/flarum-ext-image-upload/changelog.md)
+- [flagrow extensions](https://github.com/flagrow?utf8=%E2%9C%93&query=flarum-ext-)
+- [flagrow group information](http://flagrow.github.io/)
 
-[packagist-link]: https://packagist.org/packages/flagrow/image-upload
+> Flagrow is a collaboration of Flarum extension developers to provide quality, maintained extensions.
