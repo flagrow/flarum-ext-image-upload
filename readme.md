@@ -33,9 +33,9 @@ The following upload services are supported:
 
 ## End-user usage
 
-During post creation, click the Attach button to select a file. Once
-you've chosen an image, upload will immediately start and based on
-the image size and your connection will take some time to complete.
+During post creation, click the Attach button to select a file. 
+Once you've chosen an image, upload will immediately start and based on the image size and your connection will take some time to complete. 
+The link to the image will then be added as markdown into the post composer.
 
 ### links
 
