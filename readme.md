@@ -1,6 +1,6 @@
 # image-upload by ![flagrow logo](https://avatars0.githubusercontent.com/u/16413865?v=3&s=15) [flagrow](https://discuss.flarum.org/d/1832-flagrow-extension-developer-group)
 
-[![Latest Stable Version](https://poser.pugx.org/flagrow/flarum-ext-image-upload/v/stable)](https://packagist.org/packages/flagrow/flarum-ext-image-upload) [![Gitter](https://badges.gitter.im/flagrow/flarum-ext-image-upload.svg)](https://gitter.im/flagrow/chat) [![Total Downloads](https://poser.pugx.org/flagrow/flarum-ext-image-upload/downloads)]
+[![Latest Stable Version](https://poser.pugx.org/flagrow/flarum-ext-image-upload/v/stable)](https://packagist.org/packages/flagrow/flarum-ext-image-upload) [![Gitter](https://badges.gitter.im/flagrow/flarum-ext-image-upload.svg)](https://gitter.im/flagrow/chat) [![Total Downloads](https://poser.pugx.org/flagrow/flarum-ext-image-upload/downloads)](https://packagist.org/packages/flagrow/flarum-ext-image-upload)
 
 A [Flarum](http://flarum.org) extension that adds an image upload button on discussion and comment creation, uploads the image(s) to the configured upload connection and then adds a markdown link to the uploaded image.
 
