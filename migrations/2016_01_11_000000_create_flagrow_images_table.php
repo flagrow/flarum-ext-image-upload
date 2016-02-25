@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * This file is part of flagrow/flarum-ext-image-upload.
  *
@@ -15,8 +15,8 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
 return [
-    'up' => function(Builder $schema) {
-        $schema->create('flagrow_images', function(Blueprint $table) {
+    'up'   => function (Builder $schema) {
+        $schema->create('flagrow_images', function (Blueprint $table) {
             $table->increments('id');
 
             // the user who posted the image
@@ -35,7 +35,7 @@ return [
             $table->timestamp('created_at');
         });
     },
-    'down' => function(Builder $schema) {
+    'down' => function (Builder $schema) {
         $schema->drop('flagrow_images');
     }
 ];

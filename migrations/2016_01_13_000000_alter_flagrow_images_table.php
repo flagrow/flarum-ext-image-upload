@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * This file is part of flagrow/flarum-ext-image-upload.
  *
@@ -15,7 +15,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\Builder;
 
 return [
-    'up' => function(Builder $schema) {
+    'up'   => function (Builder $schema) {
         $schema->table('flagrow_images', function (Blueprint $table) {
             // the specific post id this image is appearing in
             $table->dropColumn('post_id');
@@ -25,7 +25,7 @@ return [
             $table->integer('file_size')->default(0);
         });
     },
-    'down' => function(Builder $schema) {
+    'down' => function (Builder $schema) {
         $schema->table('flagrow_images', function (Blueprint $table) {
             $table->dropColumn('file_url');
             $table->dropColumn('file_size');
