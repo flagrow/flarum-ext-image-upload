@@ -56,5 +56,10 @@
     "psr-4": {
       "Flagrow\\ImageUpload\\": "src/"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Flagrow\\ImageUpload\\Tests\\": "tests/"
+    }
   }
 }
