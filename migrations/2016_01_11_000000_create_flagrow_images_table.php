@@ -1,4 +1,4 @@
-<?php 
+<?php
 /*
  * This file is part of flagrow/flarum-ext-image-upload.
  *
@@ -10,22 +10,13 @@
  * file that was distributed with this source code.
  */
 
-namespace flagrow\image\upload\Migration;
 
-use Flarum\Database\AbstractMigration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Schema\Builder;
 
-class CreateFlagrowImagesTable extends AbstractMigration
-{
-
-    /**
-     * Run the migrations.
-     *
-     * @info Called when extension is enabled. Never runs twice.
-     */
-    public function up()
-    {
-        $this->schema->create('flagrow_images', function (Blueprint $table) {
+return [
+    'up'   => function (Builder $schema) {
+        $schema->create('flagrow_images', function (Blueprint $table) {
             $table->increments('id');
 
             // the user who posted the image
@@ -43,15 +34,8 @@ class CreateFlagrowImagesTable extends AbstractMigration
             // adds created_at
             $table->timestamp('created_at');
         });
+    },
+    'down' => function (Builder $schema) {
+        $schema->drop('flagrow_images');
     }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @info Called using the uninstall button in the admin.
-     */
-    public function down()
-    {
-        $this->schema->drop('flagrow_images');
-    }
-}
+];
