@@ -22,7 +22,7 @@ flagrow-image-upload:
                 client_id: Client-ID
             local:
                 title: 本地存储设置
-                cdn_url: CDN地址前缀
+                cdn_url: CDN 地址前缀
         buttons:
             save: 保存
         help_texts:
