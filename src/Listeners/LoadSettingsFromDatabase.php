@@ -16,7 +16,7 @@ use Flarum\Settings\SettingsRepositoryInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 use Flarum\Event\PrepareApiAttributes;
 use Flarum\Api\Serializer\ForumSerializer;
-use Flarum\Event\PrepareUnserializedSettings;
+use Flarum\Event\PrepareUnserializedSetting;
 use Cloudinary;
 
 class LoadSettingsFromDatabase
@@ -75,7 +75,7 @@ class LoadSettingsFromDatabase
      *
      * @param PrepareUnserializedSettings $event
      */
-    public function addUploadMethods(PrepareUnserializedSettings $event)
+    public function addUploadMethods(PrepareUnserializedSetting $event)
     {
         // these are the upload methods that doesn't require external libraries
         $methods = [
