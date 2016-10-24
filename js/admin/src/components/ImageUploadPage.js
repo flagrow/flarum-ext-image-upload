@@ -40,7 +40,7 @@ export default class ImageUploadPage extends Component {
         this.settingsPrefix = 'flagrow.image-upload';
 
         // get the saved settings from the database
-        const settings = app.settings;
+        const settings = app.data.settings;
 
         // set the upload methods
         this.uploadMethodOptions = settings[this.addPrefix('availableUploadMethods')];
