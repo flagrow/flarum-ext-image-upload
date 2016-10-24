@@ -212,17 +212,20 @@ export default class ImageUploadPage extends Component {
 
         // actually saves everything in the database
         saveSettings(settings)
-        .then(() => {
-            // on succes, show an alert
-            app.alerts.show(this.successAlert = new Alert({type: 'success', children: app.translator.trans('core.admin.basics.saved_message')}));
-        })
+            .then(() => {
+                // on succes, show an alert
+                app.alerts.show(this.successAlert = new Alert({
+                    type: 'success',
+                    children: app.translator.trans('core.admin.basics.saved_message')
+                }));
+            })
             .catch(() => {
             })
             .then(() => {
-            // return to the initial state and redraw the page
-            this.loading = false;
-            m.redraw();
-        });
+                // return to the initial state and redraw the page
+                this.loading = false;
+                m.redraw();
+            });
     }
 
     /**
