@@ -217,7 +217,8 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                         saveSettings(settings).then(function () {
                             // on succes, show an alert
                             app.alerts.show(_this4.successAlert = new Alert({ type: 'success', children: app.translator.trans('core.admin.basics.saved_message') }));
-                        }).finally(function () {
+                        }).catch(function () {
+                        }).then(function () {
                             // return to the initial state and redraw the page
                             _this4.loading = false;
                             m.redraw();

@@ -1,10 +1,10 @@
-import Component from 'flarum/Component';
-import Button from 'flarum/components/Button';
-import saveSettings from 'flarum/utils/saveSettings';
-import Alert from 'flarum/components/Alert';
-import FieldSet from 'flarum/components/FieldSet';
-import Select from 'flarum/components/Select';
-import Switch from 'flarum/components/Switch';
+import Component from "flarum/Component";
+import Button from "flarum/components/Button";
+import saveSettings from "flarum/utils/saveSettings";
+import Alert from "flarum/components/Alert";
+import FieldSet from "flarum/components/FieldSet";
+import Select from "flarum/components/Select";
+import Switch from "flarum/components/Switch";
 
 export default class ImageUploadPage extends Component {
 
@@ -216,7 +216,9 @@ export default class ImageUploadPage extends Component {
             // on succes, show an alert
             app.alerts.show(this.successAlert = new Alert({type: 'success', children: app.translator.trans('core.admin.basics.saved_message')}));
         })
-        .finally(() => {
+            .catch(() => {
+            })
+            .then(() => {
             // return to the initial state and redraw the page
             this.loading = false;
             m.redraw();
