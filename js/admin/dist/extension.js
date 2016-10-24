@@ -38,9 +38,9 @@ System.register('flagrow/image-upload/addImageUploadPane', ['flarum/extend', 'fl
         execute: function () {}
     };
 });;
-'use strict';
+"use strict";
 
-System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Component', 'flarum/components/Button', 'flarum/utils/saveSettings', 'flarum/components/Alert', 'flarum/components/FieldSet', 'flarum/components/Select', 'flarum/components/Switch'], function (_export, _context) {
+System.register("flagrow/image-upload/components/ImageUploadPage", ["flarum/Component", "flarum/components/Button", "flarum/utils/saveSettings", "flarum/components/Alert", "flarum/components/FieldSet", "flarum/components/Select", "flarum/components/Switch"], function (_export, _context) {
     "use strict";
 
     var Component, Button, saveSettings, Alert, FieldSet, Select, Switch, ImageUploadPage;
@@ -70,7 +70,7 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                 }
 
                 babelHelpers.createClass(ImageUploadPage, [{
-                    key: 'init',
+                    key: "init",
                     value: function init() {
                         var _this2 = this;
 
@@ -105,7 +105,7 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                         });
                     }
                 }, {
-                    key: 'view',
+                    key: "view",
                     value: function view() {
                         return [m('div', { className: 'ImageUploadPage' }, [m('div', { className: 'container' }, [m('form', { onsubmit: this.onsubmit.bind(this) }, [FieldSet.component({
                             label: app.translator.trans('flagrow-image-upload.admin.labels.upload_method'),
@@ -176,7 +176,7 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                         })])])])];
                     }
                 }, {
-                    key: 'changed',
+                    key: "changed",
                     value: function changed() {
                         var _this3 = this;
 
@@ -189,7 +189,7 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                         return fieldsCheck || checkboxesCheck;
                     }
                 }, {
-                    key: 'onsubmit',
+                    key: "onsubmit",
                     value: function onsubmit(e) {
                         var _this4 = this;
 
@@ -216,7 +216,10 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                         // actually saves everything in the database
                         saveSettings(settings).then(function () {
                             // on succes, show an alert
-                            app.alerts.show(_this4.successAlert = new Alert({ type: 'success', children: app.translator.trans('core.admin.basics.saved_message') }));
+                            app.alerts.show(_this4.successAlert = new Alert({
+                                type: 'success',
+                                children: app.translator.trans('core.admin.basics.saved_message')
+                            }));
                         }).catch(function () {
                         }).then(function () {
                             // return to the initial state and redraw the page
@@ -225,7 +228,7 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                         });
                     }
                 }, {
-                    key: 'addPrefix',
+                    key: "addPrefix",
                     value: function addPrefix(key) {
                         return this.settingsPrefix + '.' + key;
                     }
@@ -233,7 +236,7 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                 return ImageUploadPage;
             }(Component);
 
-            _export('default', ImageUploadPage);
+            _export("default", ImageUploadPage);
         }
     };
 });;
