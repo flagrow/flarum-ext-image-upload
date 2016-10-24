@@ -183,8 +183,8 @@ export default class ImageUploadPage extends Component {
     * @returns bool
     */
     changed() {
-        var fieldsCheck = this.fields.some(key => this.values[key]() !== app.settings[this.addPrefix(key)]);
-        var checkboxesCheck = this.checkboxes.some(key => this.values[key]() !== (app.settings[this.addPrefix(key)] == '1'));
+        var fieldsCheck = this.fields.some(key => this.values[key]() !== app.data.settings[this.addPrefix(key)]);
+        var checkboxesCheck = this.checkboxes.some(key => this.values[key]() !== (app.data.settings[this.addPrefix(key)] == '1'));
         return fieldsCheck || checkboxesCheck;
     }
 

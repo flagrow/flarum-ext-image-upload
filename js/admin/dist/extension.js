@@ -181,10 +181,10 @@ System.register('flagrow/image-upload/components/ImageUploadPage', ['flarum/Comp
                         var _this3 = this;
 
                         var fieldsCheck = this.fields.some(function (key) {
-                            return _this3.values[key]() !== app.settings[_this3.addPrefix(key)];
+                            return _this3.values[key]() !== app.data.settings[_this3.addPrefix(key)];
                         });
                         var checkboxesCheck = this.checkboxes.some(function (key) {
-                            return _this3.values[key]() !== (app.settings[_this3.addPrefix(key)] == '1');
+                            return _this3.values[key]() !== (app.data.settings[_this3.addPrefix(key)] == '1');
                         });
                         return fieldsCheck || checkboxesCheck;
                     }
